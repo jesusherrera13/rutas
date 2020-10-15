@@ -35,7 +35,13 @@ $(document).ready(function() {
     $('#tbl-data').DataTable({
         responsive: true,
         colReorder: true,
-        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
+        // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
+        language: {
+            // search: "_INPUT_",
+            search: "Filtrar:",
+            searchPlaceholder: "Buscar...",
+            // sLengthMenu: "_MENU_"
+        },
         columns: [
             { data: "casilla" },
             { data: "no_rcs" },
@@ -71,8 +77,15 @@ $(document).ready(function() {
     $('#tbl-representantes').DataTable({
         responsive: true,
         colReorder: true,
+        "dom": 'frtip',
         // paging: false,
-        // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
+        lengthMenu: [[7], [7]],
+        language: {
+            // search: "_INPUT_",
+            search: "Buscar:",
+            searchPlaceholder: "Buscar...",
+            // sLengthMenu: "_MENU_"
+        },
         columns: [
             { data: "contacto" },
             { data: null,        
@@ -99,6 +112,8 @@ $(document).ready(function() {
     $('#tbl-contactos').DataTable({
         responsive: true,
         colReorder: true,
+        "dom": 'frtip',
+        lengthMenu: [[7], [7]],
         // paging: false,
         // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
         // pageLength : 5,
