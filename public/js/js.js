@@ -36,6 +36,8 @@ $(document).ready(function() {
             }
         });
     });
+
+    $('#btn-nuevo, #btn-buscar').css('visibility', 'visible');
 });
 
 function paramMaker(param) {

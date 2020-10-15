@@ -25,7 +25,7 @@
 				</form>
 			</div>
 			<div class="card-body">
-	  			<table id="tbl-data" class="table table-bordered table-striped">
+	  			<table id="tbl-data" class="table table-bordered table-striped table-sm order-column" style="width:100%">
 					<thead>
 						<tr>
 							<th>Distrito Local</th>

@@ -11,3 +11,8 @@
 	background-color: transparent;
 	border: none;
 }
+
+#btn-buscar, #btn-nuevo {
+
+	visibility: hidden;
+}
