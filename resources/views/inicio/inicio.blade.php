@@ -278,6 +278,7 @@
 <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="js/typeahead/typeahead.bundle.js"></script>
 <script src="js/js.js"></script>
+<script src="js/accent-neutralise.js"></script>
 
 @section('scripts')
 

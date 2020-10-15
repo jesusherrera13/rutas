@@ -95,16 +95,12 @@ function spinner(param) {
 
     if((($('#modal-spinner').data('bs.modal') || {})._isShown) || param.close) {
         
-        // console.log('hide')
-
         setTimeout(function () {
 
             $('#modal-spinner').modal('hide');
         }, 1000);
     }
     else $('#modal-spinner').modal('show');
-
-    console.log(param);
 }
 
 function dialog_alert(param) {

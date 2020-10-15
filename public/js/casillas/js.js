@@ -67,7 +67,10 @@ $(document).ready(function() {
             },
         ],
         columnDefs: [
-            
+            {
+                orderable: false,
+                targets: -1,
+            }
         ],
         createdRow: function(row, data, dataIndex) {
             
@@ -79,7 +82,7 @@ $(document).ready(function() {
         colReorder: true,
         "dom": 'frtip',
         // paging: false,
-        lengthMenu: [[7], [7]],
+        pageLength : 6,
         language: {
             // search: "_INPUT_",
             search: "Buscar:",
@@ -102,7 +105,10 @@ $(document).ready(function() {
             },
         ],
         columnDefs: [
-            
+            {
+                orderable: false,
+                targets: -1,
+            }
         ],
         createdRow: function(row, data, dataIndex) {
 
@@ -113,10 +119,16 @@ $(document).ready(function() {
         responsive: true,
         colReorder: true,
         "dom": 'frtip',
-        lengthMenu: [[7], [7]],
+        // lengthMenu: [[7], [7]],
         // paging: false,
         // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
-        // pageLength : 5,
+        pageLength : 6,
+        language: {
+            // search: "_INPUT_",
+            search: "Buscar:",
+            searchPlaceholder: "Buscar...",
+            // sLengthMenu: "_MENU_"
+        },
         columns: [
             { data: "contacto" },
             { data: null,
@@ -133,7 +145,10 @@ $(document).ready(function() {
             },
         ],
         columnDefs: [
-            
+            {
+                orderable: false,
+                targets: -1,
+            }
         ],
         createdRow: function(row, data, dataIndex) {
 
