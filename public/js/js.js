@@ -89,9 +89,13 @@ function formReset(obj) {
     $(obj).find('input[name=_token]').val(_token);
 }
 
-function spinner() {
+function spinner(param) {
 
-    if(($('#modal-spinner').data('bs.modal') || {})._isShown) {
+    param = param || {};
+
+    if((($('#modal-spinner').data('bs.modal') || {})._isShown) || param.close) {
+        
+        // console.log('hide')
 
         setTimeout(function () {
 
@@ -99,6 +103,8 @@ function spinner() {
         }, 1000);
     }
     else $('#modal-spinner').modal('show');
+
+    console.log(param);
 }
 
 function dialog_alert(param) {
