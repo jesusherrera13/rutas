@@ -1,10 +1,10 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
   <!-- Brand Logo -->
-  <a href="index3.html" class="brand-link">
+  <a href="{{URL::to('/')}}" class="brand-link">
     <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
          style="opacity: .8">
-    <span class="brand-text font-weight-light">Elecciones</span>
+    <span class="brand-text font-weight-light">Rutas</span>
   </a>
 
   <!-- Sidebar -->
@@ -41,48 +41,30 @@
             </li>
           </ul>
         </li>
-        <li class="nav-item has-treeview">
-          <a href="#" class="nav-link">
-            <i class="nav-icon fas fa-edit"></i>
+        <li class="nav-header">Distritos</li>
+        <li class="nav-item">
+          <a href="{{URL::to('distritos-federales')}}" class="nav-link">
+            <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
-              Catálogos
-              <i class="fas fa-angle-left right"></i>
+              Federales
             </p>
           </a>
-          <ul class="nav nav-treeview">
-            <li class="nav-item">
-              <a href="{{URL::to('distritos-federales')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Distritos Federales</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{URL::to('distritos-locales')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Distritos Locales</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{URL::to('secciones')}}" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Secciones</p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="pages/forms/validation.html" class="nav-link">
-                <i class="far fa-circle nav-icon"></i>
-                <p>Validation</p>
-              </a>
-            </li>
-          </ul>
         </li>
+        <li class="nav-item">
+          <a href="{{URL::to('distritos-locales')}}" class="nav-link">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>
+              Locales
+            </p>
+          </a>
+        </li>
+
         <li class="nav-header">SISTEMA</li>
         <li class="nav-item">
           <a href="{{URL::to('usuarios')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
               Usuarios
-              <span class="badge badge-info right">2</span>
             </p>
           </a>
         </li>
@@ -91,7 +73,6 @@
             <i class="fas fa-users"></i>
             <p>
               Contactos
-              <span class="badge badge-info right">2</span>
             </p>
           </a>
         </li>
@@ -100,7 +81,14 @@
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
               Casillas
-              <span class="badge badge-info right">2</span>
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{URL::to('secciones')}}" class="nav-link">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>
+              Secciones
             </p>
           </a>
         </li>
@@ -109,7 +97,6 @@
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
               Rutas
-              <span class="badge badge-info right">2</span>
             </p>
           </a>
         </li>
