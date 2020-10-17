@@ -117,7 +117,7 @@ class SeccionController extends Controller
 
     public function getData(Request $request) {
 
-        $this->generador($request);
+        // $this->generador($request);
 
         /*$data = DistritoLocal::all();
 
