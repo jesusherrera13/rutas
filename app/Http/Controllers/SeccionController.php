@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\Seccion;
 use App\Models\DistritoLigueFederal;
+use App\Models\Casilla;
 
 class SeccionController extends Controller
 {
@@ -116,6 +117,8 @@ class SeccionController extends Controller
 
     public function getData(Request $request) {
 
+        $this->generador($request);
+
         /*$data = DistritoLocal::all();
 
         // dd($data);
@@ -186,5 +189,66 @@ class SeccionController extends Controller
 
     	if($request['dataType'] == "json") return response()->json($data);
         else return $data;
+    }
+
+    private function generador(Request $request) {
+
+        $data = Seccion::all();
+
+        foreach ($data as $row) {
+
+            $id_tipo_casilla = 'B';
+
+            $row_ = Casilla::where('id_seccion', $row->id)->where('id_tipo_casilla', $id_tipo_casilla)->get();
+
+            if(!sizeof($row_)) {
+
+                $casilla = Casilla::create([
+                    'id_seccion' => $row->id,
+                    'id_tipo_casilla' => $id_tipo_casilla,
+                    'no_casilla' => 1,
+                ]);
+
+                $casilla->save();
+            }
+
+            for($i = 1; $i <= 10; $i++) {
+
+                $id_tipo_casilla = 'C';
+
+                $row_ = Casilla::where('id_seccion', $row->id)
+                            ->where('id_tipo_casilla', $id_tipo_casilla)
+                            ->where('no_casilla', $i)
+                            ->get();
+
+                if(!sizeof($row_)) {
+
+                    $casilla = Casilla::create([
+                        'id_seccion' => $row->id,
+                        'id_tipo_casilla' => $id_tipo_casilla,
+                        'no_casilla' => $i,
+                    ]);
+
+                    $casilla->save();
+                }
+            }
+
+            $id_tipo_casilla = 'E';
+
+            $row_ = Casilla::where('id_seccion', $row->id)->where('id_tipo_casilla', $id_tipo_casilla)->get();
+
+            if(!sizeof($row_)) {
+
+                $casilla = Casilla::create([
+                    'id_seccion' => $row->id,
+                    'id_tipo_casilla' => $id_tipo_casilla,
+                    'no_casilla' => 1,
+                ]);
+
+                $casilla->save();
+            }
+
+            // dd('row');
+        }
     }
 }
