@@ -13,17 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// $password = Hash::make('xx');
-// dd($password);
-
-/*
-
-INSERT INTO `elecciones`.`users` (`name`, `email`, `password`) VALUES ('Jesús Herrera', 'jesusherrera13@gmail.com', '$2y$10$FJJDQHD61uirrsgPWX0dCeYAD0nS8aiBNh1wjdtgs/WC.87mjNHcu');
-INSERT INTO `elecciones`.`users` (`name`, `email`, `password`) VALUES ('Edna Villegas', 'edna_consuelo02@hotmail.com', '$2y$10$HZfpB1F8PxVJ/g8zNaJSze4YdsLvjnw/WovQP6EtazvyB/qex.1n2');
-INSERT INTO `elecciones`.`users` (`name`, `email`, `password`) VALUES ('Rita Fierro', 'trinityrf@hotmail.com', '$2y$10$6eExuGQIm5dVquKfv8auietdSVhsglYToiYHA35Xp3BKZe66p3awW');
-
-*/
-
 // Route::resource('/', UserController::class);
 Route::get('/', 'UserController@dashboard');
 
