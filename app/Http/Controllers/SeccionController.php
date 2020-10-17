@@ -63,6 +63,14 @@ class SeccionController extends Controller
         $data->user_id_create = Auth::user()->id;
 
         $data->save();
+
+        $rick = new Request();
+
+        $rick->replace([
+            'id' => $data->id
+        ]);
+
+        $this->generador($rick);
         
         // dd($request);
 
@@ -193,7 +201,11 @@ class SeccionController extends Controller
 
     private function generador(Request $request) {
 
-        $data = Seccion::all();
+        // dd($request);
+
+        if($request['id']) $data[] = (Object) Seccion::find($request['id']);
+        else $data = Seccion::all();
+
 
         foreach ($data as $row) {
 
