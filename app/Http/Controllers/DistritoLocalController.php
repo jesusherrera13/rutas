@@ -33,97 +33,6 @@ class DistritoLocalController extends Controller
         }
     }
 
-    public function getData(Request $request) {
-
-        /*$data = DistritoLocal::all();
-
-        // dd($data);
-
-        if(sizeof($data)) {
-
-            foreach ($data as $k => $row) {
-
-                $distritosFederales = DistritoLocal::find($row->id)->distritosFederales;
-
-                $data[$k]->distritosFederales = $distritosFederales;
-            }
-        }
-
-        dd($data);*/
-
-        /*
-        // config/database.php
-        mysql' => [
-            'driver' => 'mysql',
-            .
-            .
-            .
-            'strict' => false,
-        */
-
-    	
-        if($request['ligue_federal']) {
-
-            $query = DB::table("distritos_locales as disloc")
-                        ->leftJoin("distritos_ligue_federal as ligfed", "ligfed.id_distrito_local", "disloc.id")
-                        ->leftJoin("distritos_federales as disfed", "disfed.id", "ligfed.id_distrito_federal")
-        				->select(
-                            "disloc.id","disloc.descripcion","disloc.no_distrito","ligfed.id_distrito_local","ligfed.id_distrito_federal",
-                            "disfed.descripcion as distrito_federal"
-                        )
-        				->orderBy("disloc.no_distrito");
-        }
-        else {
-            
-            $query = DB::table("distritos_locales as disloc")
-                        // ->leftJoin("distritos_ligue_federal as ligfed", "ligfed.id_distrito_local", "disloc.id")
-                        ->leftJoin("distritos_ligue_federal as ligfed", function($join) {
-
-                            $join->on("ligfed.id_distrito_local", "disloc.id");
-                            $join->whereNull("ligfed.deleted_at");
-                        })
-                        ->leftJoin("distritos_federales as disfed", "disfed.id", "ligfed.id_distrito_federal")
-                        ->select(
-                            "disloc.id","disloc.descripcion","disloc.no_distrito","ligfed.id_distrito_local","ligfed.id_distrito_federal",
-                            // "disfed.descripcion as distrito_federal"
-                            DB::raw("group_concat(distinct disfed.descripcion separator ',') as distrito_federal")
-                        )
-                        ->groupBy("disloc.id")
-                        ->orderBy("disloc.no_distrito");
-        }
-
-
-
-
-        if($request['id']) $query->where("disloc.id", $request['id']);
-
-        $data = $query->get();
-
-        if($request['id']) {
-
-            unset($data[0]->id_distrito_federal);
-
-            // dd($request['id']);
-
-            // dd($data);
-
-            $tmp = DistritoLigueFederal::where("id_distrito_local", $request['id'])->whereNull("deleted_at")->get();
-
-            // dd($tmp);
-            foreach ($tmp as $flight) {
-
-                $data[0]->distritos_federales[] = $flight->id_distrito_federal;
-
-                // echo $flight->id_distrito_local."\n<br>";
-            }
-        }
-        
-
-    	if($request['dataType'] == "json") return response()->json($data);
-        else return $data;
-        
-    }
-
     public function store(Request $request) {
 
         // dd($request);
@@ -225,14 +134,33 @@ class DistritoLocalController extends Controller
 
             $tmp = explode(';', $request['distrito_federal']);
 
-            foreach ($tmp as $k => $v) {
+            foreach ($tmp as $v) {
 
-                $request['id_distrito_local'] = $this->row->id;
-                $request['id_distrito_federal'] = $v;
+                $param = [];
 
-                // dd($request);
+                $tmp_ = explode('|', $v);
+                
+                foreach ($tmp_ as $v_) {
 
-                app(DistritoLigueFederalController::class)->store($request);
+                    list($field, $value) = explode(',', $v_);
+
+                    $param[$field] = $value;
+
+                    // $request['id_distrito_local'] = $this->row->id;
+                    // $request['id_distrito_federal'] = $v;
+
+                    // dd($request);
+
+                }
+
+
+                // print_r($param);
+
+                $rick = new Request();
+
+                $rick->replace($param);
+                
+                app(DistritoLigueFederalController::class)->store($rick);
             }
         }
 
@@ -243,5 +171,96 @@ class DistritoLocalController extends Controller
                 'message' => 'El registro ha sido actualizado satisfactoriamente.',
             ]);
         }
+    }
+
+    public function getData(Request $request) {
+
+        /*$data = DistritoLocal::all();
+
+        // dd($data);
+
+        if(sizeof($data)) {
+
+            foreach ($data as $k => $row) {
+
+                $distritosFederales = DistritoLocal::find($row->id)->distritosFederales;
+
+                $data[$k]->distritosFederales = $distritosFederales;
+            }
+        }
+
+        dd($data);*/
+
+        /*
+        // config/database.php
+        mysql' => [
+            'driver' => 'mysql',
+            .
+            .
+            .
+            'strict' => false,
+        */
+
+        
+        if($request['ligue_federal']) {
+
+            $query = DB::table("distritos_locales as disloc")
+                        ->leftJoin("distritos_ligue_federal as ligfed", "ligfed.id_distrito_local", "disloc.id")
+                        ->leftJoin("distritos_federales as disfed", "disfed.id", "ligfed.id_distrito_federal")
+                        ->select(
+                            "disloc.id","disloc.descripcion","disloc.no_distrito","ligfed.id_distrito_local","ligfed.id_distrito_federal",
+                            "disfed.descripcion as distrito_federal"
+                        )
+                        ->orderBy("disloc.no_distrito");
+        }
+        else {
+            
+            $query = DB::table("distritos_locales as disloc")
+                        // ->leftJoin("distritos_ligue_federal as ligfed", "ligfed.id_distrito_local", "disloc.id")
+                        ->leftJoin("distritos_ligue_federal as ligfed", function($join) {
+
+                            $join->on("ligfed.id_distrito_local", "disloc.id");
+                            $join->whereNull("ligfed.deleted_at");
+                        })
+                        ->leftJoin("distritos_federales as disfed", "disfed.id", "ligfed.id_distrito_federal")
+                        ->select(
+                            "disloc.id","disloc.descripcion","disloc.no_distrito","ligfed.id_distrito_local","ligfed.id_distrito_federal",
+                            // "disfed.descripcion as distrito_federal"
+                            DB::raw("group_concat(distinct disfed.descripcion separator ',') as distrito_federal")
+                        )
+                        ->groupBy("disloc.id")
+                        ->orderBy("disloc.no_distrito");
+        }
+
+
+
+
+        if($request['id']) $query->where("disloc.id", $request['id']);
+
+        $data = $query->get();
+
+        if($request['id']) {
+
+            unset($data[0]->id_distrito_federal);
+
+            // dd($request['id']);
+
+            // dd($data);
+
+            $tmp = DistritoLigueFederal::where("id_distrito_local", $request['id'])->whereNull("deleted_at")->get();
+
+            // dd($tmp);
+            foreach ($tmp as $flight) {
+
+                $data[0]->distritos_federales[] = $flight->id_distrito_federal;
+
+                // echo $flight->id_distrito_local."\n<br>";
+            }
+        }
+        
+
+        if($request['dataType'] == "json") return response()->json($data);
+        else return $data;
+        
     }
 }
