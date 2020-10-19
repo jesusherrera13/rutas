@@ -11,6 +11,7 @@ use App\Models\Contacto;
 use App\Models\ContactoTelefono;
 use App\Models\ContactoEmail;
 use App\Models\CasillaRepresentante;
+use App\Models\Casilla;
 
 class ContactoController extends Controller
 {
@@ -262,12 +263,25 @@ class ContactoController extends Controller
             $tmp = ContactoEmail::where('id_contacto', $request['id'])->get();
 
             $data[0]->emails = $tmp;
+        }
 
-            // $tmp = CasillaRepresentante::where('id_contacto', $request['id'])->get();
+        foreach ($data as $row) {
 
-            // $data[0]->casilla = $tmp;
+            $tmp = Casilla::where('id_seccion', $row->id_seccion)
+                        ->where('id_tipo_casilla', 'B')
+                        ->get();
+            
+            if(sizeof($tmp)) {
 
-            // dd($rick);
+                $rick = new Request();
+
+                $rick->replace([
+                    'id_casilla' => $tmp[0]->id,
+                    'id' => $row->id,
+                ]);
+
+                $this->setCasilla($rick);
+            }
         }
 
     	if($request['dataType'] == "json") return response()->json($data);
