@@ -322,11 +322,11 @@ function getData(param) {
             }
             else dataTableSetData([{id: 'tbl-data', data: data}]);
 
-            spinner();
+            spinner({close: true});
         },
         error: function(jqXHR, textStatus, erroThrown) {
             
-            spinner();
+            spinner({close: true});
         }
     });
 }
