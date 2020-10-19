@@ -267,6 +267,7 @@ class ContactoController extends Controller
 
         foreach ($data as $row) {
 
+            /*
             $tmp = Casilla::where('id_seccion', $row->id_seccion)
                         ->where('id_tipo_casilla', 'B')
                         ->get();
@@ -282,6 +283,7 @@ class ContactoController extends Controller
 
                 $this->setCasilla($rick);
             }
+            */
         }
 
     	if($request['dataType'] == "json") return response()->json($data);
