@@ -108,8 +108,6 @@ class RutaController extends Controller
 
     public function impresion(Request $request, $id) {
 
-        // dd($id);
-
         $rick = new Request();
 
         $rick->replace([
@@ -131,7 +129,7 @@ class RutaController extends Controller
 
         // dd($data);
           
-        $dompdf = PDF::loadView('rutas.impresion', $data);
+        $dompdf = PDF::loadView('rutas.impresion', $data)->setPaper('a4', 'landscape');
 
         return $dompdf->stream('ruta_'.$tmp[0]->no_distrito_federal.'_'.$tmp[0]->no_distrito_local.'.pdf');
     }

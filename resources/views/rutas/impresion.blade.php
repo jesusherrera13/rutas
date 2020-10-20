@@ -10,23 +10,54 @@
 		margin-bottom: 10px;
 	}
 
+	.table th {
+
+		background-color: #A5A5A5A5;
+	}
+
 	.table th, .table td {
 
+		border: 1px solid;
 		font-size: 12px;
 		padding: 2px;
 	}
 
-	.table > thead > tr > :nth-child(1) {
+	#tbl-info > thead > tr > :nth-child(1) {
+
+		width: 100px;
+	}
+
+	#tbl-info > thead > tr > :nth-child(2) {
+
+		width: 100px;
+	}
+
+	#tbl-info > thead > tr > :nth-child(3) {
+
+		width: 100px;
+	}
+
+	#tbl-info > thead > tr > :nth-child(4) {
 
 		width: 200px;
 	}
 
-	.table > thead > tr > :nth-child(2) {
+	#tbl-info > thead > tr > :nth-child(5) {
+
+		width: 200px;
+	}
+
+	#tbl-data > thead > tr > :nth-child(1) {
+
+		width: 200px;
+	}
+
+	#tbl-data > thead > tr > :nth-child(2) {
 
 		width: 300px;
 	}
 
-	.table > thead > tr > :nth-child(3) {
+	#tbl-data > thead > tr > :nth-child(3) {
 
 		width: 100px;
 	}
@@ -37,25 +68,45 @@
 		text-align: right;
 	}
 
+	.casilla {
+
+		font-size: 18px;
+		font-weight: bold;
+	}
     </style>
 </head>
 <body>
     <div class="fecha">{{$fecha}} {{$hora}}</div>
+    <h2>Información de RC'S</h2>
 
-    <h3>INFORMACIÓN DE RC'S</h3>
-    <div>{{ $data[0]->descripcion }}</div>
-    <h3>Distrito Federal: {{ $data[0]->no_distrito_federal }}</h3>
-    <h3>Distrito Local: {{ $data[0]->no_distrito_local }}</h3>
-    <h3>CRG: </h3>
-    <h3>RG: {{ $data[0]->representante_general }}</h3>
+    <table id="tbl-info" class="table">
+    	<thead>
+			<tr>
+				<th>Ruta</th>
+				<th>Distrito Federal</th>
+				<th>Distrito Local</th>
+				<th>CRG</th>
+				<th>RG</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{{ $data[0]->descripcion }}</td>
+				<td>{{ $data[0]->no_distrito_federal }}</td>
+				<td>{{ $data[0]->no_distrito_local }}</td>
+				<td>CRG</td>
+				<td>{{ $data[0]->representante_general }}</td>
+			</tr>
+		</tbody>
+    </table>
 
 	@foreach($data[0]->ruta_casillas as $row)
 
-	<div>
+	<div class="casilla">
 		{{ $row->casilla }}, {{ $row->asentamiento_corto }}
 	</div>
     
-    <table id="tbl-data" class="table table-bordered table-striped" border="1">
+    <table id="tbl-data" class="table table-bordered table-striped">
 		<thead>
 			<tr>
 				<th>Nombre</th>

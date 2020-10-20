@@ -104,7 +104,11 @@ $(document).ready(function() {
             },
         ],
         "columnDefs": [
-            // { "width": "20%", "targets": 0 },
+            { "width": "10%", "targets": 0 },
+            { "width": "30%", "targets": 1 },
+            { "width": "30%", "targets": 2 },
+            { "width": "20%", "targets": 3 },
+            { "width": "10%", "targets": -1 },
             { 
                 className: 
                 "dt-nowrap", "targets": [ 3 ] 
@@ -283,8 +287,6 @@ $(document).ready(function() {
         var dt = $(this).parents().eq(3).DataTable();
         var tr = $(this).parents().eq(1);
         var row = dt.row(tr).data();
-
-        console.log(row);
 
         window.open(window.location.origin + '/ruta-impresion/' + row.id);
 
