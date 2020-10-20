@@ -120,6 +120,7 @@ $(document).ready(function() {
         colReorder: true,
         // paging: false,
         // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
+        pageLength : 6,
         columns: [
             { data: "casilla" },
             { data: null,        
@@ -153,6 +154,7 @@ $(document).ready(function() {
         // paging: false,
         // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
         // pageLength : 5,
+        pageLength : 6,
         columns: [
             { data: "casilla" },
             { data: null,
