@@ -411,11 +411,11 @@ function casillas(param) {
 
             dataTableSetData([{id: 'tbl-casillas', data: data}]);
 
-            spinner();
+            spinner({close: true});
         },
         error: function(jqXHR, textStatus, erroThrown) {
             
-            spinner();
+            spinner({close: true});
         }
     });
 }
@@ -493,11 +493,11 @@ function distritosLocales(param) {
                 $('#id_distrito_local').append(option);
             }
 
-            spinner();
+            spinner({close: true});
         },
         error: function(jqXHR, textStatus, erroThrown) {
             
-            spinner();
+            spinner({close: true});
         }
     });
 }
