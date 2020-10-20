@@ -110,7 +110,9 @@ class DistritoLigueFederalController extends Controller
                         "local.no_distrito as no_distrito_local","local.descripcion as distrito_local",
                         "federal.no_distrito as no_distrito_federal","federal.descripcion as distrito_federal",
                         "ligue.id_distrito_local"
-                    );
+                    )
+                    ->whereNull("ligue.deleted_at")
+                    ->orderBy("local.descripcion");
 
 
         if($request['id']) $query->where("ligue.id", $request['id']);
