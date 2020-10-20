@@ -13,20 +13,20 @@
 					<div class="row">
 						<div class="col-md-3">
 						
-							<select name="no_distrito_federal_" id="no_distrito_federal_" class="custom-select custom-select-sm">
+							<select name="id_distrito_federal_" id="id_distrito_federal_" class="custom-select custom-select-sm">
 					        	<option value=""></option>
 								@foreach($distritos_federales as $k => $row)
-									<option value="{{ $row->no_distrito}}">{{ $row->descripcion}}</option>
+									<option value="{{ $row->id}}">{{ $row->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
 
 						<div class="col-md-3">
 						
-							<select name="no_distrito_local_" id="no_distrito_local_" class="custom-select custom-select-sm">
+							<select name="id_distrito_local_" id="id_distrito_local_" class="custom-select custom-select-sm">
 					        	<option value=""></option>
 								@foreach($distritos_locales as $k => $row)
-									<option value="{{ $row->no_distrito}}">{{ $row->descripcion}}</option>
+									<option value="{{ $row->id}}">{{ $row->descripcion}}</option>
 								@endforeach
 							</select>
 						</div>
