@@ -19,9 +19,9 @@ $(document).ready(function() {
         $('#id_distrito_federal option').prop('checked', 0);
     });
 
-    $('#id_distrito_federal').dblclick(function() {
+    $('#distrito_federal').dblclick(function() {
 
-        $('#id_distrito_federal option').prop('selected', 0);
+        $('#distrito_federal option').prop('selected', 0);
     });
     
     $('#tbl-data').DataTable({
