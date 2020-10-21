@@ -53,8 +53,8 @@ class RutaController extends Controller
                 Rule::unique('rutas')->where(function ($query) use ($request) {
 
                     return $query
-		                        ->whereid_distrito_federal($request->no_distrito_federal)
-		                        ->whereid_distrito_local($request->no_distrito_local)
+		                        ->whereid_distrito_federal($request->id_distrito_federal)
+		                        ->whereid_distrito_local($request->id_distrito_local)
                                 ->whereNull('deleted_at');
                 }),
             ],
@@ -83,7 +83,7 @@ class RutaController extends Controller
     public function update(Request $request) {
 
         $validateData = $request->validate([
-            'descripcion' => 'required|min:3|max:255|unique:distritos_federales,descripcion,'.$request['id'].',id',
+            'descripcion' => 'required|min:3|max:255|unique:rutas,descripcion,'.$request['id'].',id',
             'id_distrito_federal' => 'required',
             'id_distrito_local' => 'required',
         ]);
