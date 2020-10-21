@@ -19,6 +19,16 @@ $(document).ready(function() {
 
         formReset($('#form-registro'));
 
+        var dt1 = $('#tbl-ruta_casillas').DataTable();
+
+        dt1.clear().draw();
+
+        var dt2 = $('#tbl-casillas').DataTable();
+
+        dt2.clear().draw();
+        
+        casillas({id_modulo: 'rutas'});
+
         $('#modal-registro').modal('toggle');
     });
 
@@ -35,7 +45,6 @@ $(document).ready(function() {
 
     $('#id_distrito_federal').change(function() {
 
-        // console.log($(this).val());
         distritosLocales({ id_distrito_federal: $(this).val() });
     });
 

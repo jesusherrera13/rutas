@@ -345,7 +345,7 @@ class CasillaController extends Controller
                 foreach ($tmp as $row) {
 
                     // print_r($row);
-                    // $seleccionados[] = $row->id_casilla;
+                    $seleccionados[] = $row->id_casilla;
                 }
             }
 
