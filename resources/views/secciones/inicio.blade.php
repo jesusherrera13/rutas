@@ -11,8 +11,21 @@
 					@csrf
 
 					<div class="row">
-						<div class="col-md-3">
-						
+						<div class="col-md-12">
+							<div class="d-flex justify-content-end">
+								<button id="btn-nuevo" class="btn btn-primary btn-sm mr-1">
+									<i class="far fa-file"></i> Nuevo
+								</button>
+								<button id="btn-buscar" class="btn btn-primary btn-sm">
+									<i class="fas fa-search"></i> Buscar
+								</button>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="form-group col-md-3">
+							<label for="id_distrito_federal_">Distrito Federal</label>
 							<select name="id_distrito_federal_" id="id_distrito_federal_" class="custom-select custom-select-sm">
 					        	<option value=""></option>
 								@foreach($distritos_federales as $k => $row)
@@ -21,18 +34,14 @@
 							</select>
 						</div>
 
-						<div class="col-md-3">
-						
+						<div class="form-group col-md-3">
+							<label for="id_distrito_local_">Distrito Local</label>
 							<select name="id_distrito_local_" id="id_distrito_local_" class="custom-select custom-select-sm">
 					        	<option value=""></option>
 								@foreach($distritos_locales as $k => $row)
 									<option value="{{ $row->id}}">{{ $row->descripcion}}</option>
 								@endforeach
 							</select>
-						</div>
-						<div class="col-md-6 align-right">
-							<button id="btn-nuevo" class="btn btn-primary">Nuevo</button>
-							<button id="btn-buscar" class="btn btn-primary">Buscar</button>
 						</div>
 					</div>
 				</form>
