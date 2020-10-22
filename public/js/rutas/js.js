@@ -29,6 +29,8 @@ $(document).ready(function() {
         
         casillas({id_modulo: 'rutas'});
 
+        $('#modal-registro .modal-title').html('Ruta: ');
+
         $('#modal-registro').modal('toggle');
     });
 
@@ -389,6 +391,8 @@ function getData(param) {
                 }
 
                 $('#modal-registro').modal('show');
+
+                $('#modal-registro .modal-title').html('Ruta: ' + data[0]['descripcion']);
             }
             else dataTableSetData([{id: 'tbl-data', data: data}]);
 
