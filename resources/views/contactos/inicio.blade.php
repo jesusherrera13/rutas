@@ -96,9 +96,9 @@
 							<th>Casilla</th>
 							<th>Sección</th>
 							<th>Teléfono</th>
-							<th>Email</th>
-							<th>Dto. Fed.</th>
-							<th>Dto. Loc.</th>
+							<!-- <th>Email</th> -->
+							<th>DF</th>
+							<th>DL</th>
 							<th>Asentamiento</th>
 							<th>Dirección</th>
 							<th>Referente</th>
@@ -106,19 +106,6 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>Nombre</td>
-							<td>Sección</td>
-							<td>Sección</td>
-							<td>Teléfono</td>
-							<td>Email</td>
-							<td>Distrito Federal</td>
-							<td>Distrito Local</td>
-							<td>Asentamiento</td>
-							<td>Dirección</td>
-							<td>Referente</td>
-							<td></td>
-						</tr>
 					</tbody>
 				</table>
 			</div>

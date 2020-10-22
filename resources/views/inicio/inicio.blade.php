@@ -19,6 +19,7 @@
   <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
   <link rel="stylesheet" href="plugins/datatables-fixedcolumns/css/fixedColumns.bootstrap4.css">
   <link rel="stylesheet" href="plugins/datatables-buttons/css/buttons.bootstrap4.css">
+  <link rel="stylesheet" href="plugins/datatables-colreorder/css/colReorder.bootstrap4.min.css">
   <link rel="stylesheet" href="css/typeahead/typeahead.css">
   <link rel="stylesheet" href="css/css.css">
 
@@ -276,6 +277,7 @@
 <script src="plugins/datatables-buttons/js/vfs_fonts.js"></script>
 <script src="plugins/datatables-buttons/js/jszip.min.js"></script>
 <script src="plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<script src="plugins/datatables-colreorder/js/dataTables.colReorder.min.js"></script>
 <script src="js/typeahead/typeahead.bundle.js"></script>
 <script src="js/js.js"></script>
 <script src="js/accent-neutralise.js"></script>

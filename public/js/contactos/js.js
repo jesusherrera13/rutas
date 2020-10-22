@@ -83,20 +83,21 @@ $(document).ready(function() {
     });
     
     $('#tbl-data').DataTable({
-        scrollY:        "300px",
+        /*scrollY:        "300px",
         scrollX:        true,
         scrollCollapse: true,
         paging:         false,
         fixedColumns:   {
             leftColumns: 1,
             rightColumns: 1
-        },
+        },*/
+        colReorder: true,
         columns: [
             { data: "contacto" },
             { data: "casilla" },
             { data: "no_seccion" },
             { data: "no_telefono" },
-            { data: "email" },
+            // { data: "email" },
             { data: "no_distrito_federal" },
             { data: "no_distrito_local" },
             { data: "asentamiento" },
