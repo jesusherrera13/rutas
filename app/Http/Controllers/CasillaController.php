@@ -287,6 +287,8 @@ class CasillaController extends Controller
                             $join->on("est.id_estado", "asenta.id_estado");
                         })
                         ->leftJoin("paises as pais", "pais.id_pais", "asenta.id_pais")
+                        ->leftJoin("rutas_casillas as rutac", "rutac.id_casilla", "casilla.id")
+                        ->leftJoin("rutas as ruta", "ruta.id", "rutac.id_ruta")
 	    				->select(
 	                        "casilla.id",
 	                        DB::raw("
@@ -315,7 +317,8 @@ class CasillaController extends Controller
                                 ) as no_rcs
                             "),
                             "casilla.id_asentamiento",
-                            DB::raw("concat(asenta.descripcion,', ',mun.descripcion,', ',est.descripcion,', ',pais.descripcion) as asentamiento")
+                            DB::raw("concat(asenta.descripcion,', ',mun.descripcion,', ',est.descripcion,', ',pais.descripcion) as asentamiento"),
+                            "ruta.descripcion as ruta"
 	                    )
 	    				->orderBy("seccion.no_seccion")
 	    				->orderBy("casilla.id_tipo_casilla")

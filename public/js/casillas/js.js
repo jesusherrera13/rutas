@@ -45,14 +45,15 @@ $(document).ready(function() {
         columns: [
             { data: "casilla" },
             { data: "no_rcs" },
-            { data: "distrito_federal" },
-            { data: "distrito_local" },
-            { data: null,        
+            { data: "no_distrito_federal" },
+            { data: "no_distrito_local" },
+            { data: "ruta" },
+            /*{ data: null,        
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 
                     $(nTd).html('');
                 }
-            },
+            },*/
             { data: null,        
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 

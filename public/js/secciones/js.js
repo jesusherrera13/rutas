@@ -1,12 +1,17 @@
 $(document).ready(function() {
 
-    $('#btn-nuevo').click(function() {
+    $('#btn-nuevo, #btn-reset').click(function() {
 
         distritosLocales();
 
         formReset($('#form-registro'));
 
-        $('#modal-registro').modal('toggle');
+        if($(this).attr('id') == 'btn-nuevo') $('#modal-registro').modal('toggle');
+        else if($(this).attr('id') == 'btn-reset') {
+
+            var dt = $('#tbl-casillas').DataTable();
+            dt.clear().draw();
+        }
 
         $('#id_distrito_federal option').prop('checked', 0);
     });

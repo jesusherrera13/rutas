@@ -96,8 +96,8 @@
 				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
 					<i class="fas fa-times"></i> Cerrar
 				</button>
-				<button id="btn-eliminar" class="btn btn-danger btn-sm">
-					<i class="fas fa-trash-alt"></i> Eliminar
+				<button id="btn-reset" class="btn btn-success btn-sm">
+					<i class="far fa-file"></i> Nuevo
 				</button>
 				<button id="btn-grabar" class="btn btn-sm btn-primary">
 					<i class="fas fa-save"></i> Grabar cambios

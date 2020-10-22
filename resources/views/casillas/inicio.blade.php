@@ -30,9 +30,9 @@
 						<tr>
 							<th>Casilla</th>
 							<th>RCs</th>
-							<th>Distrito Federal</th>
-							<th>Distrito Local</th>
-							<th>Responsable</th>
+							<th>DF</th>
+							<th>DL</th>
+							<th>Ruta</th>
 							<th></th>
 						</tr>
 					</thead>
