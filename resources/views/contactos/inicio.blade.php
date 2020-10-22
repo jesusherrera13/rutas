@@ -97,8 +97,8 @@
 							<th>Sección</th>
 							<th>Teléfono</th>
 							<th>Email</th>
-							<th>Distrito Federal</th>
-							<th>Distrito Local</th>
+							<th>Dto. Fed.</th>
+							<th>Dto. Loc.</th>
 							<th>Asentamiento</th>
 							<th>Dirección</th>
 							<th>Referente</th>
