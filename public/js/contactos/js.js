@@ -161,7 +161,7 @@ $(document).ready(function() {
                 pageSize: 'LEGAL',
                 exportOptions: {
                     // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
-                    columns: [ 0, ':visible' ]
+                    columns: [':visible' ]
                 }
             },
             'colvis'
