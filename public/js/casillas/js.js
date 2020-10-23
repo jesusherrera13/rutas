@@ -97,9 +97,13 @@ $(document).ready(function() {
 
                     var html = '';
 
-                    html += '<button class="btn btn-danger btn-sm pin" accion="delete">';
-                    html += '   <i class="fas fa-trash-alt"></i>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-danger btn-sm pin" accion="delete">';
+                    // html += '   <i class="fas fa-trash-alt"></i>';
+                    // html += '</button>';
+
+                    html += '<a class="btn btn-danger btn-sm pin" href="javascript:void(0)" role="button" accion="delete">'
+                    html += '   <i class="fas fa-trash-alt"></i></a>';
+                    html += '</a>';
 
                     $(nTd).html(html);
                 }
@@ -275,6 +279,8 @@ $(document).ready(function() {
 });
 
 function getData(param) {
+
+    console.log(param)
 
     spinner();
 

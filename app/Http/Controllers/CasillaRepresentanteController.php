@@ -94,8 +94,6 @@ class CasillaRepresentanteController extends Controller
 
     public function guardar(Request $request) {
 
-    	// dd($request);
-
     	if($request['items']) {
 
     		$tmp = explode(';', $request['items']);
@@ -113,7 +111,6 @@ class CasillaRepresentanteController extends Controller
                     $param[$field] = $value || $value == 0 ? $value : null;
 				}
 
-                // print_r($param);
                 $rick = new Request();
 
                 $rick->replace($param);
