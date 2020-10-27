@@ -61,10 +61,10 @@
 
         <li class="nav-header">SISTEMA</li>
         <li class="nav-item">
-          <a href="{{URL::to('usuarios')}}" class="nav-link">
+          <a href="{{URL::to('rutas')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
-              Usuarios
+              Rutas
             </p>
           </a>
         </li>
@@ -73,6 +73,14 @@
             <i class="fas fa-users"></i>
             <p>
               Contactos
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{URL::to('coordinadores')}}" class="nav-link">
+            <i class="fas fa-users"></i>
+            <p>
+              Coordinadores
             </p>
           </a>
         </li>
@@ -93,10 +101,10 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="{{URL::to('rutas')}}" class="nav-link">
+          <a href="{{URL::to('usuarios')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
-              Rutas
+              Usuarios
             </p>
           </a>
         </li>

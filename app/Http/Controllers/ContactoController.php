@@ -247,7 +247,36 @@ class ContactoController extends Controller
             }
             
             if(sizeof($seleccionados)) $query->whereNotIn("contacto.id", $seleccionados);
+        }
+        else if($request['id_modulo'] == 'coordinadores') {
 
+            // dd($request);
+
+            $seleccionados = [];
+
+            $rick = new Request();
+
+            $tmp = app(CoordinadorController::class)->getData($rick);
+
+            if(sizeof($tmp)) {
+
+                foreach ($tmp as $row) {
+
+                    // print_r($row);
+                    $seleccionados[] = $row->id_contacto;
+                }
+            }
+
+            if($request['seleccionados']) {
+
+                $tmp = explode(';', $request['seleccionados']);
+
+                $seleccionados = array_merge($seleccionados, $tmp);
+            }
+
+            // dd($seleccionados);
+            
+            if(sizeof($seleccionados)) $query->whereNotIn("contacto.id", $seleccionados);
         }
 
         $data = $query->get();

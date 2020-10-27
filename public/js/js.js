@@ -127,6 +127,8 @@ function modal_confirm(param) {
     $('#modal-confirm .modal-body').html(message);
 
     $('#modal-confirm').modal('toggle');
+
+    console.log(cuervo)
 }
 
 function guardar(param) {
@@ -173,9 +175,12 @@ function guardar(param) {
 
             if(param) {
 
-                console.log(param.param.id)
-
                 if(param.param.id) json = { id: param.param.id };
+            
+                if(param.callback) {
+
+                    eval(param.callback + '()')
+                }
             }
 
             getData(json);
