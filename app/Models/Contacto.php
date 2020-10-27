@@ -19,6 +19,7 @@ class Contacto extends Model
         'email',
         'id_asentamiento',
         'id_referente',
+        'id_coordinador',
     	'status',
     ];
 }

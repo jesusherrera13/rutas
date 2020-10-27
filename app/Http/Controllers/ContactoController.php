@@ -34,6 +34,7 @@ class ContactoController extends Controller
             $distritos_locales = app(DistritoLocalController::class)->getData($request);
             $municipios = app(MunicipioController::class)->getData($request);
             $asentamientos = app(AsentamientoController::class)->getData($request);
+            $coordinadores = app(CoordinadorController::class)->getData($request);
 
             return view('contactos.inicio', compact(
                     'page_title',
@@ -42,7 +43,8 @@ class ContactoController extends Controller
                     'distritos_federales',
                     'distritos_locales',
                     'municipios',
-                    'asentamientos'
+                    'asentamientos',
+                    'coordinadores'
                 )
             );
         }

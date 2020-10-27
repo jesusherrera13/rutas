@@ -102,7 +102,19 @@
 									</div>
 
 									<div class="form-group row">
-		    
+									    <label for="id_coordinador" class="col-sm-4 col-form-label">Coordinador:</label>
+									    <div class="col-sm-8">
+									    	<select name="id_coordinador" id="id_coordinador" class="custom-select custom-select-sm">
+
+			        							<option value=""></option>
+			        							@foreach($coordinadores as $row)
+			        								<option value="{{$row->id_contacto}}">{{$row->contacto}}</option>
+			        							@endforeach
+			        						</select>
+									    </div>
+									</div>
+
+									<div class="form-group row">
 									    <label for="referente" class="col-sm-4 col-form-label">Referente:</label>
 									    <div class="col-sm-8">
 									    	<div id="d-referente">
