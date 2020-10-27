@@ -144,9 +144,11 @@ class CoordinadorController extends Controller
 
                     $ron = Coordinador::where('id_contacto', $param['id_contacto'])->get();
 
-                    // dd($ron[0]->id);
-                    $param['id'] = $ron[0]->id;
-                    $param['status'] = 1;
+                    if(sizeof($ron)) {
+
+                        $param['id'] = $ron[0]->id;
+                        $param['status'] = 1;
+                    }
                 }
 
                 $rick = new Request();
