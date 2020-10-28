@@ -83,14 +83,16 @@ $(document).ready(function() {
     });
     
     $('#tbl-data').DataTable({
-        /*scrollY:        "300px",
+        // scrollX:        true,
+
+        scrollY:        "300px",
         scrollX:        true,
         scrollCollapse: true,
         paging:         false,
         fixedColumns:   {
             leftColumns: 1,
             rightColumns: 1
-        },*/
+        },
         colReorder: true,
         columns: [
             { data: "contacto" },
@@ -314,7 +316,7 @@ $(document).ready(function() {
 
         var msj = '';
 
-        if(!$('#nombre').val()) msj += 'Escriba la sección<br>';
+        if(!$('#nombre').val()) msj += 'Escriba el nombre<br>';
         if(!$('#apellido1').val()) msj += 'Escriba el primer apellido<br>';
         if(!$('#id_seccion').val()) msj += 'Seleccione la sección';
         // if(!$('#id_casilla').val()) msj += 'Seleccione la casilla';
@@ -397,7 +399,7 @@ $(document).ready(function() {
 
         if(!$(this).attr('seleccionado')) {
 
-            $('#id_pais, #id_estado, #id_municipio, #id_asentamiento').val('');
+            $('#id_pais, #id_estado, #id_municipio, #id_asentamiento, #asentamiento_').val('');
         }
     })
     .on('keyup', this, function (event) {

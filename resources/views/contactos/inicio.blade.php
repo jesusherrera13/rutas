@@ -17,7 +17,12 @@
 					@csrf
 
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-6">
+							<a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+								Filtros
+							</a>
+						</div>
+						<div class="col-md-6">
 							<div class="d-flex justify-content-end">
 								<button id="btn-nuevo" class="btn btn-primary btn-sm mr-1">
 									<i class="far fa-file"></i> Nuevo
@@ -29,67 +34,70 @@
 						</div>
 					</div>
 
-					<div class="form-row">
-						<div class="form-group col-md-3">
-							<label for="id_distrito_federal_">Distrito Federal</label>
-							<select name="id_distrito_federal_" id="id_distrito_federal_" class="custom-select custom-select-sm">
-					        	<option value=""></option>
-								@foreach($distritos_federales as $k => $row)
-									<option value="{{ $row->id}}">{{ $row->descripcion}}</option>
-								@endforeach
-							</select>
-						</div>
+					<div class="collapse" id="collapseExample">
+						<div class="card card-body">
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label for="id_distrito_federal_">Distrito Federal</label>
+									<select name="id_distrito_federal_" id="id_distrito_federal_" class="custom-select custom-select-sm">
+							        	<option value=""></option>
+										@foreach($distritos_federales as $k => $row)
+											<option value="{{ $row->id}}">{{ $row->descripcion}}</option>
+										@endforeach
+									</select>
+								</div>
 
-						<div class="form-group col-md-3">
-							<label for="id_distrito_local_">Distrito Local</label>
-							<select name="id_distrito_local_" id="id_distrito_local_" class="custom-select custom-select-sm">
-					        	<option value=""></option>
-								@foreach($distritos_locales as $k => $row)
-									<option value="{{ $row->id}}">{{ $row->descripcion}}</option>
-								@endforeach
-							</select>
-						</div>
+								<div class="form-group col-md-3">
+									<label for="id_distrito_local_">Distrito Local</label>
+									<select name="id_distrito_local_" id="id_distrito_local_" class="custom-select custom-select-sm">
+							        	<option value=""></option>
+										@foreach($distritos_locales as $k => $row)
+											<option value="{{ $row->id}}">{{ $row->descripcion}}</option>
+										@endforeach
+									</select>
+								</div>
 
-						<div class="form-group col-md-3">
-							<label for="id_municipio_">Municipio</label>
-							<select name="id_municipio_" id="id_municipio_" class="custom-select custom-select-sm">
-					        	<option value=""></option>
-								@foreach($municipios as $k => $row)
-									<option value="{{ $row->id_municipio}}">
-										{{ $row->descripcion}}
-									</option>
-								@endforeach
-							</select>
-						</div>
+								<div class="form-group col-md-3">
+									<label for="id_municipio_">Municipio</label>
+									<select name="id_municipio_" id="id_municipio_" class="custom-select custom-select-sm">
+							        	<option value=""></option>
+										@foreach($municipios as $k => $row)
+											<option value="{{ $row->id_municipio}}">
+												{{ $row->descripcion}}
+											</option>
+										@endforeach
+									</select>
+								</div>
 
-						<div class="form-group col-md-3">
-							<label for="id_asentamiento_">Asentamiento</label>
-							<select name="id_asentamiento_" id="id_asentamiento_" class="custom-select custom-select-sm">
-					        	<option value=""></option>
-								@foreach($asentamientos as $k => $row)
-									<option value="{{ $row->id}}" id_municipio="{{ $row->id_municipio}}">
-										{{ $row->descripcion}}, {{ $row->municipio}}
-									</option>
-								@endforeach
-							</select>
+								<div class="form-group col-md-3">
+									<label for="id_asentamiento_">Asentamiento</label>
+									<select name="id_asentamiento_" id="id_asentamiento_" class="custom-select custom-select-sm">
+							        	<option value=""></option>
+										@foreach($asentamientos as $k => $row)
+											<option value="{{ $row->id}}" id_municipio="{{ $row->id_municipio}}">
+												{{ $row->descripcion}}, {{ $row->municipio}}
+											</option>
+										@endforeach
+									</select>
+								</div>
+							</div>
+							
+							<div class="form-row">
+								<div class="form-group col-md-3">
+									<label for="status_">Status</label>
+									<select name="status_" id="status_" class="custom-select custom-select-sm">
+							        	<option value=""></option>
+							        	<option value="1" selected>Activo</option>
+							        	<option value="0">Inactivo</option>
+									</select>
+								</div>
+							</div>
 						</div>
 					</div>
-
-					<div class="form-row">
-						<div class="form-group col-md-3">
-							<label for="status_">Status</label>
-							<select name="status_" id="status_" class="custom-select custom-select-sm">
-					        	<option value=""></option>
-					        	<option value="1" selected>Activo</option>
-					        	<option value="0">Inactivo</option>
-							</select>
-						</div>
-					</div>
-					
 				</form>
 			</div>
 			<div class="card-body">
-	  			<table id="tbl-data" class="table table-bordered table-striped table-sm order-column" style="width:100%">
+	  			<table id="tbl-data" class="table table-bordered table-striped table-sm order-column datatable" style="width:100%">
 					<thead>
 						<tr>
 							<th>Nombre</th>
