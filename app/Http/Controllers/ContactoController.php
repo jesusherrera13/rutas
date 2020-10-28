@@ -216,6 +216,7 @@ class ContactoController extends Controller
         if($request['id_distrito_local']) $query->where("seccion.id_distrito_local", $request['id_distrito_local']);
         if($request['id_municipio']) $query->where("asenta.id_municipio", $request['id_municipio']);
         if($request['id_asentamiento']) $query->where("contacto.id_asentamiento", $request['id_asentamiento']);
+        if($request['id_coordinador']) $query->where("contacto.id_coordinador", $request['id_coordinador']);
 
         if($request['term']) {
 

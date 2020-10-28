@@ -84,6 +84,17 @@
 							
 							<div class="form-row">
 								<div class="form-group col-md-3">
+									<label for="id_coordinador_">Coordinador</label>
+									<select name="id_coordinador_" id="id_coordinador_" class="custom-select custom-select-sm">
+							        	<option value=""></option>
+										@foreach($coordinadores as $k => $row)
+											<option value="{{ $row->id_contacto}}">
+												{{ $row->contacto}}
+											</option>
+										@endforeach
+									</select>
+								</div>
+								<div class="form-group col-md-3">
 									<label for="status_">Status</label>
 									<select name="status_" id="status_" class="custom-select custom-select-sm">
 							        	<option value=""></option>
