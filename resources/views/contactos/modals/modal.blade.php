@@ -2,9 +2,6 @@
 
 <style type="text/css">
 
-	#d-no_seccion .typeahead, #d-asentamiento .typeahead, #d-referente .typeahead {
-		/*width: 100% !important;*/
-	}
 </style>
 <div class="modal fade" id="modal-registro" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="contacto-modal-label" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
@@ -48,28 +45,28 @@
 								<div class="tab-pane fade show active" id="contacto" role="tabpanel" aria-labelledby="contacto-tab">
 									
 									<div class="form-row">
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-4 m-0">
 											<label for="nombre">Nombre</label>
 									        <input type="text" name="nombre" id="nombre" class="form-control form-control-sm">
 										</div>
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-4 m-0">
 											<label for="apellido1">Apellido 1</label>
 									        <input type="text" name="apellido1" id="apellido1" class="form-control form-control-sm">
 										</div>
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-4 m-0">
 											<label for="apellido2">Apellido 2</label>
 									        <input type="text" name="apellido2" id="apellido2" class="form-control form-control-sm">
 										</div>
 									</div>
 
 									<div class="form-row p-0">
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 m-0">
 											<label for="nombre">Sección</label>
 											<div id="d-no_seccion">
 												<input type="text" id="no_seccion" class="typeahead form-control form-control-sm" placeholder="Sección">
 											</div>
 										</div>
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 m-0">
 											<label for="apellido1">Casilla</label>
 											<select name="id_casilla" id="id_casilla" class="custom-select custom-select-sm">
 
@@ -78,20 +75,20 @@
 									</div>
 
 									<div class="form-row">
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 m-0">
 											<label for="apellido2">Asentamiento</label>
 											<div id="d-asentamiento">
 												<input type="text" id="asentamiento_" class="typeahead form-control form-control-sm" placeholder="Asentamientos de MEX">
 											</div>
 										</div>
-										<div class="form-group col-md-6">
+										<div class="form-group col-md-6 m-0">
 											<label for="direccion">Dirección</label>
 									        <input type="text" name="direccion" id="direccion" class="form-control form-control-sm">
 										</div>
 									</div>
 
 									<div class="form-row">
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-4 m-0">
 											<label for="id_coordinador">Coordinador</label>
 											<select name="id_coordinador" id="id_coordinador" class="custom-select custom-select-sm">
 
@@ -101,13 +98,13 @@
 			        							@endforeach
 			        						</select>
 										</div>
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-4 m-0">
 											<label for="referente">Referente</label>
 											<div id="d-referente">
 												<input type="text" id="referente" class="typeahead form-control form-control-sm" placeholder="Referente">
 											</div>
 										</div>
-										<div class="form-group col-md-4">
+										<div class="form-group col-md-4 m-0">
 											<label for="status">Status</label>
 											<select name="status" id="status" class="custom-select custom-select-sm">
 
