@@ -1,6 +1,13 @@
 <!-- Modal -->
+
+<style type="text/css">
+
+	#d-no_seccion .typeahead, #d-asentamiento .typeahead, #d-referente .typeahead {
+		/*width: 100% !important;*/
+	}
+</style>
 <div class="modal fade" id="modal-registro" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="contacto-modal-label" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 
 			<div class="modal-header">
@@ -13,7 +20,8 @@
 			<div class="modal-body">
 				<div class="row">
 					<div class="col-12">
-						<form id="form-registro" class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+
+						<form id="form-registro" action="" method="post" enctype="multipart/form-data">
 
 							@csrf
 
@@ -39,99 +47,74 @@
 							<div class="tab-content pt-1" id="myTabContent">
 								<div class="tab-pane fade show active" id="contacto" role="tabpanel" aria-labelledby="contacto-tab">
 									
-									<div class="form-group row">
-    
-									    <label for="nombre" class="col-sm-4 col-form-label">Nombre:</label>
-									    <div class="col-sm-8">
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label for="nombre">Nombre</label>
 									        <input type="text" name="nombre" id="nombre" class="form-control form-control-sm">
-									    </div>
-									</div>
-
-									<div class="form-group row">
-		    
-									    <label for="apellido1" class="col-sm-4 col-form-label">Apellido 1:</label>
-									    <div class="col-sm-8">
+										</div>
+										<div class="form-group col-md-4">
+											<label for="apellido1">Apellido 1</label>
 									        <input type="text" name="apellido1" id="apellido1" class="form-control form-control-sm">
-									    </div>
-									</div>
-
-									<div class="form-group row">
-		    
-									    <label for="apellido2" class="col-sm-4 col-form-label">Apellido 2:</label>
-									    <div class="col-sm-8">
+										</div>
+										<div class="form-group col-md-4">
+											<label for="apellido2">Apellido 2</label>
 									        <input type="text" name="apellido2" id="apellido2" class="form-control form-control-sm">
-									    </div>
+										</div>
 									</div>
 
-									<!-- <div class="form-group row">
-		    
-									    <label for="no_seccion" class="col-sm-4 col-form-label">Sección:</label>
-									    <div class="col-sm-8">
-									        <input type="text" name="no_seccion" id="no_seccion" class="form-control form-control-sm">
-									    </div>
-									</div> -->
-
-									<div class="form-group row">
-		    
-									    <label for="no_seccion" class="col-sm-4 col-form-label">Sección:</label>
-									    <div class="col-sm-8">
-									    	<div id="d-no_seccion">
+									<div class="form-row p-0">
+										<div class="form-group col-md-6">
+											<label for="nombre">Sección</label>
+											<div id="d-no_seccion">
 												<input type="text" id="no_seccion" class="typeahead form-control form-control-sm" placeholder="Sección">
 											</div>
-									    </div>
-									</div>
-
-									<div class="form-group row">
-		    
-									    <label for="id_casilla" class="col-sm-4 col-form-label">Casilla:</label>
-									    <div class="col-sm-8">
-									    	<select name="id_casilla" id="id_casilla" class="custom-select custom-select-sm">
+										</div>
+										<div class="form-group col-md-6">
+											<label for="apellido1">Casilla</label>
+											<select name="id_casilla" id="id_casilla" class="custom-select custom-select-sm">
 
 			        						</select>
-									    </div>
+										</div>
 									</div>
 
-									<div class="form-group row">
-		    
-									    <label for="asentamiento_" class="col-sm-4 col-form-label">Asentamiento:</label>
-									    <div class="col-sm-8">
-									    	<div id="d-asentamiento">
+									<div class="form-row">
+										<div class="form-group col-md-6">
+											<label for="apellido2">Asentamiento</label>
+											<div id="d-asentamiento">
 												<input type="text" id="asentamiento_" class="typeahead form-control form-control-sm" placeholder="Asentamientos de MEX">
 											</div>
-									    </div>
+										</div>
+										<div class="form-group col-md-6">
+											<label for="direccion">Dirección</label>
+									        <input type="text" name="direccion" id="direccion" class="form-control form-control-sm">
+										</div>
 									</div>
 
-									<div class="form-group row">
-									    <label for="id_coordinador" class="col-sm-4 col-form-label">Coordinador:</label>
-									    <div class="col-sm-8">
-									    	<select name="id_coordinador" id="id_coordinador" class="custom-select custom-select-sm">
+									<div class="form-row">
+										<div class="form-group col-md-4">
+											<label for="id_coordinador">Coordinador</label>
+											<select name="id_coordinador" id="id_coordinador" class="custom-select custom-select-sm">
 
 			        							<option value=""></option>
 			        							@foreach($coordinadores as $row)
 			        								<option value="{{$row->id_contacto}}">{{$row->contacto}}</option>
 			        							@endforeach
 			        						</select>
-									    </div>
-									</div>
-
-									<div class="form-group row">
-									    <label for="referente" class="col-sm-4 col-form-label">Referente:</label>
-									    <div class="col-sm-8">
-									    	<div id="d-referente">
+										</div>
+										<div class="form-group col-md-4">
+											<label for="referente">Referente</label>
+											<div id="d-referente">
 												<input type="text" id="referente" class="typeahead form-control form-control-sm" placeholder="Referente">
 											</div>
-									    </div>
-									</div>
-
-									<div class="form-group row">
-									    <label for="status" class="col-sm-4 col-form-label">Status:</label>
-									    <div class="col-sm-8">
-									        <select name="status" id="status" class="custom-select custom-select-sm">
+										</div>
+										<div class="form-group col-md-4">
+											<label for="status">Status</label>
+											<select name="status" id="status" class="custom-select custom-select-sm">
 
 			        							<option value="1">Activo</option>
 			        							<option value="0">Inactivo</option>
 			        						</select>
-									    </div>
+										</div>
 									</div>
 								</div>
 

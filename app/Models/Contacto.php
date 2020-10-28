@@ -18,6 +18,7 @@ class Contacto extends Model
         'telefono',
         'email',
         'id_asentamiento',
+        'direccion',
         'id_referente',
         'id_coordinador',
     	'status',

@@ -67,13 +67,15 @@ class ContactoController extends Controller
         $data->apellido1 = $validateData['apellido1'];
         $data->apellido2 = $request['apellido2'];
         $data->id_seccion = $validateData['id_seccion'];
+        $data->id_asentamiento = $request['id_asentamiento'];
+        $data->direccion = $request['direccion'];
+        $data->id_referente = $request['id_referente'];
+        $data->id_coordinador = $request['id_coordinador'];
         $data->status = $request['status'];
         $data->user_id_create = Auth::user()->id;
 
         $data->save();
         
-        // dd($request);
-
         $rick = new Request();
 
         $rick->replace([
@@ -83,6 +85,12 @@ class ContactoController extends Controller
         ]);
 
         $this->generales($rick);
+
+        $request['id'] = $data->id;
+
+        // dd($request);
+
+        $this->setCasilla($request);
 
         if($request->ajax()) {
             
