@@ -102,6 +102,7 @@
 							<th>Asentamiento</th>
 							<th>Dirección</th>
 							<th>Referente</th>
+							<th>Coordinador</th>
 							<th></th>
 						</tr>
 					</thead>

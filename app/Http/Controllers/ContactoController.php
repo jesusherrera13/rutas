@@ -150,6 +150,7 @@ class ContactoController extends Controller
                     })
                     ->leftJoin("paises as pais", "pais.id_pais", "asenta.id_pais")
                     ->leftJoin("contactos as referentes", "referentes.id", "contacto.id_referente")
+                    ->leftJoin("contactos as coordinador", "coordinador.id", "contacto.id_coordinador")
                     // ->leftJoin("casillas_representantes as casrep", "casrep.id_contacto", "contacto.id")
                     ->leftJoin("casillas_representantes as casrep", function($join) {
 
@@ -195,6 +196,8 @@ class ContactoController extends Controller
                         DB::raw("concat(asenta.descripcion,', ',mun.descripcion,', ',est.descripcion,', ',pais.descripcion) as asentamiento_"),
                         "contacto.id_referente",
                         DB::raw("concat(referentes.nombre,ifnull(concat(' ',referentes.apellido1),''),ifnull(concat(' ',referentes.apellido2),'')) as referente"),
+                        "contacto.id_coordinador",
+                        DB::raw("concat(coordinador.nombre,ifnull(concat(' ',coordinador.apellido1),''),ifnull(concat(' ',coordinador.apellido2),'')) as coordinador"),
 
                     )
     				->orderBy("seccion.no_seccion");
@@ -207,6 +210,8 @@ class ContactoController extends Controller
         if($request['id_asentamiento']) $query->where("contacto.id_asentamiento", $request['id_asentamiento']);
 
         if($request['term']) {
+
+            // dd($request['term']);
 
             // $query->addSelect(DB::raw("concat(loc.descripcion,', ',est.descripcion,', ',pais.descripcion) as localidad_"));
             $query->where(DB::raw("concat(contacto.nombre,ifnull(concat(' ',contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),''))"),'like', '%'.$request['term'].'%');
@@ -280,6 +285,9 @@ class ContactoController extends Controller
             
             if(sizeof($seleccionados)) $query->whereNotIn("contacto.id", $seleccionados);
         }
+
+
+        // dd($query->toSql());
 
         $data = $query->get();
 

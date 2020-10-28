@@ -135,7 +135,7 @@ Route::post('ruta-casilla/borrar', 'RutaCasillaController@borrar');
 
 // COORDINADOR
 Route::resource('coordinadores', 'CoordinadorController');
-Route::get('referentes', 'CoordinadorController@getData');
+// Route::get('referentes', 'CoordinadorController@getData');
 Route::get('coordinadores-data', 'CoordinadorController@getData');
 Route::post('coordinadores', 'CoordinadorController@getData');
 Route::post('coordinadores-contactos', 'CoordinadorController@coordinadores');

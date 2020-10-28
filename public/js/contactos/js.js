@@ -103,6 +103,7 @@ $(document).ready(function() {
             { data: "asentamiento" },
             { data: "direccion" },
             { data: "referente" },
+            { data: "coordinador" },
             /*
             { data: null,        
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
