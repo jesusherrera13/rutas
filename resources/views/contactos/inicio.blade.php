@@ -99,17 +99,8 @@
 									<select name="id_referente_" id="id_referente_" class="custom-select custom-select-sm">
 							        	<option value=""></option>
 										@foreach($referentes as $k => $row)
-
-											@php
-
-											$tmp = explode(' ', $row->referente);
-
-											$referente = $tmp[0]." ".$tmp[2];
-
-											@endphp
-
 											<option value="{{ $row->id_referente}}">
-												{{ $referente}}
+												{{ $row->referente}}
 											</option>
 										@endforeach
 									</select>
