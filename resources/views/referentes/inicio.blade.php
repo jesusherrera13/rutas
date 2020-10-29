@@ -33,7 +33,6 @@
 						<tr>
 							<th>Nombre</th>
 							<th>Nombre Corto</th>
-							<th></th>
 						</tr>
 					</thead>
 					<tbody></tbody>

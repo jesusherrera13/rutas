@@ -32,7 +32,7 @@ $(document).ready(function() {
         columns: [
             { data: "contacto" },
             { data: "contacto_corto" },
-            { data: null,        
+            /*{ data: null,        
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 
                     var html = '';
@@ -43,13 +43,13 @@ $(document).ready(function() {
 
                     $(nTd).html(html);
                 }
-            },
+            },*/
         ],
         columnDefs: [
-            {
+            /*{
                 orderable: false,
                 targets: -1,
-            }
+            }*/
         ],
         createdRow: function(row, data, dataIndex) {
             
@@ -249,8 +249,6 @@ function getData(param) {
 
                     $('#' + k).val(data[0][k]);
                 });
-
-                $('#modal-registro  .modal-title').html('Casilla: ' + data[0]['casilla']);
 
                 dataTableSetData([{id: 'tbl-referentes', data: data[0].representantes}]);
 
