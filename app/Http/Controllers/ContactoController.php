@@ -344,11 +344,11 @@ class ContactoController extends Controller
 
             $query->where("contacto.id", $request['id']);
         
-            $tmp = ContactoTelefono::where('id_contacto', $request['id'])->get();
+            $tmp = ContactoTelefono::where('id_contacto', $request['id'])->where('status', 1)->get();
 
             $data[0]->telefonos = $tmp;
 
-            $tmp = ContactoEmail::where('id_contacto', $request['id'])->get();
+            $tmp = ContactoEmail::where('id_contacto', $request['id'])->where('status', 1)->get();
 
             $data[0]->emails = $tmp;
         }
@@ -382,6 +382,14 @@ class ContactoController extends Controller
 
     private function generales(Request $request) {
 
+        ContactoTelefono::where('id_contacto', $request['id_contacto'])
+                ->update(['status' => 0]);
+
+        ContactoEmail::where('id_contacto', $request['id_contacto'])
+                ->update(['status' => 0]);
+
+        // dd(9);
+
         if($request['telefonos']) {
 
             $tmp = explode(';', $request['telefonos']);
@@ -403,6 +411,16 @@ class ContactoController extends Controller
                     $param[$field] = $value;
                 }
                 
+                $ron = ContactoTelefono::where('id_contacto', $request['id_contacto'])
+                            ->where('no_telefono', $param['no_telefono'])
+                            ->get();
+
+                if(sizeof($ron)) {
+
+                    $param['id'] = $ron[0]->id;
+                    $param['status'] = 1;
+                }
+
                 $rick->replace($param);
 
                 if($param['id']) app(ContactoTelefonoController::class)->update($rick);
@@ -429,6 +447,16 @@ class ContactoController extends Controller
                     list($field, $value) = explode(',', $v_);
 
                     $param[$field] = $value;
+                }
+
+                $ron = ContactoEmail::where('id_contacto', $request['id_contacto'])
+                            ->where('email', $param['email'])
+                            ->get();
+
+                if(sizeof($ron)) {
+
+                    $param['id'] = $ron[0]->id;
+                    $param['status'] = 1;
                 }
                 
                 $rick->replace($param);

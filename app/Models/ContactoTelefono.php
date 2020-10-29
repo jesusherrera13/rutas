@@ -14,5 +14,6 @@ class ContactoTelefono extends Model
     protected $fillable = [
     	'id_contacto',
         'no_telefono',
+        'status',
     ];
 }

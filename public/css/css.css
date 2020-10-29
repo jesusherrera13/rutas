@@ -22,7 +22,7 @@ body {
 	border: none;
 }
 
-#btn-buscar, #btn-nuevo {
+.btn-formulario {
 
 	visibility: hidden;
 }

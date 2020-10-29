@@ -75,8 +75,6 @@ $(document).ready(function() {
 
             $('#id_asentamiento_ *').hide();
 
-            console.log($(this).val());
-
             $('#id_asentamiento_ [id_municipio="' + $(this).val() +'"]').show();
         }
         else $('#id_asentamiento_ *').show();
@@ -312,7 +310,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#btn-grabar').click(function() {
+    $('#btn-guardar').click(function() {
 
         var msj = '';
 
@@ -370,6 +368,8 @@ $(document).ready(function() {
 
             eval('param.telefonos=telefonos');
             eval('param.emails=emails');
+
+            param.id = $('#id').val();
 
             modal_confirm({
                 message: '¿Desea grabar ' + ($('#id').val() ? 'los cambios' : 'el registro') + '?',

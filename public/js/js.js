@@ -37,7 +37,7 @@ $(document).ready(function() {
         });
     });
 
-    $('#btn-nuevo, #btn-buscar').css('visibility', 'visible');
+    $('.btn-formulario').css('visibility', 'visible');
 });
 
 function paramMaker(param) {
