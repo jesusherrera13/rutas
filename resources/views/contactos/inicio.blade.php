@@ -95,6 +95,17 @@
 									</select>
 								</div>
 								<div class="form-group col-md-3">
+									<label for="id_referente_">Referente</label>
+									<select name="id_referente_" id="id_referente_" class="custom-select custom-select-sm">
+							        	<option value=""></option>
+										@foreach($referentes as $k => $row)
+											<option value="{{ $row->id_referente}}">
+												{{ $row->referente}}
+											</option>
+										@endforeach
+									</select>
+								</div>
+								<div class="form-group col-md-3">
 									<label for="status_">Status</label>
 									<select name="status_" id="status_" class="custom-select custom-select-sm">
 							        	<option value=""></option>

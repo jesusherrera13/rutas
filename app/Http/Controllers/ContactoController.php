@@ -36,6 +36,10 @@ class ContactoController extends Controller
             $asentamientos = app(AsentamientoController::class)->getData($request);
             $coordinadores = app(CoordinadorController::class)->getData($request);
 
+            $request['mod_op'] = 'get_referentes';
+
+            $referentes = $this->getData($request);
+
             return view('contactos.inicio', compact(
                     'page_title',
                     'content_header',
@@ -44,7 +48,8 @@ class ContactoController extends Controller
                     'distritos_locales',
                     'municipios',
                     'asentamientos',
-                    'coordinadores'
+                    'coordinadores',
+                    'referentes'
                 )
             );
         }
@@ -207,8 +212,8 @@ class ContactoController extends Controller
                         "contacto.id_coordinador",
                         DB::raw("concat(coordinador.nombre,ifnull(concat(' ',coordinador.apellido1),''),ifnull(concat(' ',coordinador.apellido2),'')) as coordinador"),
 
-                    )
-    				->orderBy("seccion.no_seccion");
+                    );
+    				
 
         if($request['id']) $query->where("contacto.id", $request['id']);
 
@@ -217,6 +222,17 @@ class ContactoController extends Controller
         if($request['id_municipio']) $query->where("asenta.id_municipio", $request['id_municipio']);
         if($request['id_asentamiento']) $query->where("contacto.id_asentamiento", $request['id_asentamiento']);
         if($request['id_coordinador']) $query->where("contacto.id_coordinador", $request['id_coordinador']);
+        if($request['id_referente']) $query->where("contacto.id_referente", $request['id_referente']);
+
+        if($request['mod_op'] == 'get_referentes') {
+
+            $query->groupBy("contacto.id_referente");
+            $query->whereNotNull("contacto.id_referente");
+            $query->orderBy(DB::raw("concat(referentes.nombre,ifnull(concat(' ',referentes.apellido1),''),ifnull(concat(' ',referentes.apellido2),''))"));
+
+            // dd($query->toSql());
+        }
+        else $query->orderBy("seccion.no_seccion");
 
         if($request['term']) {
 
