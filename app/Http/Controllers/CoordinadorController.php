@@ -96,7 +96,8 @@ class CoordinadorController extends Controller
                         "coor.id","coor.id_contacto","contacto.nombre",
                         DB::raw("ifnull(contacto.apellido1,'') as apellido1"),
                         DB::raw("ifnull(contacto.apellido2,'') as apellido2"),
-                        DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre)) as contacto"),
+                        // DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre)) as contacto"),
+                        DB::raw("concat(contacto.nombre,ifnull(concat(' ',contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),'')) as contacto"),
                         DB::raw("null as no_telefono"),
                     )
     				->orderBy(DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre))"))
