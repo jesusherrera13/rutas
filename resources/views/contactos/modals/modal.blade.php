@@ -96,6 +96,7 @@
 			        							@foreach($coordinadores as $row)
 			        								<option value="{{$row->id_contacto}}">{{$row->contacto}}</option>
 			        							@endforeach
+			        							
 			        						</select>
 										</div>
 										<div class="form-group col-md-4 m-0">
