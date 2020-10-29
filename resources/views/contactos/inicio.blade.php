@@ -89,16 +89,7 @@
 							        	<option value=""></option>
 										@foreach($coordinadores as $k => $row)
 											<option value="{{ $row->id_contacto}}">
-
-												@php
-
-												$tmp = explode(' ', $row->contacto);
-
-												$coordinador = $tmp[0]." ".$tmp[2];
-
-												@endphp
-
-												{{ $coordinador }}
+												{{ $row->contacto}}
 											</option>
 										@endforeach
 									</select>
