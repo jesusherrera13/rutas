@@ -28,7 +28,6 @@
 							<input type="hidden" name="id_estado" id="id_estado">
 							<input type="hidden" name="id_municipio" id="id_municipio">
 							<input type="hidden" name="id_asentamiento" id="id_asentamiento">
-							<input type="hidden" name="id_referente" id="id_referente">
 							
 							<ul class="nav nav-tabs" id="myTab" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -94,16 +93,27 @@
 
 			        							<option value=""></option>
 			        							@foreach($coordinadores as $row)
-			        								<option value="{{$row->id_contacto}}">{{$row->contacto}}</option>
+			        								<option value="{{$row->id_contacto}}">{{$row->contacto_corto}}</option>
 			        							@endforeach
 			        							
 			        						</select>
 										</div>
-										<div class="form-group col-md-4 m-0">
+										<!-- <div class="form-group col-md-4 m-0">
 											<label for="referente">Referente</label>
 											<div id="d-referente">
 												<input type="text" id="referente" class="typeahead form-control form-control-sm" placeholder="Referente">
 											</div>
+										</div> -->
+										<div class="form-group col-md-4 m-0">
+											<label for="id_referente">Referente</label>
+											<select name="id_referente" id="id_referente" class="custom-select custom-select-sm">
+
+			        							<option value=""></option>
+			        							@foreach($referentes as $row)
+			        								<option value="{{$row->id_contacto}}">{{$row->contacto_corto}}</option>
+			        							@endforeach
+			        							
+			        						</select>
 										</div>
 										<div class="form-group col-md-4 m-0">
 											<label for="status">Status</label>

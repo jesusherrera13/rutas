@@ -28,22 +28,22 @@ class ContactoController extends Controller
         	$page_title = 'Contactos';
         	$content_header = 'Contactos';
 
-        	$data = $this->getData($request);
+        	// $data = $this->getData($request);
 
         	$distritos_federales = app(DistritoFederalController::class)->getData($request);
             $distritos_locales = app(DistritoLocalController::class)->getData($request);
             $municipios = app(MunicipioController::class)->getData($request);
             $asentamientos = app(AsentamientoController::class)->getData($request);
             $coordinadores = app(CoordinadorController::class)->getData($request);
+            $referentes = app(ReferenteController::class)->getData($request);
 
-            $request['mod_op'] = 'get_referentes';
+            // $referentes = $this->referentes($request);
 
-            $referentes = $this->getData($request);
+            // dd($referentes);
 
             return view('contactos.inicio', compact(
                     'page_title',
                     'content_header',
-                    'data',
                     'distritos_federales',
                     'distritos_locales',
                     'municipios',
@@ -162,7 +162,7 @@ class ContactoController extends Controller
                         $join->on("est.id_estado", "asenta.id_estado");
                     })
                     ->leftJoin("paises as pais", "pais.id_pais", "asenta.id_pais")
-                    ->leftJoin("contactos as referentes", "referentes.id", "contacto.id_referente")
+                    ->leftJoin("contactos as referente", "referente.id", "contacto.id_referente")
                     ->leftJoin("contactos as coordinador", "coordinador.id", "contacto.id_coordinador")
                     // ->leftJoin("casillas_representantes as casrep", "casrep.id_contacto", "contacto.id")
                     ->leftJoin("casillas_representantes as casrep", function($join) {
@@ -176,6 +176,7 @@ class ContactoController extends Controller
                         DB::raw("ifnull(contacto.apellido1,'') as apellido1"),
                         DB::raw("ifnull(contacto.apellido2,'') as apellido2"),
                         DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre)) as contacto"),
+                        DB::raw("concat(SUBSTRING_INDEX(contacto.nombre, ' ', 1),' ',ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' ')) as contacto_corto"),
                         "contacto.id_seccion","casrep.id_casilla",
                         DB::raw("
                             if(
@@ -208,12 +209,13 @@ class ContactoController extends Controller
                         "contacto.id_asentamiento","asenta.descripcion as asentamiento",
                         DB::raw("concat(asenta.descripcion,', ',mun.descripcion,', ',est.descripcion,', ',pais.descripcion) as asentamiento_"),
                         "contacto.id_referente",
-                        DB::raw("concat(referentes.nombre,ifnull(concat(' ',referentes.apellido1),''),ifnull(concat(' ',referentes.apellido2),'')) as referente"),
+                        DB::raw("concat(referente.nombre,ifnull(concat(' ',referente.apellido1),''),ifnull(concat(' ',referente.apellido2),'')) as referente"),
+                        DB::raw("concat(SUBSTRING_INDEX(referente.nombre, ' ', 1),ifnull(concat(' ',referente.apellido1),'')) as referente_corto"),
+                        // DB::raw("concat(SUBSTRING_INDEX(referente.nombre, ' ', 1),ifnull(concat(' ',referente.apellido1)) as referente_corto"),
                         "contacto.id_coordinador",
                         DB::raw("concat(coordinador.nombre,ifnull(concat(' ',coordinador.apellido1),''),ifnull(concat(' ',coordinador.apellido2),'')) as coordinador"),
-
+                        DB::raw("concat(SUBSTRING_INDEX(coordinador.nombre, ' ', 1),ifnull(concat(' ',coordinador.apellido1),'')) as coordinador_corto"),
                     );
-    				
 
         if($request['id']) $query->where("contacto.id", $request['id']);
 
@@ -224,11 +226,11 @@ class ContactoController extends Controller
         if($request['id_coordinador']) $query->where("contacto.id_coordinador", $request['id_coordinador']);
         if($request['id_referente']) $query->where("contacto.id_referente", $request['id_referente']);
 
-        if($request['mod_op'] == 'get_referentes') {
+        if($request['mod_op'] == 'get_referente') {
 
             $query->groupBy("contacto.id_referente");
             $query->whereNotNull("contacto.id_referente");
-            $query->orderBy(DB::raw("concat(referentes.nombre,ifnull(concat(' ',referentes.apellido1),''),ifnull(concat(' ',referentes.apellido2),''))"));
+            $query->orderBy(DB::raw("concat(referente.nombre,ifnull(concat(' ',referente.apellido1),''),ifnull(concat(' ',referente.apellido2),''))"));
 
             // dd($query->toSql());
         }
@@ -239,7 +241,7 @@ class ContactoController extends Controller
             // dd($request['term']);
 
             // $query->addSelect(DB::raw("concat(loc.descripcion,', ',est.descripcion,', ',pais.descripcion) as localidad_"));
-            $query->where(DB::raw("concat(contacto.nombre,ifnull(concat(' ',contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),''))"),'like', '%'.$request['term'].'%');
+            $query->where(DB::raw("concat(SUBSTRING_INDEX(contacto.nombre, ' ', 1),ifnull(concat(' ',contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),''))"),'like', '%'.$request['term'].'%');
             $query->limit(20);
         }
 
@@ -252,6 +254,8 @@ class ContactoController extends Controller
 
             $query->where("contacto.status", $request['status']);
         }
+
+        $seleccionados = [];
 
         if($request['id_modulo'] == 'casillas') {
 
@@ -284,8 +288,6 @@ class ContactoController extends Controller
 
             // dd($request);
 
-            $seleccionados = [];
-
             $rick = new Request();
 
             $tmp = app(CoordinadorController::class)->getData($rick);
@@ -308,8 +310,30 @@ class ContactoController extends Controller
 
             // dd($seleccionados);
             
-            if(sizeof($seleccionados)) $query->whereNotIn("contacto.id", $seleccionados);
         }
+        else if($request['id_modulo'] == 'referentes') {
+
+            $rick = new Request();
+
+            $tmp = app(ReferenteController::class)->getData($rick);
+
+            if(sizeof($tmp)) {
+
+                foreach ($tmp as $row) {
+
+                    $seleccionados[] = $row->id_contacto;
+                }
+            }
+
+            if($request['seleccionados']) {
+
+                $tmp = explode(';', $request['seleccionados']);
+
+                $seleccionados = array_merge($seleccionados, $tmp);
+            }
+        }
+        
+        if(sizeof($seleccionados)) $query->whereNotIn("contacto.id", $seleccionados);
 
 
         // dd($query->toSql());
@@ -349,6 +373,8 @@ class ContactoController extends Controller
             }
             */
         }
+
+        if($request['term']) $data = $this->acortador($data);
 
     	if($request['dataType'] == "json") return response()->json($data);
         else return $data;
@@ -425,22 +451,98 @@ class ContactoController extends Controller
             'id_contacto' => $request['id'],
         ]);
 
+        if($request['id_casilla']) {
+
+            if(sizeof($tmp)) {
+
+                if($request['id_casilla']) $rick['status'] = 1;
+                else {
+
+                    $rick['id_casilla'] = $tmp[0]->id_casilla;
+
+                    $rick['status'] = 0;
+                }
+
+                $rick['id'] = $tmp[0]->id;
+
+                // dd($rick);
+                
+                app(CasillaRepresentanteController::class)->update($rick);
+            }
+            else app(CasillaRepresentanteController::class)->store($rick);
+        }
+    }
+
+    public function referentes(Request $request) {
+
+        $data = [];
+
+        $query = DB::table("contactos as contacto")
+                    ->leftJoin("contactos as referente", "referente.id", "contacto.id_referente")
+                    ->select(
+                        "contacto.id","contacto.id_referente","referente.nombre",
+                        DB::raw("ifnull(referente.apellido1,'') as apellido1"),
+                        DB::raw("ifnull(referente.apellido2,'') as apellido2"),
+                        DB::raw("concat(ifnull(concat(referente.apellido1),''),ifnull(concat(' ',referente.apellido2),' '),concat(' ',referente.nombre)) as referente"),
+                        DB::raw("concat(SUBSTRING_INDEX(referente.nombre, ' ', 1),' ',ifnull(concat(referente.apellido1),''),ifnull(concat(' ',referente.apellido2),' ')) as referente_corto"),
+                    )
+                    ->groupBy("contacto.id_referente")
+                    ->whereNotNull("contacto.id_referente")
+                    ->orderBy(DB::raw("concat(referente.nombre,ifnull(concat(' ',referente.apellido1),''),ifnull(concat(' ',referente.apellido2),''))"));;
+
+        $data = $query->get();
+
+        /*if(sizeof($tmp)) {
+
+            foreach ($tmp as $key => $row) {
+
+                $tmp_ = explode(' ', $row->nombre);
+
+                if(sizeof($tmp_) > 1) {
+
+                    $row->referente_corto = $tmp_[0];
+
+                }
+                else  $row->referente_corto = $row->nombre;
+                
+                $row->referente_corto.= " ".$row->apellido1;
+
+                $data[] = $row;
+            }
+        }*/
+
+        if($request['dataType'] == "json") return response()->json($data);
+        else return $data;
+    }
+
+    public function acortador($data = []) {
+
+        // dd($data);
+        $tmp = $data;
+
+        $data = [];
+
         if(sizeof($tmp)) {
 
-            if($request['id_casilla']) $rick['status'] = 1;
-            else {
+            foreach ($tmp as $key => $row) {
 
-                $rick['id_casilla'] = $tmp[0]->id_casilla;
+                $tmp_ = explode(' ', $row->nombre);
 
-                $rick['status'] = 0;
+                if(sizeof($tmp_) > 1) {
+
+                    $row->referente_corto = $tmp_[0];
+
+                }
+                else  $row->referente_corto = $row->nombre;
+                
+                $row->referente_corto.= " ".$row->apellido1;
+
+                $data[] = $row;
             }
-
-            $rick['id'] = $tmp[0]->id;
-
-            // dd($rick);
-            
-            app(CasillaRepresentanteController::class)->update($rick);
         }
-        else app(CasillaRepresentanteController::class)->store($rick);
+
+        // dd($data);
+
+        return $data;
     }
 }

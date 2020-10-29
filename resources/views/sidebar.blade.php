@@ -85,6 +85,14 @@
           </a>
         </li>
         <li class="nav-item">
+          <a href="{{URL::to('referentes')}}" class="nav-link">
+            <i class="fas fa-users"></i>
+            <p>
+              Referentes
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
           <a href="{{URL::to('casillas')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>

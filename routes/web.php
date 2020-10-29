@@ -144,4 +144,15 @@ Route::post('coordinador/update', 'CoordinadorController@update');
 Route::post('coordinador/guardar', 'CoordinadorController@guardar');
 // COORDINADOR
 
+// REFERENTE
+Route::resource('referentes', 'ReferenteController');
+// Route::get('referentes', 'ReferenteController@getData');
+Route::get('referentes-data', 'ReferenteController@getData');
+Route::post('referentes', 'ReferenteController@getData');
+Route::post('referentes-contactos', 'ReferenteController@referentes');
+Route::post('referente/store', 'ReferenteController@store');
+Route::post('referente/update', 'ReferenteController@update');
+Route::post('referente/guardar', 'ReferenteController@guardar');
+// REFERENTE
+
 Route::get('generate-pdf', 'PDFController@generatePDF');

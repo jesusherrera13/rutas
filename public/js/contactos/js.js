@@ -104,8 +104,8 @@ $(document).ready(function() {
             { data: "no_distrito_local" },
             { data: "asentamiento" },
             { data: "direccion" },
-            { data: "referente" },
-            { data: "coordinador" },
+            { data: "referente_corto" },
+            { data: "coordinador_corto" },
             /*
             { data: null,        
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -414,7 +414,7 @@ $(document).ready(function() {
     $('#d-referente .typeahead').typeahead({ minLength: 3}, {
         name: 'referentes-lista',
         limit: 10,
-        display: 'contacto',
+        display: 'contacto_corto',
         source: referentes
     })
     .on('typeahead:selected', function($e, data) {

@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-use App\Models\Coordinador;
+use App\Models\Referente;
 
-class CoordinadorController extends Controller
+class ReferenteController extends Controller
 {
 	public function __construct() {
 
@@ -20,24 +21,24 @@ class CoordinadorController extends Controller
         if ($request->session()->has('lockscreen')) return redirect('lockscreen');
         else {
             
-        	$page_title = 'Coordinadores';
-        	$content_header = 'Coordinadores';
+        	$page_title = 'Referentes';
+        	$content_header = 'Referentes';
 
-        	$data = $this->getData($request);
+        	// $data = $this->getData($request);
 
-        	$distritos_federales = app(DistritoFederalController::class)->getData($request);
-            $distritos_locales = app(DistritoLocalController::class)->getData($request);
-            $municipios = app(MunicipioController::class)->getData($request);
-            $asentamientos = app(AsentamientoController::class)->getData($request);
+        	// $distritos_federales = app(DistritoFederalController::class)->getData($request);
+         //    $distritos_locales = app(DistritoLocalController::class)->getData($request);
+         //    $municipios = app(MunicipioController::class)->getData($request);
+         //    $asentamientos = app(AsentamientoController::class)->getData($request);
 
-            return view('coordinadores.inicio', compact(
+            return view('referentes.inicio', compact(
                     'page_title',
                     'content_header',
-                    'data',
-                    'distritos_federales',
-                    'distritos_locales',
-                    'municipios',
-                    'asentamientos'
+                    // 'data'
+                    // 'distritos_federales',
+                    // 'distritos_locales',
+                    // 'municipios',
+                    // 'asentamientos'
                 )
             );
         }
@@ -49,7 +50,7 @@ class CoordinadorController extends Controller
             'id_contacto' => 'required',
         ]);
 
-        $data = new Coordinador();
+        $data = new Referente();
 
         $data->id_contacto = $validateData['id_contacto'];
         // $data->status = $request['status'];
@@ -72,7 +73,7 @@ class CoordinadorController extends Controller
             'id_contacto' => 'required',
         ]);
 
-        $this->row = Coordinador::find($request['id']);
+        $this->row = Referente::find($request['id']);
 
         $this->row->fill($request->all());
         $this->row->user_id_update = Auth::user()->id;
@@ -90,10 +91,10 @@ class CoordinadorController extends Controller
 
     public function getData(Request $request) {
 
-        $query = DB::table("coordinadores as coor")
-                    ->leftJoin("contactos as contacto", "contacto.id", "coor.id_contacto")
+        $query = DB::table("referentes as ref")
+                    ->leftJoin("contactos as contacto", "contacto.id", "ref.id_contacto")
     				->select(
-                        "coor.id","coor.id_contacto","contacto.nombre",
+                        "ref.id","ref.id_contacto","contacto.nombre",
                         DB::raw("ifnull(contacto.apellido1,'') as apellido1"),
                         DB::raw("ifnull(contacto.apellido2,'') as apellido2"),
                         // DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre)) as contacto"),
@@ -102,9 +103,9 @@ class CoordinadorController extends Controller
                         DB::raw("null as no_telefono"),
                     )
     				->orderBy(DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre))"))
-                    ->where("coor.status", 1);
+                    ->where("ref.status", 1);
 
-        if($request['id']) $query->where("coor.id", $request['id']);
+        if($request['id']) $query->where("ref.id", $request['id']);
 
         if($request['term']) {
 
@@ -144,7 +145,7 @@ class CoordinadorController extends Controller
 
                 if(!$param['id']) {
 
-                    $ron = Coordinador::where('id_contacto', $param['id_contacto'])->get();
+                    $ron = Referente::where('id_contacto', $param['id_contacto'])->get();
 
                     if(sizeof($ron)) {
 
@@ -174,11 +175,11 @@ class CoordinadorController extends Controller
         }
     }
 
-    public function coordinadores(Request $request) {
+    public function referentes(Request $request) {
 
         // dd($request);
         $data = [
-            'coordinadores' => null,
+            'referentes' => null,
             'contactos' => null,
         ];
 
@@ -188,13 +189,13 @@ class CoordinadorController extends Controller
             'id_modulo' => $request['id_modulo']
         ]);
 
-        $data['coordinadores'] = $this->getData($rick);
+        $data['referentes'] = $this->getData($rick);
         $data['contactos'] = app(ContactoController::class)->getData($rick);
 
         // dd($data);
-        if(sizeof($data['coordinadores'])) {
+        if(sizeof($data['referentes'])) {
 
-            foreach ($data['coordinadores'] as $row) {
+            foreach ($data['referentes'] as $row) {
 
             }
         }

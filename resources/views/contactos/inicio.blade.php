@@ -89,7 +89,7 @@
 							        	<option value=""></option>
 										@foreach($coordinadores as $k => $row)
 											<option value="{{ $row->id_contacto}}">
-												{{ $row->contacto}}
+												{{ $row->contacto_corto }}
 											</option>
 										@endforeach
 									</select>
@@ -99,8 +99,9 @@
 									<select name="id_referente_" id="id_referente_" class="custom-select custom-select-sm">
 							        	<option value=""></option>
 										@foreach($referentes as $k => $row)
-											<option value="{{ $row->id_referente}}">
-												{{ $row->referente}}
+
+											<option value="{{ $row->id_contacto}}">
+												{{ $row->contacto_corto}}
 											</option>
 										@endforeach
 									</select>
