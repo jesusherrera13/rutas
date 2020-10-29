@@ -191,7 +191,7 @@ class ContactoController extends Controller
                             (
                                 select ctel.no_telefono
                                 from contactos_telefonos as ctel
-                                where ctel.id_contacto=contacto.id
+                                where ctel.id_contacto=contacto.id and ctel.status=1
                                 limit 1
                             ) as no_telefono
                         "),
@@ -199,7 +199,7 @@ class ContactoController extends Controller
                             (
                                 select cmail.email
                                 from contactos_emails as cmail
-                                where cmail.id_contacto=contacto.id
+                                where cmail.id_contacto=contacto.id and cmail.status=1
                                 limit 1
                             ) as email
                         "),

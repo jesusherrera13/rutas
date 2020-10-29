@@ -56,6 +56,8 @@ $(document).ready(function() {
         
         $('#d-asentamiento .typeahead, #d-referente .typeahead').val('');
         $('#id_pais, #id_estado, #id_municipio, #id_asentamiento, #id_referente').val('');
+
+        getData();
     });
 
     $('#btn-nuevo').click(function() {
