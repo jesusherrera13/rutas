@@ -16,7 +16,7 @@ $(document).ready(function() {
     $('#modal-registro').on('hidden.bs.modal', function (e) {
         
         getData();
-        $('#modal-registro  .modal-title').html('Casilla');
+        $('#modal-registro  .modal-title').html('Referente');
     });
 
     $('#tbl-data').DataTable({
