@@ -1718,10 +1718,18 @@
                 }
                 function async(suggestions) {
                     suggestions = suggestions || [];
-                    if (!canceled && rendered < that.limit) {
+                    /*if (!canceled && rendered < that.limit) {
                         that.cancel = $.noop;
                         rendered += suggestions.length;
                         that._append(query, suggestions.slice(0, that.limit - rendered));
+                        that.async && that.trigger("asyncReceived", query);
+                    }*/
+                    if (!canceled && rendered < that.limit) {
+                        that.cancel = $.noop;
+                        suggestions = suggestions.slice(0, that.limit - rendered);
+                        rendered += suggestions.length;
+                        that._append(query, suggestions.slice(0, that.limit - rendered));
+                        that._append(query, suggestions);
                         that.async && that.trigger("asyncReceived", query);
                     }
                 }

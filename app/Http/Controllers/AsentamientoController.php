@@ -32,18 +32,23 @@ class AsentamientoController extends Controller
                         "asenta.id_estado","est.descripcion as estado","asenta.id_pais","pais.descripcion as pais",
                         DB::raw("concat(asenta.descripcion,', ',mun.descripcion,', ',est.descripcion,', ',pais.descripcion) as asentamiento_")
                     )
-                    ->where("asenta.id_estado", "25")
+                    ->where("asenta.id_estado", "25");
                     // ->where("asenta.id_municipio", "012")
-                    ->orderBy("est.descripcion")
-                    ->orderBy("asenta.descripcion");
+                    
 
         if($request['term']) {
 
             // $query->addSelect(DB::raw("concat(loc.descripcion,', ',est.descripcion,', ',pais.descripcion) as localidad_"));
-            $query->where(DB::raw("concat(asenta.descripcion,' ',est.descripcion)"),'like', '%'.$request['term'].'%');
-            $query->limit(20);
+            $query->where(DB::raw("concat(asenta.descripcion,' ',est.descripcion)"),'like', '%'.$request['term'].'%')
+                        ->orderBy("asenta.descripcion")
+                        // ->orderBy("est.descripcion")
+                        ->limit(20);
         }
-        // else $query->limit(100);
+        else {
+
+            $query->orderBy("est.descripcion")
+                    ->orderBy("asenta.descripcion");
+        }
 
         if($request['mod_op'] == 'existe_registro') {
 
