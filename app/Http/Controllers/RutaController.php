@@ -129,7 +129,8 @@ class RutaController extends Controller
 
         // dd($data);
           
-        $dompdf = PDF::loadView('rutas.impresion', $data)->setPaper('a4', 'landscape');
+        // $dompdf = PDF::loadView('rutas.impresion', $data)->setPaper('a4', 'landscape');
+        $dompdf = PDF::loadView('rutas.impresion', $data);
 
         return $dompdf->stream('ruta_'.$tmp[0]->no_distrito_federal.'_'.$tmp[0]->no_distrito_local.'.pdf');
     }

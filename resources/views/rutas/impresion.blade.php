@@ -29,12 +29,12 @@
 
 	#tbl-info > thead > tr > :nth-child(2) {
 
-		width: 100px;
+		width: 45px;
 	}
 
 	#tbl-info > thead > tr > :nth-child(3) {
 
-		width: 100px;
+		width: 45px;
 	}
 
 	#tbl-info > thead > tr > :nth-child(4) {
@@ -77,14 +77,14 @@
 </head>
 <body>
     <div class="fecha">{{$fecha}} {{$hora}}</div>
-    <h2>Información de RC'S</h2>
+    <h3>Información de RC'S</h3>
 
     <table id="tbl-info" class="table">
     	<thead>
 			<tr>
 				<th>Ruta</th>
-				<th>Distrito Federal</th>
-				<th>Distrito Local</th>
+				<th>DF</th>
+				<th>DL</th>
 				<th>CRG</th>
 				<th>RG</th>
 			</tr>
