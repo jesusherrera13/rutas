@@ -41,7 +41,34 @@
             </li>
           </ul>
         </li>
-        <li class="nav-header">Distritos</li>
+        <li class="nav-item has-treeview">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+              Distritos
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview">
+            <li class="nav-item">
+              <a href="{{URL::to('distritos-federales')}}" class="nav-link">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                  Federales
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{URL::to('distritos-locales')}}" class="nav-link">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                  Locales
+                </p>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <!-- <li class="nav-header">Distritos</li>
         <li class="nav-item">
           <a href="{{URL::to('distritos-federales')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
@@ -57,7 +84,7 @@
               Locales
             </p>
           </a>
-        </li>
+        </li> -->
 
         <li class="nav-header">SISTEMA</li>
         <li class="nav-item">
