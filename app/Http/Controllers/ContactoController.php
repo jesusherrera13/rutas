@@ -587,7 +587,7 @@ class ContactoController extends Controller
                     ->addIndexColumn()
                     ->addColumn('action', function($row) {
      
-                           $btn = '<i class="far fa-edit btn-editar" iddb="'.$row->id.'"></i>';
+                           $btn = '<i class="far fa-edit btn-editar btn-pin" iddb="'.$row->id.'"></i>';
        
                             return $btn;
                     })

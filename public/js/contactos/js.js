@@ -110,6 +110,7 @@ $(document).ready(function() {
             { data: "direccion" },
             { data: "referente_corto" },
             { data: "coordinador_corto" },
+            { data: "action" },
             /*
             { data: null,        
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
@@ -118,7 +119,7 @@ $(document).ready(function() {
                 }
             },
             */
-            { data: null,        
+            /*{ data: null,        
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 
                     var html = '';
@@ -129,7 +130,7 @@ $(document).ready(function() {
 
                     $(nTd).html(html);
                 }
-            },
+            },*/
         ],
         columnDefs: [
             

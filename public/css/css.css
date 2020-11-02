@@ -3,6 +3,11 @@ body {
 	/*font-size: 14px;*/
 }
 
+.btn-pin {
+
+	cursor: pointer;
+}
+
 .datatable {
 
 	font-size: 14px;
