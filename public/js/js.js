@@ -48,17 +48,14 @@ function paramMaker(param) {
 
     for (var i in tmp) {
 
-        if(tmp[i].value) {
+        var name = tmp[i].name;
 
-            var name = tmp[i].name;
+        if(name.substring(name.length - 1, name.length) == '_') {
 
-            if(name.substring(name.length - 1, name.length) == '_') {
-
-                name = name.substring(0, name.length - 1);
-            }
-
-            param.json[name] = tmp[i].value || '';
+            name = name.substring(0, name.length - 1);
         }
+
+        param.json[name] = tmp[i].value || '';
     }
 
     return param.json;
