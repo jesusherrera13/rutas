@@ -175,15 +175,20 @@ function guardar(param) {
 
             if(param) {
 
-                if(param.param.id) json = { id: param.param.id };
+                if(param.param.id) {
+
+                    json = { id: param.param.id };
+                    
+                    getData(json);
+                }
             
                 if(param.callback) {
 
                     eval(param.callback + '()')
                 }
+                
             }
 
-            getData(json);
         },
         error: function(jqXHR, textStatus, erroThrown) {
 
