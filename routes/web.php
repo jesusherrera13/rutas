@@ -84,6 +84,7 @@ Route::get('contactos-data', 'ContactoController@getData');
 Route::post('contactos', 'ContactoController@getData');
 Route::post('contacto/store', 'ContactoController@store');
 Route::post('contacto/update', 'ContactoController@update');
+Route::get('contactos-ssp', 'ContactoController@serverSideProcessing');
 // CONTACTO
 
 // ASENTAMIENTO

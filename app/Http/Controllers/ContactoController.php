@@ -13,6 +13,9 @@ use App\Models\ContactoEmail;
 use App\Models\CasillaRepresentante;
 use App\Models\Casilla;
 
+use DataTables;
+use Barryvdh\DomPDF\Facade as PDF;
+
 class ContactoController extends Controller
 {
     public function __construct() {
@@ -572,5 +575,24 @@ class ContactoController extends Controller
         // dd($data);
 
         return $data;
+    }
+
+    public function serverSideProcessing(Request $request) {
+
+        if ($request->ajax()) {
+
+            $data = $this->getData($request);
+
+            return Datatables::of($data)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($row) {
+     
+                           $btn = '<i class="far fa-edit btn-editar" iddb="'.$row->id.'"></i>';
+       
+                            return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
     }
 }

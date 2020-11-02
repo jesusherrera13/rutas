@@ -94,6 +94,10 @@ $(document).ready(function() {
             rightColumns: 1
         },
         colReorder: true,
+        "processing": true,
+        "serverSide": true,
+        "ajax": "/contactos-ssp",
+        searchDelay: 1000,
         columns: [
             { data: "contacto" },
             { data: "casilla" },
