@@ -97,7 +97,7 @@ $(document).ready(function() {
         "processing": true,
         "serverSide": true,
         "ajax": "/contactos-ssp",
-        searchDelay: 1000,
+        searchDelay: 500,
         columns: [
             { data: "contacto" },
             { data: "casilla" },
