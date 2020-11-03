@@ -1,3 +1,5 @@
+var tbl_data;
+
 var asentamientos = new Bloodhound({  
     datumTokenizer: function(asentamientos) {
       return Bloodhound.tokenizers.whitespace(asentamientos.value);
@@ -81,8 +83,8 @@ $(document).ready(function() {
         }
         else $('#id_asentamiento_ *').show();
     });
-    
-    $('#tbl-data').DataTable({
+
+    tbl_data = $('#tbl-data').DataTable({
         // scrollX:        true,
 
         scrollY:        "300px",
@@ -94,10 +96,24 @@ $(document).ready(function() {
             rightColumns: 1
         },
         colReorder: true,
-        "processing": true,
+        /*"processing": true,
         "serverSide": true,
-        "ajax": "/contactos-ssp",
-        searchDelay: 500,
+        "ajax": {
+            url: "/contactos-ssp",
+            "data": function ( d ) {
+
+                console.log(d)
+
+                var json = paramMaker({json: d, form: $('#form')});
+
+                console.log(d)
+
+                // d.id_distrito_federal = $('#id_distrito_federal_').val();
+                // d.id_distrito_local = $('#id_distrito_local_').val();
+            }
+        },
+        "type": "POST",
+        searchDelay: 500,*/
         columns: [
             { data: "contacto" },
             { data: "casilla" },
@@ -111,46 +127,11 @@ $(document).ready(function() {
             { data: "referente_corto" },
             { data: "coordinador_corto" },
             { data: "action" },
-            /*
-            { data: null,        
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-
-                    $(nTd).html('');
-                }
-            },
-            */
-            /*{ data: null,        
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-
-                    var html = '';
-
-                    html += '<button class="btn btn-success btn-sm btn-editar" iddb="' + oData.id + '">';
-                    html += '   <i class="fas fa-edit"></i>';
-                    html += '</button>';
-
-                    $(nTd).html(html);
-                }
-            },*/
         ],
         columnDefs: [
             
         ],
         dom: 'Bfrtip',
-        /*buttons: [
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape',
-                pageSize: 'LEGAL'
-            }
-        ],*/
-        /*buttons: [
-        'excel',
-        {
-                extend: 'pdfHtml5',
-                orientation: 'landscape',
-                pageSize: 'LEGAL'
-            }
-    ],*/
         buttons: [
             {
                 extend: 'copyHtml5',
@@ -179,6 +160,85 @@ $(document).ready(function() {
 
         }
     });
+    
+    /*
+    $('#tbl-data').DataTable({
+        // scrollX:        true,
+
+        scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        fixedColumns:   {
+            leftColumns: 1,
+            rightColumns: 1
+        },
+        colReorder: true,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: "/contactos-ssp",
+            "data": function ( d ) {
+
+                console.log(d)
+
+                var json = paramMaker({json: d, form: $('#form')});
+
+                console.log(d)
+
+                // d.id_distrito_federal = $('#id_distrito_federal_').val();
+                // d.id_distrito_local = $('#id_distrito_local_').val();
+            }
+        },
+        "type": "POST",
+        searchDelay: 500,
+        columns: [
+            { data: "contacto" },
+            { data: "casilla" },
+            { data: "no_seccion" },
+            { data: "no_telefono" },
+            // { data: "email" },
+            { data: "no_distrito_federal" },
+            { data: "no_distrito_local" },
+            { data: "asentamiento" },
+            { data: "direccion" },
+            { data: "referente_corto" },
+            { data: "coordinador_corto" },
+            { data: "action" },
+        ],
+        columnDefs: [
+            
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
+                    columns: [':visible' ]
+                }
+            },
+            'colvis'
+        ],
+        createdRow: function(row, data, dataIndex) {
+
+        }
+    });
+    */
 
     $('#tbl-telefonos').DataTable({
         searching: false,
@@ -491,6 +551,87 @@ $(document).ready(function() {
 
 function getData(param) {
 
+    tbl_data.destroy();
+
+    tbl_data = $('#tbl-data').DataTable({
+        // scrollX:        true,
+
+        scrollY:        "300px",
+        scrollX:        true,
+        scrollCollapse: true,
+        paging:         false,
+        fixedColumns:   {
+            leftColumns: 1,
+            rightColumns: 1
+        },
+        colReorder: true,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            url: "/contactos-ssp",
+            "data": function ( d ) {
+
+                console.log(d)
+
+                var json = paramMaker({json: d, form: $('#form')});
+
+                console.log(d)
+
+                // d.id_distrito_federal = $('#id_distrito_federal_').val();
+                // d.id_distrito_local = $('#id_distrito_local_').val();
+            }
+        },
+        "type": "POST",
+        searchDelay: 500,
+        columns: [
+            { data: "contacto" },
+            { data: "casilla" },
+            { data: "no_seccion" },
+            { data: "no_telefono" },
+            // { data: "email" },
+            { data: "no_distrito_federal" },
+            { data: "no_distrito_local" },
+            { data: "asentamiento" },
+            { data: "direccion" },
+            { data: "referente_corto" },
+            { data: "coordinador_corto" },
+            { data: "action" },
+        ],
+        columnDefs: [
+            
+        ],
+        dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, ':visible' ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
+                    columns: [':visible' ]
+                }
+            },
+            'colvis'
+        ],
+        createdRow: function(row, data, dataIndex) {
+
+        }
+    });
+
+
+    /*
     spinner();
 
     clearTables();
@@ -547,6 +688,7 @@ function getData(param) {
             spinner({close: true});
         }
     });
+    */
 }
 
 function clearTables() {

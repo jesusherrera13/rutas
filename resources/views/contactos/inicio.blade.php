@@ -27,9 +27,9 @@
 								<button id="btn-nuevo" class="btn btn-primary btn-sm mr-1 btn-formulario">
 									<i class="far fa-file"></i> Nuevo
 								</button>
-								<!-- <button id="btn-buscar" class="btn btn-primary btn-sm btn-formulario">
+								<button id="btn-buscar" class="btn btn-primary btn-sm btn-formulario">
 									<i class="fas fa-search"></i> Buscar
-								</button> -->
+								</button>
 							</div>
 						</div>
 					</div>
