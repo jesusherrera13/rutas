@@ -551,143 +551,151 @@ $(document).ready(function() {
 
 function getData(param) {
 
-    tbl_data.destroy();
+    if(param) {
 
-    tbl_data = $('#tbl-data').DataTable({
-        // scrollX:        true,
+        spinner();
 
-        scrollY:        "300px",
-        scrollX:        true,
-        scrollCollapse: true,
-        paging:         false,
-        fixedColumns:   {
-            leftColumns: 1,
-            rightColumns: 1
-        },
-        colReorder: true,
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            url: "/contactos-ssp",
-            "data": function ( d ) {
+        clearTables();
 
-                console.log(d)
+        param = param || {};
 
-                var json = paramMaker({json: d, form: $('#form')});
+        param.dataType = 'json';
 
-                console.log(d)
+        param = paramMaker({json: param, form: $('#form')});
 
-                // d.id_distrito_federal = $('#id_distrito_federal_').val();
-                // d.id_distrito_local = $('#id_distrito_local_').val();
+        $.ajax({
+            type: 'POST',
+            method: 'post',
+            dataType: 'json',
+            url: window.location.origin + '/contactos',
+            cache: false,
+            data: param,
+            success :  function(data) {
+
+                if(param.id) {
+
+                    Object.keys(data[0]).forEach(function(k) {
+
+                        $('#' + k).val(data[0][k]);
+                    });
+
+                    casillas({
+                        id_seccion: data[0].id_seccion,
+                        id_casilla: data[0].id_casilla
+                    });
+
+                    if(data[0].telefonos) {
+
+                        dataTableSetData([{
+                            id: 'tbl-telefonos', data: data[0].telefonos,
+                        }]);
+                    }
+
+                    if(data[0].emails) {
+
+                        dataTableSetData([{
+                            id: 'tbl-emails', data: data[0].emails
+                        }]);
+                    }
+
+                    $('#modal-registro').modal('show');
+                }
+                else dataTableSetData([{id: 'tbl-data', data: data}]);
+
+                spinner({close: true});
+            },
+            error: function(jqXHR, textStatus, erroThrown) {
+                
+                spinner({close: true});
             }
-        },
-        "type": "POST",
-        searchDelay: 500,
-        columns: [
-            { data: "contacto" },
-            { data: "casilla" },
-            { data: "no_seccion" },
-            { data: "no_telefono" },
-            // { data: "email" },
-            { data: "no_distrito_federal" },
-            { data: "no_distrito_local" },
-            { data: "asentamiento" },
-            { data: "direccion" },
-            { data: "referente_corto" },
-            { data: "coordinador_corto" },
-            { data: "action" },
-        ],
-        columnDefs: [
-            
-        ],
-        dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: [ 0, ':visible' ]
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: ':visible'
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                orientation: 'landscape',
-                pageSize: 'LEGAL',
-                exportOptions: {
-                    // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
-                    columns: [':visible' ]
-                }
-            },
-            'colvis'
-        ],
-        createdRow: function(row, data, dataIndex) {
+        });
+    }
+    else {
 
-        }
-    });
+        tbl_data.destroy();
+
+        tbl_data = $('#tbl-data').DataTable({
+            // scrollX:        true,
+
+            scrollY:        "300px",
+            scrollX:        true,
+            scrollCollapse: true,
+            paging:         false,
+            fixedColumns:   {
+                leftColumns: 1,
+                rightColumns: 1
+            },
+            colReorder: true,
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                url: "/contactos-ssp",
+                "data": function ( d ) {
+
+                    console.log(d)
+
+                    var json = paramMaker({json: d, form: $('#form')});
+
+                    console.log(d)
+
+                    // d.id_distrito_federal = $('#id_distrito_federal_').val();
+                    // d.id_distrito_local = $('#id_distrito_local_').val();
+                }
+            },
+            "type": "POST",
+            searchDelay: 500,
+            columns: [
+                { data: "contacto" },
+                { data: "casilla" },
+                { data: "no_seccion" },
+                { data: "no_telefono" },
+                // { data: "email" },
+                { data: "no_distrito_federal" },
+                { data: "no_distrito_local" },
+                { data: "asentamiento" },
+                { data: "direccion" },
+                { data: "referente_corto" },
+                { data: "coordinador_corto" },
+                { data: "action" },
+            ],
+            columnDefs: [
+                
+            ],
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [ 0, ':visible' ]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    exportOptions: {
+                        // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
+                        columns: [':visible' ]
+                    }
+                },
+                'colvis'
+            ],
+            createdRow: function(row, data, dataIndex) {
+
+            }
+        });
+    }
+
 
 
     /*
-    spinner();
-
-    clearTables();
-
-    param = param || {};
-
-    param.dataType = 'json';
-
-    param = paramMaker({json: param, form: $('#form')});
-
-    $.ajax({
-        type: 'POST',
-        method: 'post',
-        dataType: 'json',
-        url: window.location.origin + '/contactos',
-        cache: false,
-        data: param,
-        success :  function(data) {
-
-            if(param.id) {
-
-                Object.keys(data[0]).forEach(function(k) {
-
-                    $('#' + k).val(data[0][k]);
-                });
-
-                casillas({
-                    id_seccion: data[0].id_seccion,
-                    id_casilla: data[0].id_casilla
-                });
-
-                if(data[0].telefonos) {
-
-                    dataTableSetData([{
-                        id: 'tbl-telefonos', data: data[0].telefonos,
-                    }]);
-                }
-
-                if(data[0].emails) {
-
-                    dataTableSetData([{
-                        id: 'tbl-emails', data: data[0].emails
-                    }]);
-                }
-
-                $('#modal-registro').modal('show');
-            }
-            else dataTableSetData([{id: 'tbl-data', data: data}]);
-
-            spinner({close: true});
-        },
-        error: function(jqXHR, textStatus, erroThrown) {
-            
-            spinner({close: true});
-        }
-    });
+    
     */
 }
 
