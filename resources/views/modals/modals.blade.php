@@ -14,7 +14,7 @@
 			</div>
 			
 			<div class="modal-footer">
-				<button class="btn btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
+				<button class="btn btn-sm btn-secondary" type="button" data-dismiss="modal">Cerrar</button>
 			</div>
 		</div>
 		<!-- /.modal-content-->
@@ -36,8 +36,8 @@
         ...
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" id="btn-guardar-confirm" class="btn btn-primary">Guardar cambios</button>
+        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" id="btn-guardar-confirm" class="btn btn-sm btn-primary">Guardar cambios</button>
       </div>
     </div>
   </div>

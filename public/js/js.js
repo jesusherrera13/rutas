@@ -166,7 +166,7 @@ function guardar(param) {
                 }
             }
 
-            dialog_alert({id: 'dialog-alert', body: data.message});
+            /*dialog_alert({id: 'dialog-alert', body: data.message});
 
             var json = {};
 
@@ -184,6 +184,29 @@ function guardar(param) {
                     eval(param.callback + '()')
                 }
                 
+            }*/
+
+            if(!param.id) {
+
+                $('#id').val(data.id);
+
+                param.id = data.id;
+                param.nuevo = true;
+            }
+
+            rowUpdate(param);
+
+            // console.log(param)
+        
+            if(param.callback) {
+
+                if(param.callback.length) {
+
+                    for(var i in param.callback) {
+                        
+                        eval(param.callback[i]);
+                    }
+                }
             }
 
         },
@@ -203,6 +226,78 @@ function guardar(param) {
 
                 dialog_alert({id: 'dialog-alert',title: title, body: error});
             }
+        }
+    });
+}
+
+function rowUpdate(param) {
+
+    spinner();
+
+    param = param || {};
+    param.dataType = 'json';
+    param = paramMaker({json: param, form: $('#form')});
+
+    $.ajax({
+        type: 'POST',
+        method: 'post',
+        dataType: 'json',
+        url: param.route_data,
+        cache: false,
+        data: param,
+        success :  function(data) {
+
+            var dt = $('#' + param.id_table).DataTable();
+
+            if(param.nuevo) {
+
+                var tmp = dt.rows().data();
+
+                dt.clear();
+
+                tmp.push(data[0]);
+
+                dt.rows.add(tmp);
+                dt.draw();
+
+                var table = $('#' + param.id_table).DataTable();
+ 
+                dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+
+                    var d = this.data();
+                    
+                    if(d.id == param.id) $('#row_id').val(rowIdx);
+                });
+
+                /*
+                $('#' + param.id_table + ' > tbody > tr').each(function(i, o) {
+
+                    var row = dt.rows($(o)).data();
+
+                    console.log(row[0]);
+                    console.log(param.id);
+    
+                    if(row[0].id == param.id)$('#row_id').val(i);
+                });
+                */
+            }
+            else {
+                console.log(param)
+                data[0].DT_RowIndex = param.DT_RowIndex;
+
+                $('#' + param.id_table).dataTable().fnUpdate(data[0],param.row_id,undefined,false);
+
+                if(param.DT_RowIndex) {
+
+                    $('#' + param.id_table + '_wrapper .DTFC_LeftBodyWrapper .datatable > tbody > :nth-child(' + param.DT_RowIndex + ') > :nth-child(1)').text(data[0].contacto);
+                }
+            }
+
+            spinner({close: true});
+        },
+        error: function(jqXHR, textStatus, erroThrown) {
+            
+            spinner({close: true});
         }
     });
 }

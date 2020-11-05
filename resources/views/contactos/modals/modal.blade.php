@@ -28,6 +28,8 @@
 							<input type="hidden" name="id_estado" id="id_estado">
 							<input type="hidden" name="id_municipio" id="id_municipio">
 							<input type="hidden" name="id_asentamiento" id="id_asentamiento">
+							<input type="hidden" name="row_id" id="row_id">
+							<input type="hidden" name="DT_RowIndex" id="DT_RowIndex">
 							
 							<ul class="nav nav-tabs" id="myTab" role="tablist">
 								<li class="nav-item" role="presentation">

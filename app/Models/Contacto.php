@@ -13,6 +13,7 @@ class Contacto extends Model
 
     protected $fillable = [
     	'id_seccion',
+        'nombre',
         'apellido1',
         'apellido2',
         'telefono',

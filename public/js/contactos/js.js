@@ -157,7 +157,7 @@ $(document).ready(function() {
             'colvis'
         ],
         createdRow: function(row, data, dataIndex) {
-
+            
         }
     });
     
@@ -323,6 +323,53 @@ $(document).ready(function() {
     $('body')
     .on('click', '.btn-editar', function() {
 
+        var iddb = $(this).attr('iddb');
+        var dt = $('#tbl-data').DataTable();
+        var row;
+
+        dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+
+            var d = this.data();
+            
+            if(d.id == iddb) {
+
+                row = d;
+
+                console.log(row)
+
+                $('#row_id').val(rowIdx);
+                $('#DT_RowIndex').val(row.DT_RowIndex);
+            }
+        });
+
+        /*$('#tbl-data > tbody > tr').each(function(i, o) {
+
+            var ron = dt.rows($(o)).data();
+
+            if(ron[0].id == row.id) row.DT_RowIndexx = parseInt(i) + 1;
+        });*/
+
+        // console.log(row);
+
+        // $('#tbl-data_wrapper .DTFC_LeftBodyWrapper .datatable > tbody > :nth-child(' + row.DT_RowIndex + ') > :nth-child(1)').text('xxxxx');
+
+
+        /*var index = $(this).parents().eq(1).index();
+
+        var temp = tbl_data.row(index).data();
+
+        // console.log(temp);
+        
+        temp.nombre = 'Tom';
+        temp.contacto = temp.nombre;
+
+        if(temp.apellido1) temp.contacto += ' ' + temp.apellido1;
+        if(temp.apellido2) temp.contacto += ' ' + temp.apellido2;
+        
+        $('#tbl-data').dataTable().fnUpdate(temp,index,undefined,false);*/
+
+        // tbl_data.fnUpdate(temp, index, undefined, false);
+
         getData({ id: $(this).attr('iddb') });
     })
     .on('click', '.btn-delete', function() {
@@ -438,12 +485,27 @@ $(document).ready(function() {
 
             param.id = $('#id').val();
 
+            /*
             modal_confirm({
                 message: '¿Desea grabar ' + ($('#id').val() ? 'los cambios' : 'el registro') + '?',
                 route: 'contacto',
                 form: 'form-registro',
                 param: param
             });
+            */
+
+            modal_confirm({
+                message: '¿Desea grabar ' + ($('#id').val() ? ' los cambios' : ' el registro') + '?',
+                route: 'contacto',
+                route_data: 'contactos',
+                id_table: 'tbl-data',
+                param: param,
+                form: 'form-registro',
+                id: $('#id').val(),
+                row_id: $('#row_id').val(),
+                DT_RowIndex: $('#DT_RowIndex').val(),
+            });
+            
         }
     });
 

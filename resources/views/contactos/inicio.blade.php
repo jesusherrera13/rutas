@@ -120,7 +120,7 @@
 				</form>
 			</div>
 			<div class="card-body">
-	  			<table id="tbl-data" class="table table-bordered table-striped table-sm order-column datatable" style="width:100%">
+	  			<table id="tbl-data" class="table table-striped table-sm order-column datatable" style="width:100%">
 					<thead>
 						<tr>
 							<th>Nombre</th>

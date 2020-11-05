@@ -118,6 +118,7 @@
             </p>
           </a>
         </li>
+        @if(Auth::user()->id == 1)
         <li class="nav-item">
           <a href="{{URL::to('usuarios')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
@@ -126,6 +127,7 @@
             </p>
           </a>
         </li>
+        @endif
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
