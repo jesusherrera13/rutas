@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 use App\Models\Contacto;
 use App\Models\ContactoTelefono;
@@ -38,6 +39,9 @@ class ContactoController extends Controller
             $municipios = app(MunicipioController::class)->getData($request);
             $asentamientos = app(AsentamientoController::class)->getData($request);
             $coordinadores = app(CoordinadorController::class)->getData($request);
+
+            $request['id_modulo'] = "contactos";
+
             $referentes = app(ReferenteController::class)->getData($request);
 
             // $referentes = $this->referentes($request);
@@ -119,6 +123,10 @@ class ContactoController extends Controller
         ]);
 
         $this->row = Contacto::find($request['id']);
+
+        $request['nombre'] = Str::title($request['nombre']);
+        $request['apellido1'] = Str::title($request['apellido1']);
+        $request['apellido2'] = Str::title($request['apellido2']);
 
         $this->row->fill($request->all());
         $this->row->user_id_update = Auth::user()->id;

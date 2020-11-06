@@ -738,14 +738,50 @@ function getData(param) {
                     }
                 },
                 {
-                    extend: 'pdfHtml5',
-                    orientation: 'landscape',
-                    pageSize: 'LEGAL',
-                    exportOptions: {
-                        // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
-                        columns: [':visible' ]
-                    }
+                extend: 'pdfHtml5',
+                filename: 'someName',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
+                    page: 'all',
+                    columns: [':visible' ],
+                    // stripNewlines: true,
+                    // stripHtml: true,
                 },
+                download: 'open',
+                title: function () {
+
+                    // var str = '<h1>Reporte Contactos</h1>';
+                    var str = 'Reporte Contactos';
+
+                    return str;
+                },
+                messageTop: function () {
+
+                    var table = $('#tbl-data').DataTable();
+                    var info = table.page.info();
+
+                    var str = titulador();
+
+                    if(str) str += '\n\n';
+
+                    str += 'Registros totales: ' + info.recordsDisplay;
+
+                    console.log(str)
+
+                    return str;
+                },
+                messageBottom: function() {
+
+                    var table = $('#tbl-data').DataTable();
+                    var info = table.page.info();
+
+                    // console.log(info)
+                    
+                    return '\nRegistros totales: ' + info.recordsDisplay
+                }
+            },
                 'colvis'
             ],
             createdRow: function(row, data, dataIndex) {
@@ -831,4 +867,37 @@ function casillas(param) {
         });
     }
     else $('#id_casilla').html('');
+}
+
+function titulador() {
+
+    var str = '';
+
+    if($('#id_distrito_federal_').val()) {
+
+        str = 'Distrito Federal: ' + $('#id_distrito_federal_ :selected').text().trim();
+    }
+
+    if($('#id_distrito_local_').val()) {
+
+        if(str) str += '\n';
+
+        str += 'Distrito Local: ' + $('#id_distrito_local_ :selected').text().trim();
+    }
+
+    if($('#id_coordinador_').val()) {
+
+        if(str) str += '\n';
+
+        str += 'Coordinador: ' + $('#id_coordinador_ :selected').text().trim();
+    }
+
+    if($('#id_referente_').val()) {
+
+        if(str) str += '\n';
+
+        str += 'Referente: ' + $('#id_referente_ :selected').text().trim();
+    }
+
+    return str;
 }

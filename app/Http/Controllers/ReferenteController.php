@@ -102,8 +102,16 @@ class ReferenteController extends Controller
                         DB::raw("concat(SUBSTRING_INDEX(contacto.nombre, ' ', 1),ifnull(concat(' ',contacto.apellido1),'')) as contacto_corto"),
                         DB::raw("null as no_telefono"),
                     )
-    				->orderBy(DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre))"))
                     ->where("ref.status", 1);
+
+        if($request['id_modulo'] == "contactos") {
+
+            $query->orderBy(DB::raw("concat(SUBSTRING_INDEX(contacto.nombre, ' ', 1),ifnull(concat(' ',contacto.apellido1),''))"));
+        }
+        else {
+
+            $query->orderBy(DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre))"));
+        }
 
         if($request['id']) $query->where("ref.id", $request['id']);
 
