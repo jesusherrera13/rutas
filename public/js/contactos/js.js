@@ -129,7 +129,10 @@ $(document).ready(function() {
             { data: "action" },
         ],
         columnDefs: [
-            
+            {
+                type: 'chinese-string', 
+                targets: 0 
+            },
         ],
         dom: 'Bfrtip',
         buttons: [
@@ -721,7 +724,10 @@ function getData(param) {
                 { data: "action" },
             ],
             columnDefs: [
-                
+                {
+                    type: 'chinese-string', 
+                    targets: 0 
+                },
             ],
             dom: 'Bfrtip',
             buttons: [
@@ -777,8 +783,6 @@ function getData(param) {
                     var table = $('#tbl-data').DataTable();
                     var info = table.page.info();
 
-                    // console.log(info)
-                    
                     return '\nRegistros totales: ' + info.recordsDisplay
                 }
             },

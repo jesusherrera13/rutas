@@ -101,9 +101,9 @@ $(document).ready(function() {
                     // html += '   <i class="fas fa-trash-alt"></i>';
                     // html += '</button>';
 
-                    html += '<a class="btn btn-danger btn-sm pin" href="javascript:void(0)" role="button" accion="delete">'
-                    html += '   <i class="fas fa-trash-alt"></i></a>';
-                    html += '</a>';
+                    html += '<button class="btn btn-danger btn-sm pin" accion="delete">'
+                    html += '   <i class="fas fa-trash-alt"></i>';
+                    html += '</button>';
 
                     $(nTd).html(html);
                 }
