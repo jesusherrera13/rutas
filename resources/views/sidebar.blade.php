@@ -118,12 +118,20 @@
             </p>
           </a>
         </li>
-        @if(Auth::user()->id == 1)
+        @if(Auth::user()->id == 1 || Auth::user()->id == 3)
         <li class="nav-item">
           <a href="{{URL::to('usuarios')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
               Usuarios
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{{URL::to('modulos')}}" class="nav-link">
+            <i class="nav-icon fas fa-calendar-alt"></i>
+            <p>
+              Módulos
             </p>
           </a>
         </li>

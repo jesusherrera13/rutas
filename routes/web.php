@@ -43,12 +43,10 @@ Route::post('login/unlock', 'LoginController@unlock');
 Route::post('sidebar', 'LoginController@sidebar');
 
 // FEDERAL
-
 Route::resource('distritos-federales', 'DistritoFederalController');
 Route::post('distritos-federales', 'DistritoFederalController@getData');
 Route::post('distrito-federal/store', 'DistritoFederalController@store');
 Route::post('distrito-federal/update', 'DistritoFederalController@update');
-
 // FEDERAL
 
 // LOCAL
@@ -155,5 +153,12 @@ Route::post('referente/store', 'ReferenteController@store');
 Route::post('referente/update', 'ReferenteController@update');
 Route::post('referente/guardar', 'ReferenteController@guardar');
 // REFERENTE
+
+// MODULO
+Route::resource('modulos', 'ModuloController');
+Route::post('modulos', 'ModuloController@getData');
+Route::post('modulo/store', 'ModuloController@store');
+Route::post('modulo/update', 'ModuloController@update');
+// MODULO
 
 Route::get('generate-pdf', 'PDFController@generatePDF');
