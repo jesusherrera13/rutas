@@ -324,6 +324,8 @@ class CasillaController extends Controller
 	    				->orderBy("casilla.id_tipo_casilla")
 	    				->orderBy("casilla.no_casilla");
 
+        $query->whereIn("seccion.id_distrito_federal", app(AccesoFederalController::class)->accesos($request));
+        $query->whereIn("seccion.id_distrito_local", app(AccesoLocalController::class)->accesos($request));
 
         if($request['id']) $query->where("casilla.id", $request['id']);
 

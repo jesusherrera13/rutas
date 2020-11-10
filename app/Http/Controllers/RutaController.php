@@ -177,6 +177,8 @@ class RutaController extends Controller
 	                    )
 	    				->orderBy("ruta.descripcion");
 
+            $query->whereIn("ruta.id_distrito_federal", app(AccesoFederalController::class)->accesos($request));
+            $query->whereIn("ruta.id_distrito_local", app(AccesoLocalController::class)->accesos($request));
 
         if($request['id']) $query->where("ruta.id", $request['id']);
 

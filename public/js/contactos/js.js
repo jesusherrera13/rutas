@@ -134,7 +134,8 @@ $(document).ready(function() {
                 targets: 0 
             },
         ],
-        dom: 'Bfrtip',
+        lengthMenu: [ [10, 25, 50, -1], ['10 Filas', '25 Filas', '50 Filas', 'Mostrar todo'] ],
+        dom: 'Bfrtipl',
         buttons: [
             {
                 extend: 'copyHtml5',
@@ -299,9 +300,9 @@ $(document).ready(function() {
 
                     var key = oData.id || '';
 
-                    html += '<a class="btn btn-danger btn-sm btn-delete" href="javascript:void(0)" role="button" key="' + key + '" clase="telefonos">'
-                    html += '   <i class="fas fa-trash-alt"></i></a>';
-                    html += '</a>';
+                    html += '<button class="btn btn-danger btn-sm btn-delete" key="' + key + '" clase="telefonos">'
+                    html += '   <i class="fas fa-trash-alt"></i>';
+                    html += '</button>';
 
                     $(nTd).html(html);
                 }
@@ -729,7 +730,8 @@ function getData(param) {
                     targets: 0 
                 },
             ],
-            dom: 'Bfrtip',
+            lengthMenu: [ [10, 25, 50, -1], ['10 Filas', '25 Filas', '50 Filas', 'Mostrar todo'] ], 
+            dom: 'Bfrtipl',
             buttons: [
                 {
                     extend: 'copyHtml5',
@@ -744,48 +746,48 @@ function getData(param) {
                     }
                 },
                 {
-                extend: 'pdfHtml5',
-                filename: 'someName',
-                orientation: 'landscape',
-                pageSize: 'LEGAL',
-                exportOptions: {
-                    // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
-                    page: 'all',
-                    columns: [':visible' ],
-                    // stripNewlines: true,
-                    // stripHtml: true,
+                    extend: 'pdfHtml5',
+                    filename: 'someName',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    exportOptions: {
+                        // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
+                        page: 'all',
+                        columns: [':visible' ],
+                        // stripNewlines: true,
+                        // stripHtml: true,
+                    },
+                    download: 'open',
+                    title: function () {
+
+                        // var str = '<h1>Reporte Contactos</h1>';
+                        var str = 'Reporte Contactos';
+
+                        return str;
+                    },
+                    messageTop: function () {
+
+                        var table = $('#tbl-data').DataTable();
+                        var info = table.page.info();
+
+                        var str = titulador();
+
+                        if(str) str += '\n\n';
+
+                        str += 'Registros totales: ' + info.recordsDisplay;
+
+                        console.log(str)
+
+                        return str;
+                    },
+                    messageBottom: function() {
+
+                        var table = $('#tbl-data').DataTable();
+                        var info = table.page.info();
+
+                        return '\nRegistros totales: ' + info.recordsDisplay
+                    }
                 },
-                download: 'open',
-                title: function () {
-
-                    // var str = '<h1>Reporte Contactos</h1>';
-                    var str = 'Reporte Contactos';
-
-                    return str;
-                },
-                messageTop: function () {
-
-                    var table = $('#tbl-data').DataTable();
-                    var info = table.page.info();
-
-                    var str = titulador();
-
-                    if(str) str += '\n\n';
-
-                    str += 'Registros totales: ' + info.recordsDisplay;
-
-                    console.log(str)
-
-                    return str;
-                },
-                messageBottom: function() {
-
-                    var table = $('#tbl-data').DataTable();
-                    var info = table.page.info();
-
-                    return '\nRegistros totales: ' + info.recordsDisplay
-                }
-            },
                 'colvis'
             ],
             createdRow: function(row, data, dataIndex) {

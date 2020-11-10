@@ -7,13 +7,28 @@
 		<div class="card">
 			<div class="card-header">
 				<form id="form">
+
 					@csrf
-					<button id="btn-nuevo" class="btn btn-primary">Nuevo</button>
-					<button id="btn-buscar" class="btn btn-primary">Buscar</button>
+
+					<input type="hidden" name="id_modulo" id="id_modulo" value="usuarios">
+
+
+					<div class="row">
+						<div class="col-md-12">
+							<div class="d-flex justify-content-end">
+								<button id="btn-nuevo" class="btn btn-primary btn-sm mr-1">
+									<i class="far fa-file"></i> Nuevo
+								</button>
+								<button id="btn-buscar" class="btn btn-primary btn-sm">
+									<i class="fas fa-search"></i> Buscar
+								</button>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 			<div class="card-body">
-	  			<table id="tbl-data" class="table table-bordered table-striped">
+				<table id="tbl-data" class="table table-bordered table-striped table-sm order-column" style="width:100%">
 					<thead>
 						<tr>
 							<th>Nombre</th>

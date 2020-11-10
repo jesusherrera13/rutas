@@ -13,6 +13,7 @@ use App\Models\ContactoTelefono;
 use App\Models\ContactoEmail;
 use App\Models\CasillaRepresentante;
 use App\Models\Casilla;
+use App\Models\AccesoFederal;
 
 use DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -228,7 +229,11 @@ class ContactoController extends Controller
                         DB::raw("concat(SUBSTRING_INDEX(coordinador.nombre, ' ', 1),ifnull(concat(' ',coordinador.apellido1),'')) as coordinador_corto"),
                     );
 
+        $query->whereIn("seccion.id_distrito_federal", app(AccesoFederalController::class)->accesos($request));
+        $query->whereIn("seccion.id_distrito_local", app(AccesoLocalController::class)->accesos($request));
+        
         if($request['id']) {
+
             $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
             // <i class=fas fa-edit btn-editar btn-pin iddb=></i>
             $query->where("contacto.id", $request['id']);

@@ -166,6 +166,8 @@ class SeccionController extends Controller
                     )
     				->orderBy("seccion.no_seccion");
 
+        $query->whereIn("seccion.id_distrito_federal", app(AccesoFederalController::class)->accesos($request));
+        $query->whereIn("seccion.id_distrito_local", app(AccesoLocalController::class)->accesos($request));
 
         if($request['id']) $query->where("seccion.id", $request['id']);
 
@@ -181,6 +183,8 @@ class SeccionController extends Controller
             $query->where("seccion.no_seccion",'like', '%'.$request['term'].'%');
             $query->limit(20);
         }
+
+        // dd($query->toSql());
 
         $data = $query->get();
 

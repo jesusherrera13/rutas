@@ -229,6 +229,7 @@ class DistritoLocalController extends Controller
                             DB::raw("group_concat(distinct disfed.descripcion separator ',') as distrito_federal")
                         )
                         ->groupBy("disloc.id")
+                        ->whereIn("disloc.id", app(AccesoLocalController::class)->accesos($request))
                         ->orderBy("disloc.no_distrito");
         }
 

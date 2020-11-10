@@ -4,7 +4,7 @@ $(document).ready(function() {
 
         formReset($('#form-registro'));
 
-        $('#dialog').modal('toggle');
+        $('#modal-registro').modal('show');
     });
     
     $('#tbl-data').DataTable({
@@ -32,9 +32,9 @@ $(document).ready(function() {
 
                     var html = '';
 
-                    html += '<button class="btn btn-success btn-sm btn-editar">';
-                    html += '   <i class="fas fa-edit"></i>';
-                    html += '  </button>';
+                    // html += '<button class="btn btn-success btn-sm btn-editar">';
+                    html += '<i class="fas fa-edit btn-editar btn-pin"></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
@@ -79,14 +79,32 @@ $(document).ready(function() {
             if($('#password').val() != $('#password_').val()) msj += 'Las contraseñas no coinciden<br>';
         }
 
-
         if(msj) dialog_alert({id: 'dialog-alert', body: msj});
         else {
+
+            var param = {distritos_federales: '',distritos_locales: ''};
+
+            $('#tbl-distritos-federales :checkbox:checked').each(function(i, o) {
+
+                if(param.distritos_federales) param.distritos_federales += ';';
+
+                param.distritos_federales += 'id,' + ($(o).attr('iddb') || '') + '|id_distrito_federal,' + $(o).val();
+            });
+
+            $('#tbl-distritos-locales :checkbox:checked').each(function(i, o) {
+
+                if(param.distritos_locales) param.distritos_locales += ';';
+
+                param.distritos_locales += 'id,' + ($(o).attr('iddb') || '') + '|id_distrito_local,' + $(o).val();
+            });
+
+            // console.log(param);
             
             modal_confirm({
                 message: '¿Desea grabar ' + ($('#id').val() ? ' los cambios' : ' el registro') + '?',
                 route: 'usuario',
-                form: 'form-registro'
+                form: 'form-registro',
+                param: param
             });
         }
     });
@@ -98,9 +116,7 @@ function getData(param) {
     spinner();
 
     param = param || {};
-
     param.dataType = 'json';
-
     param = paramMaker({json: param, form: $('#form')});
 
     $.ajax({
@@ -119,7 +135,23 @@ function getData(param) {
                     $('#' + k).val(data[0][k]);
                 });
 
-                $('#dialog').modal('toggle');
+                if(data[0].distritos_federales) {
+                    
+                    for(var i in data[0].distritos_federales) {
+
+                        $('#tbl-distritos-federales [value="' + data[0].distritos_federales[i].id_distrito_federal +'"]').prop('checked', 1);
+                    }
+                }
+
+                if(data[0].distritos_locales) {
+                    
+                    for(var i in data[0].distritos_locales) {
+
+                        $('#tbl-distritos-locales [value="' + data[0].distritos_locales[i].id_distrito_local +'"]').prop('checked', 1);
+                    }
+                }
+
+                $('#modal-registro').modal('show');
             }
             else dataTableSetData([{id: 'tbl-data', data: data}]);
 

@@ -81,9 +81,13 @@ class DistritoFederalController extends Controller
 
         $query = DB::table("distritos_federales")
                     ->select("id","descripcion","no_distrito")
+                    ->whereIn("id", app(AccesoFederalController::class)->accesos($request))
                     ->orderBy("no_distrito");
 
+
         if($request['id']) $query->where("id", $request['id']);
+
+        // dd($query->toSql());
 
         $data = $query->get();
 
