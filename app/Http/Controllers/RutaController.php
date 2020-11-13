@@ -10,6 +10,9 @@ use Illuminate\Validation\Rule;
 
 use App\Models\Ruta;
 use App\Models\RutaCasilla;
+use App\Models\AccesoModulo;
+use App\Models\Modulo;
+
 use Barryvdh\DomPDF\Facade as PDF;
 
 class RutaController extends Controller
@@ -21,18 +24,25 @@ class RutaController extends Controller
 
 	public function index(Request $request) {
 
-        if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-        else {
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 2)->get())) || Auth::user()->id == 1) {
 
-        	$page_title = 'Rutas';
-        	$content_header = 'Rutas';
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+    
+                $page_title = 'Rutas';
+                $content_header = 'Rutas';
+    
+                $data = $this->getData($request);
+    
+                $distritos_federales = app(DistritoFederalController::class)->getData($request);
 
-        	$data = $this->getData($request);
-
-        	$distritos_federales = app(DistritoFederalController::class)->getData($request);
-
-        	return view('rutas.inicio', compact('page_title','content_header','data','distritos_federales'));
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                return view('rutas.inicio', compact('page_title','content_header','data','distritos_federales','accesos_modulos'));
+            }
         }
+        else return redirect('/');
     }
 
     public function store(Request $request) {

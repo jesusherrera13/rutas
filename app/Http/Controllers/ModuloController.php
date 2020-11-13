@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\Modulo;
+use App\Models\AccesoModulo;
 
 class ModuloController extends Controller
 {
@@ -18,29 +19,44 @@ class ModuloController extends Controller
 
 	public function index(Request $request) {
 
-        if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-        else {
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 5)->get())) || Auth::user()->id == 1) {
 
-        	$page_title = 'Módulos';
-        	$content_header = 'Módulos';
-
-        	$data = $this->getData($request);
-
-        	return view('modulos.inicio', compact('page_title','content_header','data'));
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+    
+                $page_title = 'Módulos';
+                $content_header = 'Módulos';
+    
+                // $data = $this->getData($request);
+                $rick = new Request();
+    
+                $rick->replace([
+                    'id_usuario' => Auth::user()->id
+                ]);
+    
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                // dd($accesos_modulos);
+    
+                return view('modulos.inicio', compact('page_title','content_header','accesos_modulos'));
+            }
         }
+        else return redirect('/');
     }
 
     public function store(Request $request) {
 
         $validateData = $request->validate([
             'descripcion' => 'required|min:3|max:255|unique:modulos',
-            'id_modulo' => 'required|unique:modulos',
+            'url' => 'required|unique:modulos',
         ]);
 
         $data = new Modulo();
 
         $data->descripcion = $validateData['descripcion'];
-        $data->id_modulo = $validateData['id_modulo'];
+        $data->url = $validateData['url'];
+        $data->icon = $request['icon'];
         $data->user_id_create = Auth::user()->id;
 
         $data->save();
@@ -58,10 +74,10 @@ class ModuloController extends Controller
 
         $validateData = $request->validate([
             'descripcion' => 'required|min:3|max:255|unique:modulos,descripcion,'.$request['id'].',id',
-            'id_modulo' => 'required|unique:modulos,id,'.$request['id'],
+            'url' => 'required|unique:modulos,id,'.$request['id'],
         ]);
 
-        $this->row = DistritoFederal::find($request['id']);
+        $this->row = Modulo::find($request['id']);
 
         $this->row->fill($request->all());
         $this->row->user_id_update = Auth::user()->id;
@@ -80,12 +96,20 @@ class ModuloController extends Controller
     public function getData(Request $request) {
 
         $query = DB::table("modulos")
-                    ->select("id","descripcion","id_modulo")
+                    ->select(
+                        "id","descripcion","url","icon",
+                        DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',id,'\"></i>') as action")
+                    )
                     // ->whereIn("id", app(AccesoFederalController::class)->accesos($request))
                     ->orderBy("descripcion");
 
 
-        if($request['id']) $query->where("id", $request['id']);
+        if($request['id']) {
+
+            $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',id,'\"></i>') as action"));
+
+            $query->where("id", $request['id']);
+        }
 
         // dd($query->toSql());
 

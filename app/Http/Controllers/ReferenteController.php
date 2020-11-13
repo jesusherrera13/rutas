@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Referente;
+use App\Models\AccesoModulo;
+use App\Models\Modulo;
 
 class ReferenteController extends Controller
 {
@@ -18,30 +20,31 @@ class ReferenteController extends Controller
 
 	public function index(Request $request) {
 
-        if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-        else {
-            
-        	$page_title = 'Referentes';
-        	$content_header = 'Referentes';
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 9)->get())) || Auth::user()->id == 1) {
 
-        	// $data = $this->getData($request);
-
-        	// $distritos_federales = app(DistritoFederalController::class)->getData($request);
-         //    $distritos_locales = app(DistritoLocalController::class)->getData($request);
-         //    $municipios = app(MunicipioController::class)->getData($request);
-         //    $asentamientos = app(AsentamientoController::class)->getData($request);
-
-            return view('referentes.inicio', compact(
-                    'page_title',
-                    'content_header',
-                    // 'data'
-                    // 'distritos_federales',
-                    // 'distritos_locales',
-                    // 'municipios',
-                    // 'asentamientos'
-                )
-            );
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+                
+                $page_title = 'Referentes';
+                $content_header = 'Referentes';
+    
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                return view('referentes.inicio', compact(
+                        'page_title',
+                        'content_header',
+                        'accesos_modulos',
+                        // 'data'
+                        // 'distritos_federales',
+                        // 'distritos_locales',
+                        // 'municipios',
+                        // 'asentamientos'
+                    )
+                );
+            }
         }
+        else return redirect('/');
     }
 
     public function store(Request $request) {

@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\Coordinador;
+use App\Models\AccesoModulo;
+use App\Models\Modulo;
 
 class CoordinadorController extends Controller
 {
@@ -17,30 +19,38 @@ class CoordinadorController extends Controller
 
 	public function index(Request $request) {
 
-        if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-        else {
-            
-        	$page_title = 'Coordinadores';
-        	$content_header = 'Coordinadores';
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 8)->get())) || Auth::user()->id == 1) {
 
-        	$data = $this->getData($request);
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+                
+                $page_title = 'Coordinadores';
+                $content_header = 'Coordinadores';
+    
+                $data = $this->getData($request);
+    
+                $distritos_federales = app(DistritoFederalController::class)->getData($request);
+                $distritos_locales = app(DistritoLocalController::class)->getData($request);
+                $municipios = app(MunicipioController::class)->getData($request);
+                $asentamientos = app(AsentamientoController::class)->getData($request);
 
-        	$distritos_federales = app(DistritoFederalController::class)->getData($request);
-            $distritos_locales = app(DistritoLocalController::class)->getData($request);
-            $municipios = app(MunicipioController::class)->getData($request);
-            $asentamientos = app(AsentamientoController::class)->getData($request);
-
-            return view('coordinadores.inicio', compact(
-                    'page_title',
-                    'content_header',
-                    'data',
-                    'distritos_federales',
-                    'distritos_locales',
-                    'municipios',
-                    'asentamientos'
-                )
-            );
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                return view('coordinadores.inicio', compact(
+                        'page_title',
+                        'content_header',
+                        'data',
+                        'distritos_federales',
+                        'distritos_locales',
+                        'municipios',
+                        'asentamientos',
+                        'accesos_modulos'
+                    )
+                );
+            }
         }
+        else return redirect('/');
     }
 
     public function store(Request $request) {

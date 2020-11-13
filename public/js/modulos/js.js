@@ -4,7 +4,14 @@ $(document).ready(function() {
 
         formReset($('#form-registro'));
 
-        $('#dialog').modal('show');
+        $('#modal-registro').modal('show');
+    });
+
+    $('#modal-registro').on('hidden.bs.modal', function (e) {
+        
+        getData();
+        
+        $('#modal-registro  .modal-title').html('Módulos');
     });
     
     $('#tbl-data').DataTable({
@@ -26,24 +33,21 @@ $(document).ready(function() {
         },*/
         columns: [
             { data: "descripcion" },
-            { data: null,        
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-
-                    $(nTd).html('');
-                }
-            },
-            { data: null,        
+            { data: "url" },
+            { data: "icon" },
+            { data: "action" },
+            /* { data: null,        
                 "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
 
                     var html = '';
 
-                    html += '<button class="btn btn-success btn-sm btn-editar">';
-                    html += '   <i class="fas fa-edit"></i>';
-                    html += '  </button>';
+                    // html += '<button class="btn btn-success btn-sm btn-editar">';
+                    html += '<i class="fas fa-edit btn-editar btn-pin" iddb="' + oData.id + '"></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
-            },
+            }, */
         ],
         columnDefs: [
             
@@ -57,11 +61,26 @@ $(document).ready(function() {
     $('body')
     .on('click', '.btn-editar', function() {
 
-        var dt = $(this).parents().eq(3).DataTable();
-        var tr = $(this).parents().eq(1);
-        var row = dt.row(tr).data();
+        var iddb = $(this).attr('iddb');
+        var dt = $('#tbl-data').DataTable();
+        var row;
 
-        getData({id: row.id});
+        dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+
+            var d = this.data();
+            
+            if(d.id == iddb) {
+
+                row = d;
+
+                console.log(row)
+
+                $('#row_id').val(rowIdx);
+                $('#DT_RowIndex').val(row.DT_RowIndex);
+            }
+        });
+
+        getData({ id: $(this).attr('iddb') });
     });
 
     $('#btn-buscar').click(function() {
@@ -74,53 +93,30 @@ $(document).ready(function() {
         var msj = '';
 
         if(!$('#descripcion').val()) msj += 'Escriba la descripción<br>';
-        if(!$('#no_distrito').val()) msj += 'Escriba el número del distrito<br>';
-
+        if(!$('#url').val()) msj += 'Escriba la URL<br>';
 
         if(msj) dialog_alert({id: 'dialog-alert', body: msj});
         else {
             
+            /* 
             modal_confirm({
                 message: '¿Desea grabar ' + ($('#id').val() ? ' los cambios' : ' el registro') + '?',
-                route: 'distrito-federal',
+                route: 'modulo',
                 form: 'form-registro'
+            }); 
+            */
+
+            modal_confirm({
+                message: '¿Desea grabar ' + ($('#id').val() ? ' los cambios' : ' el registro') + '?',
+                route: 'modulo',
+                route_data: 'modulos',
+                id_table: 'tbl-data',
+                // param: param,
+                form: 'form-registro',
+                id: $('#id').val(),
+                row_id: $('#row_id').val(),
+                DT_RowIndex: $('#DT_RowIndex').val(),
             });
-            
-            /*if(confirm('\u00BFDesea grabar ' + txt + '?')) {
-
-                var metodo = $('#id').val() ? 'update' : 'store';
-
-                var param = paramMaker({form: $('#form-registro')});
-
-                $.ajax({
-                    url: window.location.origin + '/distrito-federal/' + metodo,
-                    dataType: 'json',
-                    method: 'post',
-                    data: param,
-                    success: function(data) {
-
-                        $('#dialog').modal('toggle');
-
-                        getData();
-                    },
-                    error: function(jqXHR, textStatus, erroThrown) {
-
-                        console.log(jqXHR.responseJSON)
-
-                        var title = jqXHR.responseJSON.message;
-                        var error = '';
-
-                        for(var r in jqXHR.responseJSON.errors) {
-
-                            if(error) error += '<br>';
-
-                            error += jqXHR.responseJSON.errors[r];
-                        }
-
-                        dialog_alert({id: 'dialog-alert',title: title,body: error});
-                    }
-                });
-            }*/
         }
     });
 });
@@ -131,16 +127,14 @@ function getData(param) {
     spinner();
 
     param = param || {};
-
     param.dataType = 'json';
-
     param = paramMaker({json: param, form: $('#form')});
 
     $.ajax({
         type: 'POST',
         method: 'post',
         dataType: 'json',
-        url: window.location.origin + '/distritos-federales',
+        url: window.location.origin + '/modulos',
         cache: false,
         data: param,
         success :  function(data) {
@@ -152,7 +146,7 @@ function getData(param) {
                     $('#' + k).val(data[0][k]);
                 });
 
-                $('#dialog').modal('show');
+                $('#modal-registro').modal('show');
             }
             else dataTableSetData([{id: 'tbl-data', data: data}]);
 

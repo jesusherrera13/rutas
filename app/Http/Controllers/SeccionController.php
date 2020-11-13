@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Seccion;
 use App\Models\DistritoLigueFederal;
 use App\Models\Casilla;
+use App\Models\AccesoModulo;
+use App\Models\Modulo;
 
 class SeccionController extends Controller
 {
@@ -20,29 +22,37 @@ class SeccionController extends Controller
 
 	public function index(Request $request) {
 
-        if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-        else {
-            
-        	$page_title = 'Secciones';
-        	$content_header = 'Secciones';
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 10)->get())) || Auth::user()->id == 1) {
 
-        	$data = $this->getData($request);
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+                
+                $page_title = 'Secciones';
+                $content_header = 'Secciones';
+    
+                $data = $this->getData($request);
+    
+                $distritos_federales = app(DistritoFederalController::class)->getData($request);
+                $distritos_locales = app(DistritoLocalController::class)->getData($request);
+                $casillas_tipos = app(CasillaTipoController::class)->getData($request);
 
-            $distritos_federales = app(DistritoFederalController::class)->getData($request);
-            $distritos_locales = app(DistritoLocalController::class)->getData($request);
-            $casillas_tipos = app(CasillaTipoController::class)->getData($request);
-
-        	return view('secciones.inicio', 
-                compact(
-                    'page_title',
-                    'content_header',
-                    'data',
-                    'distritos_federales',
-                    'distritos_locales',
-                    'casillas_tipos'
-                )
-            );
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                return view('secciones.inicio', 
+                    compact(
+                        'page_title',
+                        'content_header',
+                        'data',
+                        'distritos_federales',
+                        'distritos_locales',
+                        'casillas_tipos',
+                        'accesos_modulos'
+                    )
+                );
+            }
         }
+        else return redirect('/');
     }
 
     public function store(Request $request) {

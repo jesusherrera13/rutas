@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\DistritoFederal;
+use App\Models\AccesoModulo;
+use App\Models\Modulo;
 
 class DistritoFederalController extends Controller
 {
@@ -17,17 +19,30 @@ class DistritoFederalController extends Controller
 	}
 
 	public function index(Request $request) {
-
-        if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-        else {
-
-        	$page_title = 'Distritos Federales';
-        	$content_header = 'Distritos Federales';
-
-        	$data = $this->getData($request);
-
-        	return view('federales.inicio', compact('page_title','content_header','data'));
+        
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 3)->get())) || Auth::user()->id == 1) {
+            
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+    
+                $page_title = 'Distritos Federales';
+                $content_header = 'Distritos Federales';
+    
+                $data = $this->getData($request);
+                
+                $rick = new Request();
+                
+                $rick->replace([
+                    'id_usuario' => Auth::user()->id
+                ]);
+                
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                return view('federales.inicio', compact('page_title','content_header','data','accesos_modulos'));
+            }
         }
+        else return redirect('/');
     }
 
     public function store(Request $request) {

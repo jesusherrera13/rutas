@@ -24,7 +24,7 @@
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <!-- Add icons to the links using the .nav-icon class
              with font-awesome or any other icon font library -->
-        <li class="nav-item has-treeview menu-open">
+        <!-- <li class="nav-item has-treeview menu-open">
           <a href="#" class="nav-link active">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
@@ -40,8 +40,8 @@
               </a>
             </li>
           </ul>
-        </li>
-        <li class="nav-item has-treeview">
+        </li> -->
+        <!-- <li class="nav-item has-treeview">
           <a href="#" class="nav-link">
             <i class="nav-icon fas fa-tachometer-alt"></i>
             <p>
@@ -67,9 +67,26 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li> -->
 
-        <li class="nav-header">SISTEMA</li>
+        @if(isset($accesos_modulos))
+
+          @foreach($accesos_modulos as $k => $row)
+
+          <li class="nav-item">
+            <a href="{{ URL::to($row->url) }}" class="nav-link">
+              <i class="nav-icon {{ $row->icon ?? 'fas fa-calendar-alt'}}"></i>
+              <p>
+                {{ $row->descripcion }}
+              </p>
+            </a>
+          </li>
+
+          @endforeach
+
+        @endif
+
+        <!-- <li class="nav-header">SISTEMA</li>
         <li class="nav-item">
           <a href="{{URL::to('rutas')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
@@ -117,9 +134,9 @@
               Secciones
             </p>
           </a>
-        </li>
+        </li> -->
         @if(Auth::user()->id == 1 || Auth::user()->id == 3)
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <a href="{{URL::to('usuarios')}}" class="nav-link">
             <i class="nav-icon fas fa-calendar-alt"></i>
             <p>
@@ -134,7 +151,7 @@
               Módulos
             </p>
           </a>
-        </li>
+        </li> -->
         @endif
       </ul>
     </nav>

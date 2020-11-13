@@ -14,6 +14,8 @@ use App\Models\ContactoEmail;
 use App\Models\CasillaRepresentante;
 use App\Models\Casilla;
 use App\Models\AccesoFederal;
+use App\Models\AccesoModulo;
+use App\Models\Modulo;
 
 use DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -27,40 +29,44 @@ class ContactoController extends Controller
 
 	public function index(Request $request) {
 
-        if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-        else {
-            
-        	$page_title = 'Contactos';
-        	$content_header = 'Contactos';
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 7)->get())) || Auth::user()->id == 1) {
 
-        	// $data = $this->getData($request);
-
-        	$distritos_federales = app(DistritoFederalController::class)->getData($request);
-            $distritos_locales = app(DistritoLocalController::class)->getData($request);
-            $municipios = app(MunicipioController::class)->getData($request);
-            $asentamientos = app(AsentamientoController::class)->getData($request);
-            $coordinadores = app(CoordinadorController::class)->getData($request);
-
-            $request['id_modulo'] = "contactos";
-
-            $referentes = app(ReferenteController::class)->getData($request);
-
-            // $referentes = $this->referentes($request);
-
-            // dd($referentes);
-
-            return view('contactos.inicio', compact(
-                    'page_title',
-                    'content_header',
-                    'distritos_federales',
-                    'distritos_locales',
-                    'municipios',
-                    'asentamientos',
-                    'coordinadores',
-                    'referentes'
-                )
-            );
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+                
+                $page_title = 'Contactos';
+                $content_header = 'Contactos';
+    
+                // $data = $this->getData($request);
+    
+                $distritos_federales = app(DistritoFederalController::class)->getData($request);
+                $distritos_locales = app(DistritoLocalController::class)->getData($request);
+                $municipios = app(MunicipioController::class)->getData($request);
+                $asentamientos = app(AsentamientoController::class)->getData($request);
+                $coordinadores = app(CoordinadorController::class)->getData($request);
+    
+                $request['id_modulo'] = "contactos";
+    
+                $referentes = app(ReferenteController::class)->getData($request);
+    
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                return view('contactos.inicio', compact(
+                        'page_title',
+                        'content_header',
+                        'distritos_federales',
+                        'distritos_locales',
+                        'municipios',
+                        'asentamientos',
+                        'coordinadores',
+                        'referentes',
+                        'accesos_modulos'
+                    )
+                );
+            }
         }
+        else return redirect('/');
     }
 
     public function store(Request $request) {
@@ -234,7 +240,7 @@ class ContactoController extends Controller
         
         if($request['id']) {
 
-            $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
+            // $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
             // <i class=fas fa-edit btn-editar btn-pin iddb=></i>
             $query->where("contacto.id", $request['id']);
         }

@@ -11,6 +11,9 @@ use App\Models\DistritoFederal;
 use App\Models\DistritoLocal;
 use App\Models\AccesoFederal;
 use App\Models\AccesoLocal;
+use App\Models\AccesoModulo;
+use App\Models\Modulo;
+
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -22,20 +25,40 @@ class UserController extends Controller
 
     public function index(Request $request) {
 
-		if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-		else {
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 1)->get())) || Auth::user()->id == 1) {
 
-	    	$page_title = 'Usuarios';
-        	$content_header = 'Usuarios';
-
-            $data = User::all();
-            $distritos_federales = DistritoFederal::where("status", 1)->get();
-            $distritos_locales = DistritoLocal::where("status", 1)->get();
-
-            // dd($distritos_federales);
-
-        	return view('usuarios.inicio', compact('page_title','content_header','data','distritos_federales','distritos_locales'));
-		}
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+    
+                $page_title = 'Usuarios';
+                $content_header = 'Usuarios';
+    
+                $data = User::all();
+                $distritos_federales = DistritoFederal::where("status", 1)->get();
+                $distritos_locales = DistritoLocal::where("status", 1)->get();
+                $modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+    
+                $rick = new Request();
+                
+                $rick->replace([
+                    'id_usuario' => Auth::user()->id
+                ]);
+                
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                // dd($distritos_federales);
+    
+                return view('usuarios.inicio', compact(
+                        'page_title',
+                        'content_header',
+                        'data','distritos_federales','distritos_locales',
+                        'modulos','accesos_modulos'
+                    )
+                );
+            }
+        }
+        else return redirect('/');
     }
 
     public function dashboard(Request $request) {
@@ -45,9 +68,19 @@ class UserController extends Controller
 		if ($request->session()->has('lockscreen')) return redirect('lockscreen');
 		else {
 
-	    	$titulo = 'Dashboard';
+            $titulo = 'Dashboard';
 
-	    	return view('inicio.dashboard');
+            $rick = new Request();
+
+            $rick->replace([
+                'id_usuario' => Auth::user()->id
+            ]);
+            
+            // $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+            if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+            else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+
+	    	return view('inicio.dashboard',compact('accesos_modulos'));
 		}
     }
 
@@ -84,6 +117,7 @@ class UserController extends Controller
             'id_usuario' => $data->id,
             'distritos_federales' => $request['distritos_federales'],
             'distritos_locales' => $request['distritos_locales'],
+            'modulos' => $request['modulos'],
         ]);
 
         $this->accesos($rick);
@@ -121,6 +155,7 @@ class UserController extends Controller
             'id_usuario' => $request['id'],
             'distritos_federales' => $request['distritos_federales'],
             'distritos_locales' => $request['distritos_locales'],
+            'modulos' => $request['modulos'],
         ]);
 
         $this->accesos($rick);
@@ -155,6 +190,10 @@ class UserController extends Controller
             $data[0]->distritos_locales = AccesoLocal::where("id_usuario", $request['id'])
                     ->select("id_distrito_local","status")        
                     ->where("status", 1)->get();
+
+            $data[0]->modulos = AccesoModulo::where("id_usuario", $request['id'])
+                    ->select("id_modulo","status")        
+                    ->where("status", 1)->get();
         }
 
     	if($request['dataType'] == "json") return response()->json($data);
@@ -167,6 +206,9 @@ class UserController extends Controller
                 ->update(['status' => 0]);
 
         AccesoLocal::where('id_usuario', $request['id_usuario'])
+                ->update(['status' => 0]);
+        
+        AccesoModulo::where('id_usuario', $request['id_usuario'])
                 ->update(['status' => 0]);
 
         // dd(9);
@@ -251,5 +293,50 @@ class UserController extends Controller
                 else app(AccesoLocalController::class)->store($rick);
             }
         }
+
+        if($request['modulos']) {
+
+            $tmp = explode(';', $request['modulos']);
+
+            foreach ($tmp as $k => $v) {
+
+                $tmp_ = explode('|', $v);
+
+                $rick = new Request();
+
+                $param = [
+                    'id_usuario' => $request['id_usuario']
+                ];
+
+                foreach ($tmp_ as $k_ => $v_) {
+
+                    list($field, $value) = explode(',', $v_);
+
+                    $param[$field] = $value;
+                }
+
+                // print_r($param);
+                
+                $ron = AccesoModulo::where('id_usuario', $request['id_usuario'])
+                            ->where('id_modulo', $param['id_modulo'])
+                            ->get();
+
+                if(sizeof($ron)) {
+
+                    $param['id'] = $ron[0]->id;
+                    $param['status'] = 1;
+                }
+
+                $rick->replace($param);
+
+                if($param['id']) app(AccesoModuloController::class)->update($rick);
+                else app(AccesoModuloController::class)->store($rick);
+            }
+        }
+    }
+
+    private function accesosModulos(Request $request) {
+
+        // return AccesoModulo::
     }
 }

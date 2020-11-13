@@ -10,6 +10,8 @@ use Illuminate\Validation\Rule;
 
 use App\Models\Casilla;
 use App\Models\CasillaRepresentante;
+use App\Models\AccesoModulo;
+use App\Models\Modulo;
 
 class CasillaController extends Controller
 {
@@ -20,16 +22,23 @@ class CasillaController extends Controller
 
 	public function index(Request $request) {
 
-        if ($request->session()->has('lockscreen')) return redirect('lockscreen');
-        else {
+        if((sizeof(AccesoModulo::where("id_usuario", Auth::user()->id)->where("id_modulo", 6)->get())) || Auth::user()->id == 1) {
 
-        	$page_title = 'Casillas';
-        	$content_header = 'Casillas';
+            if ($request->session()->has('lockscreen')) return redirect('lockscreen');
+            else {
+    
+                $page_title = 'Casillas';
+                $content_header = 'Casillas';
+    
+                $data = $this->getData($request);
 
-        	$data = $this->getData($request);
-
-        	return view('casillas.inicio', compact('page_title','content_header','data'));
+                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+    
+                return view('casillas.inicio', compact('page_title','content_header','data','accesos_modulos'));
+            }
         }
+        else return redirect('/');
     }
 
     public function store(Request $request) {
