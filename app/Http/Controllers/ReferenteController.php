@@ -27,6 +27,12 @@ class ReferenteController extends Controller
                 
                 $page_title = 'Referentes';
                 $content_header = 'Referentes';
+
+                $rick = new Request();
+    
+                $rick->replace([
+                    'id_usuario' => Auth::user()->id
+                ]);
     
                 if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
                 else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
