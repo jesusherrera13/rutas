@@ -83,7 +83,25 @@
           </li>
 
           @endforeach
-
+        @else
+          @if(Auth::user()->id == 1)
+            <li class="nav-item">
+              <a href="{{URL::to('usuarios')}}" class="nav-link">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                  Usuarios
+                </p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{URL::to('modulos')}}" class="nav-link">
+                <i class="nav-icon fas fa-calendar-alt"></i>
+                <p>
+                  Módulos
+                </p>
+              </a>
+            </li>
+          @endif
         @endif
 
         <!-- <li class="nav-header">SISTEMA</li>
