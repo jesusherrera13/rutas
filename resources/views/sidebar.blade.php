@@ -71,36 +71,37 @@
 
         @if(isset($accesos_modulos))
 
-          @foreach($accesos_modulos as $k => $row)
+          @if(sizeof($accesos_modulos))
+            @foreach($accesos_modulos as $k => $row)
 
-          <li class="nav-item">
-            <a href="{{ URL::to($row->url) }}" class="nav-link">
-              <i class="nav-icon {{ $row->icon ?? 'fas fa-calendar-alt'}}"></i>
-              <p>
-                {{ $row->descripcion }}
-              </p>
-            </a>
-          </li>
-
-          @endforeach
-        @else
-          @if(Auth::user()->id == 1)
             <li class="nav-item">
-              <a href="{{URL::to('usuarios')}}" class="nav-link">
-                <i class="nav-icon fas fa-calendar-alt"></i>
+              <a href="{{ URL::to($row->url) }}" class="nav-link">
+                <i class="nav-icon {{ $row->icon ?? 'fas fa-calendar-alt'}}"></i>
                 <p>
-                  Usuarios
+                  {{ $row->descripcion }}
                 </p>
               </a>
             </li>
-            <li class="nav-item">
-              <a href="{{URL::to('modulos')}}" class="nav-link">
-                <i class="nav-icon fas fa-calendar-alt"></i>
-                <p>
-                  Módulos
-                </p>
-              </a>
-            </li>
+            @endforeach
+          @else
+            @if(Auth::user()->id == 1)
+              <li class="nav-item">
+                <a href="{{URL::to('usuarios')}}" class="nav-link">
+                  <i class="nav-icon fas fa-calendar-alt"></i>
+                  <p>
+                    Usuarios
+                  </p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{URL::to('modulos')}}" class="nav-link">
+                  <i class="nav-icon fas fa-calendar-alt"></i>
+                  <p>
+                    Módulos
+                  </p>
+                </a>
+              </li>
+            @endif
           @endif
         @endif
 
