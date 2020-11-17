@@ -17,6 +17,7 @@ class Contacto extends Model
         'apellido1',
         'apellido2',
         'telefono',
+        'clave_elector',
         'email',
         'id_asentamiento',
         'direccion',

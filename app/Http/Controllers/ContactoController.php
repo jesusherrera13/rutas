@@ -92,6 +92,7 @@ class ContactoController extends Controller
         $data->apellido1 = $validateData['apellido1'];
         $data->apellido2 = $request['apellido2'];
         $data->id_seccion = $validateData['id_seccion'];
+        $data->clave_elector = $request['clave_elector'];
         $data->id_asentamiento = $request['id_asentamiento'];
         $data->direccion = $request['direccion'];
         $data->id_referente = $request['id_referente'];
@@ -201,7 +202,7 @@ class ContactoController extends Controller
                         DB::raw("ifnull(contacto.apellido2,'') as apellido2"),
                         DB::raw("concat(ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' '),concat(' ',contacto.nombre)) as contacto"),
                         DB::raw("concat(SUBSTRING_INDEX(contacto.nombre, ' ', 1),' ',ifnull(concat(contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),' ')) as contacto_corto"),
-                        "contacto.id_seccion","casrep.id_casilla",
+                        "contacto.id_seccion","casrep.id_casilla","contacto.clave_elector",
                         DB::raw("
                             if(
                                 casilla.id_tipo_casilla='C',
@@ -246,7 +247,7 @@ class ContactoController extends Controller
         
         if($request['id']) {
 
-            // $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
+            $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
             // <i class=fas fa-edit btn-editar btn-pin iddb=></i>
             $query->where("contacto.id", $request['id']);
         }

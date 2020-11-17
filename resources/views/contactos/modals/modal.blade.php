@@ -61,17 +61,21 @@
 									</div>
 
 									<div class="form-row p-0">
-										<div class="form-group col-md-6 m-0">
+										<div class="form-group col-md-4 m-0">
 											<label for="nombre">Sección</label>
 											<div id="d-no_seccion">
 												<input type="text" id="no_seccion" class="typeahead form-control form-control-sm" placeholder="Sección">
 											</div>
 										</div>
-										<div class="form-group col-md-6 m-0">
+										<div class="form-group col-md-4 m-0">
 											<label for="apellido1">Casilla</label>
 											<select name="id_casilla" id="id_casilla" class="custom-select custom-select-sm">
 
 			        						</select>
+										</div>
+										<div class="form-group col-md-4 m-0">
+											<label for="clave_elector">Clave de Elector</label>
+									        <input type="text" name="clave_elector" id="clave_elector" class="form-control form-control-sm">
 										</div>
 									</div>
 

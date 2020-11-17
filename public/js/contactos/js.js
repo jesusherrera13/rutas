@@ -663,6 +663,9 @@ function getData(param) {
                             id: 'tbl-emails', data: data[0].emails
                         }]);
                     }
+                    $('#d-no_seccion .typeahead').typeahead('val', data[0].no_seccion);
+                    // $('#d-no_seccion .typeahead').eq(0).val(data[0].no_seccion).trigger("input");
+                    $('#d-no_seccion .typeahead').attr('seleccionado', 1);
 
                     $('#modal-registro').modal('show');
                 }
