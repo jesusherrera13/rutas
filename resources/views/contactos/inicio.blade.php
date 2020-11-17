@@ -127,7 +127,7 @@
 							<th>Casilla</th>
 							<th>Sección</th>
 							<th>Teléfono</th>
-							<!-- <th>Email</th> -->
+							<th>Clave de Elector</th>
 							<th>DF</th>
 							<th>DL</th>
 							<th>Asentamiento</th>
