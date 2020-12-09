@@ -5,9 +5,15 @@
 
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">Casillas</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
+				
+				<div>
+					<button id="btn-guardar" class="btn btn-sm btn-primary">
+						<i class="fas fa-save"></i>
+					</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 			</div>
 
 			<div class="modal-body">
@@ -105,17 +111,17 @@
 
 			</div>
 
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
 					<i class="fas fa-times"></i> Cerrar
 				</button>
-				<!-- <button id="btn-eliminar" class="btn btn-danger btn-sm">
+				<button id="btn-eliminar" class="btn btn-danger btn-sm">
 					<i class="fas fa-trash-alt"></i> Eliminar
-				</button> -->
+				</button>
 				<button id="btn-guardar" class="btn btn-sm btn-primary">
 					<i class="fas fa-save"></i> Guardar cambios
 				</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div> 

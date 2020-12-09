@@ -8,10 +8,15 @@
 		<div class="modal-content">
 
 			<div class="modal-header">
-				<h5 class="modal-title" id="contacto-modal-label">Distrito</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
+				<h5 class="modal-title" id="contacto-modal-label">Contacto</h5>
+				<div>
+					<button id="btn-guardar" class="btn btn-sm btn-primary">
+						<i class="fas fa-save"></i> Grabar cambios
+					</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 			</div>
 
 			<div class="modal-body">
@@ -206,7 +211,7 @@
 				</div>
 			</div>
 
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
 					<i class="fas fa-times"></i> Cerrar
 				</button>
@@ -216,7 +221,7 @@
 				<button id="btn-guardar" class="btn btn-sm btn-primary">
 					<i class="fas fa-save"></i> Grabar cambios
 				</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div> 
