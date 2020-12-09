@@ -368,7 +368,6 @@ class ContactoController extends Controller
         
         if(sizeof($seleccionados)) $query->whereNotIn("contacto.id", $seleccionados);
 
-
         // dd($query->toSql());
 
         $data = $query->get();

@@ -161,4 +161,11 @@ Route::post('modulo/store', 'ModuloController@store');
 Route::post('modulo/update', 'ModuloController@update');
 // MODULO
 
+// REPRESENTANTE_TIPO
+Route::resource('representantes-tipos', 'RepresentanteTipoController');
+Route::post('representantes-tipos', 'RepresentanteTipoController@getData');
+Route::post('representante/store', 'RepresentanteTipoController@store');
+Route::post('representante/update', 'RepresentanteTipoController@update');
+// REPRESENTANTE_TIPO
+
 Route::get('generate-pdf', 'PDFController@generatePDF');

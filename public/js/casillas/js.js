@@ -13,6 +13,8 @@ var asentamientos = new Bloodhound({
     }
 });
 
+var representantes_tipos = [];
+
 $(document).ready(function() {
 
     $('#btn-nuevo').click(function() {
@@ -30,134 +32,6 @@ $(document).ready(function() {
         
         getData();
         $('#modal-registro  .modal-title').html('Casilla');
-    });
-
-    $('#tbl-data').DataTable({
-        responsive: true,
-        colReorder: true,
-        // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
-        language: {
-            // search: "_INPUT_",
-            search: "Filtrar:",
-            searchPlaceholder: "Buscar...",
-            // sLengthMenu: "_MENU_"
-        },
-        columns: [
-            { data: "casilla" },
-            { data: "no_rcs" },
-            { data: "no_distrito_federal" },
-            { data: "no_distrito_local" },
-            { data: "ruta" },
-            /*{ data: null,        
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-
-                    $(nTd).html('');
-                }
-            },*/
-            { data: null,        
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-
-                    var html = '';
-
-                    html += '<button class="btn btn-success btn-sm btn-editar">';
-                    html += '   <i class="fas fa-edit"></i>';
-                    html += '  </button>';
-
-                    $(nTd).html(html);
-                }
-            },
-        ],
-        columnDefs: [
-            {
-                orderable: false,
-                targets: -1,
-            }
-        ],
-        createdRow: function(row, data, dataIndex) {
-            
-        }
-    });
-
-    $('#tbl-representantes').DataTable({
-        responsive: true,
-        colReorder: true,
-        "dom": 'frtip',
-        // paging: false,
-        pageLength : 6,
-        language: {
-            // search: "_INPUT_",
-            search: "Buscar:",
-            searchPlaceholder: "Buscar...",
-            // sLengthMenu: "_MENU_"
-        },
-        columns: [
-            { data: "contacto" },
-            { data: null,        
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-
-                    var html = '';
-
-                    // html += '<button class="btn btn-danger btn-sm pin" accion="delete">';
-                    // html += '   <i class="fas fa-trash-alt"></i>';
-                    // html += '</button>';
-
-                    html += '<button class="btn btn-danger btn-sm pin" accion="delete">'
-                    html += '   <i class="fas fa-trash-alt"></i>';
-                    html += '</button>';
-
-                    $(nTd).html(html);
-                }
-            },
-        ],
-        columnDefs: [
-            {
-                orderable: false,
-                targets: -1,
-            }
-        ],
-        createdRow: function(row, data, dataIndex) {
-
-        }
-    });
-
-    $('#tbl-contactos').DataTable({
-        responsive: true,
-        colReorder: true,
-        "dom": 'frtip',
-        // lengthMenu: [[7], [7]],
-        // paging: false,
-        // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
-        pageLength : 6,
-        language: {
-            // search: "_INPUT_",
-            search: "Buscar:",
-            searchPlaceholder: "Buscar...",
-            // sLengthMenu: "_MENU_"
-        },
-        columns: [
-            { data: "contacto" },
-            { data: null,
-                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-
-                    var html = '';
-
-                    html += '<button class="btn btn-primary btn-sm pin" accion="add">';
-                    html += '   <i class="fas fa-plus-circle"></i>';
-                    html += '</button>';
-
-                    $(nTd).html(html);
-                }
-            },
-        ],
-        columnDefs: [
-            {
-                orderable: false,
-                targets: -1,
-            }
-        ],
-        createdRow: function(row, data, dataIndex) {
-
-        }
     });
 
     $('body')
@@ -276,11 +150,192 @@ $(document).ready(function() {
             $('#id_asentamiento').val('');
         }
     });
+
+    var param = paramMaker({form: $('#form')});
+    param = paramMaker({json: param, form: $('#form')});
+
+    var f1 = $.ajax({
+        method: 'post',
+        dataType: 'json',
+        url: window.location.origin + '/representantes-tipos',
+        cache: false,
+        data: param
+    });
+
+    $.when(f1).then(function(r1) {
+
+        representantes_tipos = r1;
+        
+        init();
+    });
 });
 
-function getData(param) {
 
-    console.log(param)
+function init() {
+
+    console.log('init')
+
+    $('#tbl-data').DataTable({
+        responsive: true,
+        colReorder: true,
+        // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
+        language: {
+            // search: "_INPUT_",
+            search: "Filtrar:",
+            searchPlaceholder: "Buscar...",
+            // sLengthMenu: "_MENU_"
+        },
+        columns: [
+            { data: "casilla" },
+            { data: "no_rcs" },
+            { data: "no_distrito_federal" },
+            { data: "no_distrito_local" },
+            { data: "ruta" },
+            /*{ data: null,        
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+
+                    $(nTd).html('');
+                }
+            },*/
+            { data: null,        
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+
+                    var html = '';
+
+                    html += '<button class="btn btn-success btn-sm btn-editar">';
+                    html += '   <i class="fas fa-edit"></i>';
+                    html += '</button>';
+
+                    $(nTd).html(html);
+                }
+            },
+        ],
+        columnDefs: [
+            {
+                orderable: false,
+                targets: -1,
+            }
+        ],
+        createdRow: function(row, data, dataIndex) {
+            
+        }
+    });
+
+    $('#tbl-representantes').DataTable({
+        responsive: true,
+        colReorder: true,
+        "dom": 'frtip',
+        // paging: false,
+        pageLength : 6,
+        language: {
+            // search: "_INPUT_",
+            search: "Buscar:",
+            searchPlaceholder: "Buscar...",
+            // sLengthMenu: "_MENU_"
+        },
+        columns: [
+            { data: "contacto" },
+            { data: null,        
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+
+                    var select = $('<select>', {
+                        campo: 'id_representante_tipo'
+                    });
+
+                    var option = $('<option>', {
+                        value: '',
+                    });
+
+                    select.append(option);
+
+                    for(var j in representantes_tipos) {
+
+                        option = $('<option>', {
+                            value: representantes_tipos[j].id,
+                            text: representantes_tipos[j].descripcion
+                        });
+
+                        select.append(option);
+                    }
+
+                    if(oData.id_representante_tipo) {
+
+                        select.val(eval('oData.id_representante_tipo'));
+                    }
+
+                    $(nTd).html(select);
+                }
+            },
+            { data: null,        
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+
+                    var html = '';
+
+                    // html += '<button class="btn btn-danger btn-sm pin" accion="delete">';
+                    // html += '   <i class="fas fa-trash-alt"></i>';
+                    // html += '</button>';
+
+                    // html += '<button class="btn btn-danger btn-sm pin" accion="delete">'
+                    html += '   <i class="fas fa-trash-alt pin" accion="delete"></i>';
+                    // html += '</button>';
+
+                    $(nTd).html(html);
+                }
+            },
+        ],
+        columnDefs: [
+            {
+                orderable: false,
+                targets: [-1,-2],
+            }
+        ],
+        createdRow: function(row, data, dataIndex) {
+
+        }
+    });
+
+    $('#tbl-contactos').DataTable({
+        responsive: true,
+        colReorder: true,
+        "dom": 'frtip',
+        // lengthMenu: [[7], [7]],
+        // paging: false,
+        // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
+        pageLength : 6,
+        language: {
+            // search: "_INPUT_",
+            search: "Buscar:",
+            searchPlaceholder: "Buscar...",
+            // sLengthMenu: "_MENU_"
+        },
+        columns: [
+            { data: "contacto" },
+            { data: null,
+                "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+
+                    var html = '';
+
+                    // html += '<button class="btn btn-primary btn-sm pin" accion="add">';
+                    html += '   <i class="fas fa-plus-circle pin" accion="add"></i>';
+                    // html += '</button>';
+
+                    $(nTd).html(html);
+                }
+            },
+        ],
+        columnDefs: [
+            {
+                orderable: false,
+                targets: -1,
+            }
+        ],
+        createdRow: function(row, data, dataIndex) {
+
+        }
+    });
+}
+
+function getData(param) {
 
     spinner();
 
@@ -376,7 +431,26 @@ function seleccionados() {
 
     var data = [];
 
-    if(dt.data().count()) {
+    $('#tbl-representantes > tbody > tr').each(function(i, o) {
+
+        var row = dt.row($(o)).data();
+
+        row.id_representante_tipo = $(o).find('select').val();
+
+        data.push(row)
+        /* var json = {
+            id: row.id || '',
+            id_equipo: row.id_equipo,
+            id_jugador: row.id_jugador,
+            no_orden: row.no_orden,
+            id_roster: row.id_roster || '',
+            id_titular: row.id_titular || '',
+            id_sustitucion: row.id_sustitucion || '',
+        } */
+
+    });
+
+    /* if(dt.data().count()) {
 
         dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
 
@@ -384,7 +458,7 @@ function seleccionados() {
 
             data.push(row)
         });
-    }
+    } */
 
     return data;
 }
@@ -402,6 +476,7 @@ function seleccionadosParse(param) {
         if(param.get_keys) {
 
             data += 'id,' + (tmp[i].id || '') + '|id_casilla,' + tmp[i].id_casilla + '|id_contacto,' + tmp[i].id_contacto;
+            data += '|id_representante_tipo,' + tmp[i].id_representante_tipo;
         }
         else data += (tmp[i][param.key] || '0');
     }

@@ -135,7 +135,7 @@ $(document).ready(function() {
             },
         ],
         lengthMenu: [ [10, 25, 50, -1], ['10 Filas', '25 Filas', '50 Filas', 'Mostrar todo'] ],
-        dom: 'Bfrtipl',
+        /* dom: 'Bfrtipl',
         buttons: [
             {
                 extend: 'copyHtml5',
@@ -159,7 +159,7 @@ $(document).ready(function() {
                 }
             },
             'colvis'
-        ],
+        ], */
         createdRow: function(row, data, dataIndex) {
             
         }
@@ -792,10 +792,35 @@ function getData(param) {
                     }
                 },
                 'colvis'
-            ],
+            ], 
             createdRow: function(row, data, dataIndex) {
 
+            },
+            "initComplete": function( settings, json ) {
+                /* 
+                tbl_data.buttons('.buttons-excel').nodes().addClass('hidden');
+                
+                console.log(999)
+
+                tbl_data.buttons( '.export' ).remove();
+
+                $('.dt-buttons').remove(); */
+
+                /*new $.fn.dataTable.Buttons(tbl_data, {
+                    buttons: [
+                        'copy', 'excel', 'pdf'
+                    ]
+                });
+                */
             }
+        })
+        .on('init', function () {
+
+
+            // tbl_data.buttons('.dt-buttons').hide();
+            /* if ( tbl_data.rows().count() > 5000 ) {
+            } else {
+                tbl_data.buttons('.csvButton').nodes().removeClass('hidden'); */
         });
     }
 

@@ -137,6 +137,7 @@ class CasillaRepresentanteController extends Controller
 	    					->leftJoin("contactos as contacto", "contacto.id", "rc.id_contacto")
 		                    ->leftJoin("distritos_federales as federal", "federal.id", "seccion.id_distrito_federal")
 		                    ->leftJoin("distritos_locales as local", "local.id", "seccion.id_distrito_local")
+		                    ->leftJoin("representantes_tipos as rep", "rep.id", "rc.id_representante_tipo")
 		    				->select(
 		                        "rc.id","rc.id_contacto",
 		                        DB::raw("concat(contacto.nombre,ifnull(concat(' ',contacto.apellido1),''),ifnull(concat(' ',contacto.apellido2),'')) as contacto"),
@@ -152,7 +153,7 @@ class CasillaRepresentanteController extends Controller
 		                        "casilla.status","casilla.no_casilla",
 		                        "seccion.id_distrito_federal","federal.descripcion as distrito_federal",
                                 "seccion.id_distrito_local","local.descripcion as distrito_local",
-                                "contacto.direccion",
+                                "contacto.direccion","rc.id_representante_tipo","rep.descripcion as representante_tipo","rep.id_codigo",
                                 DB::raw("
                                     (
                                         select ctel.no_telefono
@@ -181,7 +182,9 @@ class CasillaRepresentanteController extends Controller
 
 	        if($request['no_distrito_federal']) $query->where("casilla.no_distrito_federal", $request['no_distrito_federal']);
 
-	        if($request['no_distrito_local']) $query->where("casilla.no_distrito_local", $request['no_distrito_local']);
+            if($request['no_distrito_local']) $query->where("casilla.no_distrito_local", $request['no_distrito_local']);
+            
+	        if($request['mod_op'] == 'get_representantes') $query->where("rc.id_representante_tipo", "!=", 0);
 
 	        $data = $query->get();
 

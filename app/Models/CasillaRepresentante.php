@@ -14,6 +14,7 @@ class CasillaRepresentante extends Model
     protected $fillable = [
     	'id_casilla',
         'id_contacto',
+        'id_representante_tipo',
     	'status',
     ];
 }

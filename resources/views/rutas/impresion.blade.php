@@ -54,10 +54,15 @@
 
 	#tbl-data > thead > tr > :nth-child(2) {
 
-		width: 300px;
+		width: 250px;
 	}
 
 	#tbl-data > thead > tr > :nth-child(3) {
+
+		width: 100px;
+	}
+
+	#tbl-data > thead > tr > :nth-child(4) {
 
 		width: 100px;
 	}
@@ -112,6 +117,7 @@
 				<th>Nombre</th>
 				<th>Domicilio</th>
 				<th>Teléfono</th>
+				<th>Tipo</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -120,6 +126,7 @@
 				<td>{{ $row_->contacto }}</td>
 				<td>{{ $row_->direccion }}</td>
 				<td>{{ $row_->no_telefono }}</td>
+				<td>{{ $row_->representante_tipo }}</td>
 			</tr>
 		@endforeach
 

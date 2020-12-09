@@ -325,9 +325,12 @@ class CasillaController extends Controller
                                         from casillas_representantes as cr
                                         where cr.id_casilla=casilla.id and cr.status=1
                                     ) > 0,
-                                    (select count(cr.id_casilla)
-                                    from casillas_representantes as cr
-                                    where cr.id_casilla=casilla.id and cr.status=1),
+                                    (
+                                        select count(cr.id_casilla)
+                                        from casillas_representantes as cr
+                                        where cr.id_casilla=casilla.id and cr.status=1 and cr.id_representante_tipo is not null
+                                        and cr.id_representante_tipo
+                                    ),
                                     null
                                 ) as no_rcs
                             "),

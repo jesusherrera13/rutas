@@ -229,7 +229,8 @@ class RutaController extends Controller
                     $rick = new Request();
 
                     $rick->replace([
-                        'id_casilla' => $row->id_casilla
+                        'id_casilla' => $row->id_casilla,
+                        'mod_op' => 'get_representantes'
                     ]);
 
                     // dd($rick);
