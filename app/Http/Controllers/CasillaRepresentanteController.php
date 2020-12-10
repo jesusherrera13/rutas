@@ -184,7 +184,7 @@ class CasillaRepresentanteController extends Controller
 
             if($request['no_distrito_local']) $query->where("casilla.no_distrito_local", $request['no_distrito_local']);
             
-	        if($request['mod_op'] == 'get_representantes') $query->where("rc.id_representante_tipo", "!=", 0);
+	        // if($request['mod_op'] == 'get_representantes') $query->where("rc.id_representante_tipo", "!=", 0);
 
 	        $data = $query->get();
 
