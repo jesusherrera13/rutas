@@ -6,7 +6,7 @@ $(document).ready(function() {
 
         formReset($('#form-registro'));
 
-        if($(this).attr('id') == 'btn-nuevo') $('#modal-registro').modal('toggle');
+        if($(this).attr('id') == 'btn-nuevo') $('#modal-registro').modal('show');
         else if($(this).attr('id') == 'btn-reset') {
 
             var dt = $('#tbl-casillas').DataTable();
@@ -14,6 +14,12 @@ $(document).ready(function() {
         }
 
         $('#id_distrito_federal option').prop('checked', 0);
+    });
+
+    $('#modal-registro').on('shown.bs.modal', function () {
+
+        $('#tbl-casillas').css('width', '100%');
+        $('#tbl-casillas').DataTable().columns.adjust().draw();
     });
 
     $('#btn-agregar').click(function() {
@@ -243,7 +249,7 @@ $(document).ready(function() {
         if(msj) dialog_alert({id: 'dialog-alert', body: msj});
         else {
 
-            var param = { lista: '' };
+            var param = { items: '' };
 
             var dt = $('#tbl-casillas').DataTable();
 
@@ -259,10 +265,10 @@ $(document).ready(function() {
                     if(row[0].id_tipo_casilla == 'B') status = row[0].status;
                     else status = ($(o).find(':checkbox')).prop('checked') ? 1 : 0;
 
-                    if(param.lista) param.lista += ';';
+                    if(param.items) param.items += ';';
 
-                    param.lista += 'id,' + row[0].id +'|id_seccion,' + row[0].id_seccion + '|id_tipo_casilla,' + row[0].id_tipo_casilla;
-                    param.lista += '|status,' + status + '|no_casilla,' + no_casilla;
+                    param.items += 'id,' + row[0].id +'|id_seccion,' + row[0].id_seccion + '|id_tipo_casilla,' + row[0].id_tipo_casilla;
+                    param.items += '|status,' + status + '|no_casilla,' + no_casilla;
 
                 });
 
@@ -270,10 +276,10 @@ $(document).ready(function() {
 
                     var row = this.data();
 
-                    if(param.lista) param.lista += ';';
+                    if(param.items) param.items += ';';
 
-                    param.lista += 'id,' + param.id +'|no_seccion,' + no_seccion;
-                    param.lista += '|id_tipo_casilla,' + row.id_tipo_casilla + '|no_casilla,' + row.no_casilla;
+                    param.items += 'id,' + param.id +'|no_seccion,' + no_seccion;
+                    param.items += '|id_tipo_casilla,' + row.id_tipo_casilla + '|no_casilla,' + row.no_casilla;
                 });*/
             }
 
@@ -383,7 +389,12 @@ function distritosLocales(param) {
         
         spinner();
 
-        var param = paramMaker({json: param, form: $('#form')});
+        var param_ = paramMaker({form: $('#form')});
+
+        console.log(param)
+
+        if(param.id_distrito_federal) param_.id_distrito_federal = param.id_distrito_federal;
+        if(param.id_distrito_local) param_.id_distrito_local = param.id_distrito_local;
 
         $('#id_distrito_local').html('');
 
@@ -398,7 +409,7 @@ function distritosLocales(param) {
             url: window.location.origin + '/distritos-ligues',
             dataType: 'json',
             method: 'post',
-            data: param,
+            data: param_,
             success: function(data) {
 
                 for(var i in data) {

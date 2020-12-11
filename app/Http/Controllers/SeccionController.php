@@ -130,6 +130,8 @@ class SeccionController extends Controller
             }
         }
 
+        $this->setCasilla($request);
+
         if($request->ajax()) {
             
             return response()->json([
@@ -281,6 +283,39 @@ class SeccionController extends Controller
             }
 
             // dd('row');
+        }
+    }
+
+    public function setCasilla(Request $request) {
+
+        if($request['items']) {
+
+            $tmp = explode(';', $request['items']);
+
+            foreach ($tmp as $k => $v) {
+
+                $tmp_ = explode('|', $v);
+
+                $rick = new Request();
+
+                $param = [
+                    'id_distrito_federal' => $request['id_distrito_federal'],
+                    'id_distrito_local' => $request['id_distrito_local'],
+                ];
+
+                foreach ($tmp_ as $k_ => $v_) {
+
+                    list($field, $value) = explode(',', $v_);
+
+                    $param[$field] = $value;
+                }
+                
+
+                $rick->replace($param);
+
+                if($param['id']) app(CasillaController::class)->update($rick);
+                else app(CasillaController::class)->store($rick);
+            }
         }
     }
 }

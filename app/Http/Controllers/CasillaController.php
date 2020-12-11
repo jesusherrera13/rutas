@@ -101,8 +101,8 @@ class CasillaController extends Controller
             // 'no_seccion' => 'required|unique:casillas,no_seccion,'.$request['id'].',id',
             'id_seccion' => 'required',
             'id_tipo_casilla' => 'required',
-            'no_distrito_federal' => 'required',
-            'no_distrito_local' => 'required',
+            // 'no_distrito_federal' => 'required',
+            // 'no_distrito_local' => 'required',
         ]);
 
         $this->row = Casilla::find($request['id']);

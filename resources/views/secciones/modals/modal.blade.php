@@ -5,9 +5,19 @@
 
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">Secciones</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
+
+				<div>
+					<button id="btn-reset" class="btn btn-success btn-sm">
+						<i class="far fa-file"></i> Nuevo
+					</button>
+					<button id="btn-grabar" class="btn btn-sm btn-primary">
+						<i class="fas fa-save"></i> Guardar cambios
+					</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
 			</div>
 
 			<div class="modal-body">
@@ -76,7 +86,7 @@
 						</div>
 
 						<div class="row">
-							<div class="col-md-6">
+							<div class="col-md-12">
 					  			<table id="tbl-casillas" class="table-bordered table-striped table-sm display compact" style="width:100%">
 									<thead>
 										<tr>
@@ -92,7 +102,7 @@
 				</div>
 			</div>
 
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
 					<i class="fas fa-times"></i> Cerrar
 				</button>
@@ -102,7 +112,7 @@
 				<button id="btn-grabar" class="btn btn-sm btn-primary">
 					<i class="fas fa-save"></i> Grabar cambios
 				</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div> 
