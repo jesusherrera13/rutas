@@ -9,9 +9,9 @@ $(document).ready(function() {
         if($(this).attr('id') == 'btn-nuevo') $('#modal-registro').modal('show');
         else if($(this).attr('id') == 'btn-reset') {
 
+        }
             var dt = $('#tbl-casillas').DataTable();
             dt.clear().draw();
-        }
 
         $('#id_distrito_federal option').prop('checked', 0);
     });
