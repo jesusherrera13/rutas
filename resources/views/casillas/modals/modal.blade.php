@@ -35,7 +35,7 @@
 
 							<ul class="nav nav-tabs" id="myTab" role="tablist">
 								<li class="nav-item" role="presentation">
-									<a class="nav-link active" id="ruta-tab" data-toggle="tab" href="#ruta" role="tab" aria-controls="ruta" aria-selected="true">Casilla</a>
+									<a class="nav-link active" id="casilla-tab" data-toggle="tab" href="#casilla" role="tab" aria-controls="casilla" aria-selected="true">Casilla</a>
 								</li>
 								<li class="nav-item" role="presentation">
 									<a class="nav-link" id="casillas-tab" data-toggle="tab" href="#casillas" role="tab" aria-controls="casillas" aria-selected="false">Representantes</a>
@@ -43,7 +43,7 @@
 							</ul>
 
 							<div class="tab-content pt-1" id="myTabContent">
-								<div class="tab-pane fade show active" id="ruta" role="tabpanel" aria-labelledby="ruta-tab">
+								<div class="tab-pane fade show active" id="casilla" role="tabpanel" aria-labelledby="casilla-tab">
 									
 									<div class="row">
 										<div class="col-6">
@@ -75,31 +75,21 @@
 								<div class="tab-pane fade" id="casillas" role="tabpanel" aria-labelledby="casillas-tab">
 									<div class="row">
 										<div class="col-12">
-											<div class="row">
-												<div class="col-6">
-													<table id="tbl-representantes" class="table table-bordered table-striped table-sm order-column" style="width:100%">
-														<thead>
-															<tr>
-																<th>Nombre</th>
-																<th></th>
-																<th></th>
-															</tr>
-														</thead>
-														<tbody></tbody>
-													</table>
-												</div>
-												<div class="col-6">
-													<table id="tbl-contactos" class="table table-bordered table-striped table-sm order-column" style="width:100%">
-														<thead>
-															<tr>
-																<th>Contactos</th>
-																<th></th>
-															</tr>
-														</thead>
-														<tbody></tbody>
-													</table>
-												</div>
-											</div>
+											<button id="btn-contactos" class="btn btn-primary btn-sm">Contactos</button>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-12">
+											<table id="tbl-representantes" class="table table-bordered table-striped table-sm order-column" style="width:100%">
+												<thead>
+													<tr>
+														<th>Nombre</th>
+														<th></th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody></tbody>
+											</table>
 										</div>
 									</div>
 								</div>

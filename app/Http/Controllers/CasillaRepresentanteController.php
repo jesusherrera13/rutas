@@ -37,6 +37,7 @@ class CasillaRepresentanteController extends Controller
 
         $data->id_contacto = $validateData['id_contacto'];
         $data->id_casilla = $request['id_casilla'];
+        $data->id_representante_tipo = $request['id_representante_tipo'];
         $data->user_id_create = Auth::user()->id;
 
         $data->save();

@@ -19,19 +19,67 @@ $(document).ready(function() {
 
     $('#btn-nuevo').click(function() {
 
+        $('#casilla-tab').click();
+
+        var dt1 = $('#tbl-representantes').DataTable();
+
+        dt1.clear().draw();
+
         formReset($('#form-registro'));
 
-        $('#modal-registro').modal('toggle');
+        $('#modal-registro').modal('show');
     });
 
     $('#modal-registro').on('shown.bs.modal', function (e) {
       
     });
 
+    $('#modal-filtro').on('shown.bs.modal', function (e) {
+
+        var dt = $('#tbl-representantes').DataTable();
+
+        var items = '';
+
+        if(dt.data().count()) {
+
+            dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+    
+                var row = this.data();
+    
+                // console.log(row.id_contacto);
+                if(items) items += ';';
+
+                items += row.id_contacto;
+            });
+        }
+        
+        /* 
+
+        for(var i in data[0].representantes) {
+
+            if(items) items += ';';
+
+            items += data[0].representantes[i].id_contacto;
+        }
+
+        */
+
+        contactos({
+            seleccionados: items,
+            mod_op: 'representantes_seleccionados',
+            id_modulo: 'casillas'
+        }); 
+    });
+
     $('#modal-registro').on('hidden.bs.modal', function (e) {
         
         getData();
         $('#modal-registro  .modal-title').html('Casilla');
+    });
+
+    $('#btn-contactos').click(function() {
+
+        $('#modal-filtro').modal('show');
     });
 
     $('body')
@@ -356,6 +404,8 @@ function getData(param) {
 
             if(param.id) {
 
+                $('#casilla-tab').click();
+
                 Object.keys(data[0]).forEach(function(k) {
 
                     $('#' + k).val(data[0][k]);
@@ -364,21 +414,6 @@ function getData(param) {
                 $('#modal-registro  .modal-title').html('Casilla: ' + data[0]['casilla']);
 
                 dataTableSetData([{id: 'tbl-representantes', data: data[0].representantes}]);
-
-                var items = '';
-
-                for(var i in data[0].representantes) {
-
-                    if(items) items += ';';
-
-                    items += data[0].representantes[i].id_contacto;
-                }
-
-                contactos({
-                    seleccionados: items,
-                    mod_op: 'representantes_seleccionados',
-                    id_modulo: 'casillas'
-                });
 
                 $('#modal-registro').modal('show');
             }
@@ -432,22 +467,24 @@ function seleccionados() {
     var data = [];
 
     $('#tbl-representantes > tbody > tr').each(function(i, o) {
-
+        
         var row = dt.row($(o)).data();
+        
+        if(row) {
 
-        row.id_representante_tipo = $(o).find('select').val();
-
-        data.push(row)
-        /* var json = {
-            id: row.id || '',
-            id_equipo: row.id_equipo,
-            id_jugador: row.id_jugador,
-            no_orden: row.no_orden,
-            id_roster: row.id_roster || '',
-            id_titular: row.id_titular || '',
-            id_sustitucion: row.id_sustitucion || '',
-        } */
-
+            row.id_representante_tipo = $(o).find('select').val() || '';
+    
+            data.push(row)
+            /* var json = {
+                id: row.id || '',
+                id_equipo: row.id_equipo,
+                id_jugador: row.id_jugador,
+                no_orden: row.no_orden,
+                id_roster: row.id_roster || '',
+                id_titular: row.id_titular || '',
+                id_sustitucion: row.id_sustitucion || '',
+            } */
+        }
     });
 
     /* if(dt.data().count()) {
@@ -469,6 +506,8 @@ function seleccionadosParse(param) {
 
     var data = '';
 
+    console.log(tmp)
+
     for(var i in tmp) {
 
         if(data) data += ';';
@@ -476,7 +515,7 @@ function seleccionadosParse(param) {
         if(param.get_keys) {
 
             data += 'id,' + (tmp[i].id || '') + '|id_casilla,' + tmp[i].id_casilla + '|id_contacto,' + tmp[i].id_contacto;
-            data += '|id_representante_tipo,' + tmp[i].id_representante_tipo;
+            data += '|id_representante_tipo,' + (tmp[i].id_representante_tipo || '');
         }
         else data += (tmp[i][param.key] || '0');
     }

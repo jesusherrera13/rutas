@@ -45,6 +45,7 @@
 </div>
 
 @include('casillas.modals.modal')
+@include('casillas.modals.filtro')
 @include('modals.spinner')
 @include('modals.modals')
 
