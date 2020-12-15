@@ -73,6 +73,72 @@ $(document).ready(function() {
         $('#id_distrito_federal option').prop('checked', 0);
     });
 
+    $('#btn-importar').click(function() {
+
+        dataTableClear([{id: 'tbl-importar'}]);
+
+        formReset($('#form-importar'));
+
+        $('#modal-importar').modal('show');
+    });
+
+    $('#btn-verificar, #btn-grabar-importar').click(function() {
+
+        if($('#archivo').val()) {
+
+            var data = new FormData($('#form-importar')[0]);
+
+            var continuar = true;
+
+            data.append('id_usuario', $('#id_usuario').val());
+
+            var importar;
+
+            if($(this).attr('id') == 'btn-grabar-importar') {
+
+                continuar = confirm('\u00BFDesea importar los regisros?');
+
+                importar = 1;
+                
+                data.append('importar', importar);
+            }
+
+            // console.log(data);
+
+            if(continuar) {
+
+                spinner();
+
+                $.ajax({
+                    url: window.location.origin + '/contacto/importar',
+                    method: 'post',
+                    data: data,
+                    dataType: 'json',
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    success: function(data) {
+
+                        dataTableSetData([{id: 'tbl-importar',data: data}]);
+
+                        if(importar) getData();
+
+                        spinner({close: true});
+                    },
+                    complete: function() {
+                        
+                        spinner({close: true});
+                    },
+                    error: function(jqXHR, textStatus, erroThrown) {
+
+                        spinner({close: true});
+                    }
+                });
+            }
+        }
+        else dialog_alert({id: 'dialog-alert',body: 'Seleccione el archivo'});
+    });
+
     $('#no_municipio_').change(function() {
 
         if($(this).val()) {
@@ -162,6 +228,36 @@ $(document).ready(function() {
         ], */
         createdRow: function(row, data, dataIndex) {
             
+        }
+    });
+
+    $('#tbl-importar').DataTable({
+        responsive: true,
+        ordering: false,
+        // searching: false,
+        // paging: false,
+        // info: false,
+        columns: [
+            { data: 'id' },
+            { data: 'no_seccion' },
+            { data: 'nombre' },
+            { data: 'apellido1' },
+            { data: 'apellido2' },
+            { data: 'telefono' },
+            { data: 'referente' },
+        ],
+        columnDefs: [
+            {
+                type: 'chinese-string', 
+                targets: 1 
+            },
+            {
+                // targets: -1,
+                // className: 'text-right'
+            }
+        ],
+        createdRow: function(row, data, dataIndex) {
+           
         }
     });
     
@@ -701,11 +797,7 @@ function getData(param) {
                 url: "/contactos-ssp",
                 "data": function ( d ) {
 
-                    console.log(d)
-
                     var json = paramMaker({json: d, form: $('#form')});
-
-                    console.log(d)
 
                     // d.id_distrito_federal = $('#id_distrito_federal_').val();
                     // d.id_distrito_local = $('#id_distrito_local_').val();
@@ -730,7 +822,8 @@ function getData(param) {
             columnDefs: [
                 {
                     type: 'chinese-string', 
-                    targets: 0 
+                    targets: 0 ,
+                    width: "20%" 
                 },
             ],
             lengthMenu: [ [10, 25, 50, -1], ['10 Filas', '25 Filas', '50 Filas', 'Mostrar todo'] ], 
@@ -779,8 +872,6 @@ function getData(param) {
 
                         str += 'Registros totales: ' + info.recordsDisplay;
 
-                        console.log(str)
-
                         return str;
                     },
                     messageBottom: function() {
@@ -812,10 +903,25 @@ function getData(param) {
                     ]
                 });
                 */
+            },
+            "drawCallback": function( settings ) {
+
+                setTimeout(function() {
+
+                    
+                    var w = parseInt($('#tbl-data_wrapper .DTFC_LeftBodyLiner').css('width'));
+
+                    w += 10;
+
+                    console.log(w);
+
+                    $('#tbl-data_wrapper .DTFC_LeftBodyLiner').css('width', w + 'px');
+                 }, 1000);
             }
         })
         .on('init', function () {
-
+            
+            
 
             // tbl_data.buttons('.dt-buttons').hide();
             /* if ( tbl_data.rows().count() > 5000 ) {

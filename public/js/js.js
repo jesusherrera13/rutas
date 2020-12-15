@@ -302,6 +302,17 @@ function rowUpdate(param) {
     });
 }
 
+function dataTableClear(param) {
+
+    for(var i in param) {
+
+        var dt = $('#' + param[i].id).DataTable();
+
+        dt.clear();
+        dt.draw();
+    }
+}
+
 // Script para datatable con acentos
 
 jQuery.extend( jQuery.fn.dataTableExt.oSort, {

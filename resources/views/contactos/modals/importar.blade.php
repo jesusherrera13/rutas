@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="dialog-importar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-importar" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 
@@ -38,13 +38,16 @@
 				<div class="row">
 
 					<div class="col-12">
-						<table id="tbl-importar" class="table table-responsive-sm table-bordered table-sm display responsive nowrap data-table verde" width="100%">
+						<table id="tbl-importar" class="table table-responsive-sm table-bordered table-sm display responsive nowrap data-table verde" style="width:100%">
 							<thead>
 								<tr>
 									<th></th>
-									<th>Descripción</th>
-									<th>Código</th>
-									<th>No. base</th>
+									<th>Seccion</th>
+									<th>Nombre</th>
+									<th>Apellido 1</th>
+									<th>Apellido 2</th>
+									<th>Teléfono</th>
+									<th>Referente</th>
 								</tr>
 							</thead>
 							<tbody></tbody>

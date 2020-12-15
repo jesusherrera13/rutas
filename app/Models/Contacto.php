@@ -12,6 +12,7 @@ class Contacto extends Model
     protected $table = "contactos";
 
     protected $fillable = [
+    	'no_seccion',
     	'id_seccion',
         'nombre',
         'apellido1',

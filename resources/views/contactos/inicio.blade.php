@@ -27,6 +27,11 @@
 								<button id="btn-nuevo" class="btn btn-primary btn-sm mr-1 btn-formulario">
 									<i class="far fa-file"></i> Nuevo
 								</button>
+								@if(Auth::user()->id == 1)
+								<button id="btn-importar" type="button" class="btn btn-mx btn-sm mr-1 btn-formulario">
+									<i class="fas fa-upload"></i> Importar
+								</button>
+								@endif
 								<button id="btn-buscar" class="btn btn-primary btn-sm btn-formulario">
 									<i class="fas fa-search"></i> Buscar
 								</button>
@@ -147,6 +152,7 @@
 </div>
 
 @include('contactos.modals.modal')
+@include('contactos.modals.importar')
 @include('modals.modals')
 @include('modals.spinner')
 

@@ -16,9 +16,11 @@ use App\Models\Casilla;
 use App\Models\AccesoFederal;
 use App\Models\AccesoModulo;
 use App\Models\Modulo;
+use App\Models\Seccion;
 
 use DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ContactoController extends Controller
 {
@@ -91,6 +93,7 @@ class ContactoController extends Controller
         $data->nombre = $validateData['nombre'];
         $data->apellido1 = $validateData['apellido1'];
         $data->apellido2 = $request['apellido2'];
+        $data->no_seccion = $request['no_seccion'];
         $data->id_seccion = $validateData['id_seccion'];
         $data->clave_elector = $request['clave_elector'];
         $data->id_asentamiento = $request['id_asentamiento'];
@@ -98,6 +101,10 @@ class ContactoController extends Controller
         $data->id_referente = $request['id_referente'];
         $data->id_coordinador = $request['id_coordinador'];
         $data->status = $request['status'];
+        $data->telefono = $request['telefono'];
+        $data->referente = $request['referente'];
+        $data->municipio = $request['municipio'];
+        $data->sindicatura = $request['sindicatura'];
         $data->user_id_create = Auth::user()->id;
 
         $data->save();
@@ -242,9 +249,20 @@ class ContactoController extends Controller
                         DB::raw("concat(SUBSTRING_INDEX(coordinador.nombre, ' ', 1),ifnull(concat(' ',coordinador.apellido1),'')) as coordinador_corto"),
                     );
 
-        $query->whereIn("seccion.id_distrito_federal", app(AccesoFederalController::class)->accesos($request));
-        $query->whereIn("seccion.id_distrito_local", app(AccesoLocalController::class)->accesos($request));
-        
+
+        if($request['mod_op'] == 'existe_registro') {
+
+            $query->where("contacto.nombre", $request['nombre']);
+            $query->where("contacto.apellido1", $request['apellido1']);
+            $query->where("contacto.apellido2", $request['apellido2']);
+            // $query->where("contacto.telefono", $request['telefono']);
+        }
+        else {  
+
+            $query->whereIn("seccion.id_distrito_federal", app(AccesoFederalController::class)->accesos($request));
+            $query->whereIn("seccion.id_distrito_local", app(AccesoLocalController::class)->accesos($request));
+        }
+
         if($request['id']) {
 
             $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
@@ -258,6 +276,8 @@ class ContactoController extends Controller
         if($request['id_asentamiento']) $query->where("contacto.id_asentamiento", $request['id_asentamiento']);
         if($request['id_coordinador']) $query->where("contacto.id_coordinador", $request['id_coordinador']);
         if($request['id_referente']) $query->where("contacto.id_referente", $request['id_referente']);
+
+        
 
         if($request['mod_op'] == 'get_referente') {
 
@@ -306,7 +326,6 @@ class ContactoController extends Controller
                     $seleccionados[] = $row->id_contacto;
                 }
             }
-
 
             if($request['seleccionados']) {
 
@@ -368,7 +387,8 @@ class ContactoController extends Controller
         
         if(sizeof($seleccionados)) $query->whereNotIn("contacto.id", $seleccionados);
 
-        // dd($query->toSql());
+
+        // if($request['mod_op'] == 'existe_registro') dd($query->toSql());
 
         $data = $query->get();
 
@@ -623,5 +643,126 @@ class ContactoController extends Controller
                     ->rawColumns(['action'])
                     ->make(true);
         }
+    }
+
+    public function importar(Request $request) {
+
+        $data = [];
+
+        if(request()->file('archivo')) {
+            
+            // Excel::import(new Jugador, request()->file('archivo'));
+
+            // $array = Excel::toArray(new Jugador, request()->file('archivo'));
+
+            $tmp = Excel::toCollection(new Contacto, request()->file('archivo'));
+
+            if(sizeof($tmp)) {
+
+                foreach ($tmp as $k => $row) {
+
+                    foreach ($row as $k_ => $row_) {
+
+                        // dd($row_);
+
+                        $nombre = trim($row_[4]);
+                        $apellido1 = trim($row_[2]);
+
+                        if(!$nombre || !$apellido1) continue;
+
+                        $id_seccion = 407; // Sección de Rita 2898
+                        $no_seccion = 2898;
+                        $apellido2 = null;
+                        $telefono = null;
+                        $referente = null;
+                        $municipio = null;
+                        $sindicatura = null;
+
+                        if(isset($row_[1])) $no_seccion = trim($row_[1]);
+                        if(isset($row_[3])) $apellido2 = trim($row_[3]);
+                        if(isset($row_[5])) $telefono = trim($row_[5]);
+                        if(isset($row_[6])) $referente = trim($row_[6]);
+                        if(isset($row_[8])) $municipio = trim($row_[8]);
+                        if(isset($row_[9])) $sindicatura = trim($row_[9]);
+
+                        // $apellido2 = $apellido2 && $apellido2 != 'NULL' ? $apellido2 : null;
+                        // $id_batea = $id_batea && $id_batea != 'NULL' ? $id_batea : null;
+                        // $id_tira = $id_tira && $id_tira != 'NULL' ? $id_tira : null;
+                        // $f_nacimiento = $f_nacimiento && $f_nacimiento != 'NULL' ? $f_nacimiento : null;
+
+                        $ron = Seccion::where("no_seccion", $no_seccion)->get();
+
+                        // dd($ron);
+                        if(sizeof($ron)) {
+
+                            $id_seccion = $ron[0]->id;
+                            $no_seccion = $ron[0]->no_seccion;
+                        }
+
+                        $param = [
+                            'id' => null,
+                            'id_seccion' => $id_seccion,
+                            'no_seccion' => $no_seccion,
+                            'nombre' => $nombre,
+                            'apellido1' => $apellido1,
+                            'apellido2' => $apellido2,
+                            'telefono' => $telefono,
+                            'referente' => $referente,
+                            'municipio' => $municipio,
+                            'sindicatura' => $sindicatura,
+                            'status' => 1,
+                            'mod_op' => 'existe_registro',
+                        ];
+
+                        $rick = new Request();
+
+                        $rick->replace($param);
+
+                        $ron = $this->getData($rick);
+
+                        if(sizeof($ron)) $param['id'] = $ron[0]->id;
+
+                        if($request['importar']) {
+
+                            $rick = new Request();
+
+                            $rick->replace($param);
+
+                            $ron = $this->getData($rick);
+
+                            unset($param['mod_op']);
+
+                            if(sizeof($ron)) {
+
+                                // dd($ron);
+                            }
+                            else {
+
+                                // dd($no_seccion);
+
+                                $rick = new Request();
+
+                                $rick->replace($param);
+
+                                $ron = $this->store($rick);
+
+                                if($ron) {
+
+                                    $param['id'] = $ron->id;
+    
+                                    $data[] = (Object) $param;
+                                }
+                            }
+                        }
+                        else $data[] = (Object) $param;
+                    }
+                }
+            }
+        }
+
+        // dd($data);
+
+        if($request->ajax()) return response()->json($data);
+        else return view($request['vista'], compact('data'));
     }
 }

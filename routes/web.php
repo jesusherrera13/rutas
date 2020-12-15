@@ -82,6 +82,7 @@ Route::get('contactos-data', 'ContactoController@getData');
 Route::post('contactos', 'ContactoController@getData');
 Route::post('contacto/store', 'ContactoController@store');
 Route::post('contacto/update', 'ContactoController@update');
+Route::post('contacto/importar', 'ContactoController@importar');
 Route::get('contactos-ssp', 'ContactoController@serverSideProcessing');
 // CONTACTO
 
