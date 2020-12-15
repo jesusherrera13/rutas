@@ -734,11 +734,8 @@ class ContactoController extends Controller
 
                             if(sizeof($ron)) {
 
-                                // dd($ron);
                             }
                             else {
-
-                                // dd($no_seccion);
 
                                 $rick = new Request();
 
@@ -754,7 +751,10 @@ class ContactoController extends Controller
                                 }
                             }
                         }
-                        else $data[] = (Object) $param;
+                        else {
+
+                            if(!$param['id']) $data[] = (Object) $param;
+                        }
                     }
                 }
             }
