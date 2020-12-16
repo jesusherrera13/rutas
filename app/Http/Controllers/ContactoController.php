@@ -17,6 +17,7 @@ use App\Models\AccesoFederal;
 use App\Models\AccesoModulo;
 use App\Models\Modulo;
 use App\Models\Seccion;
+use App\Models\AccesoImpresion;
 
 use DataTables;
 use Barryvdh\DomPDF\Facade as PDF;
@@ -59,7 +60,9 @@ class ContactoController extends Controller
     
                 if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
                 else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
-    
+
+                $accesos_impresion = AccesoImpresion::where("id_usuario", Auth::user()->id)->where("status", 1)->get();
+
                 return view('contactos.inicio', compact(
                         'page_title',
                         'content_header',
@@ -69,7 +72,8 @@ class ContactoController extends Controller
                         'asentamientos',
                         'coordinadores',
                         'referentes',
-                        'accesos_modulos'
+                        'accesos_modulos',
+                        'accesos_impresion'
                     )
                 );
             }

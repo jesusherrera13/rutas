@@ -4,10 +4,15 @@
 		<div class="modal-content">
 
 			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Distrito</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-				</button>
+				<h5 class="modal-title" id="exampleModalLabel">Usuarios</h5>
+				<div>
+					<button id="btn-guardar" class="btn btn-sm btn-primary">
+						<i class="fas fa-save"></i> Guardar cambios
+					</button>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
 			</div>
 
 			<div class="modal-body">
@@ -29,12 +34,17 @@
 								</li>
 								<li class="nav-item" role="presentation">
 									<a class="nav-link" id="accesos-tab" data-toggle="tab" href="#accesos" role="tab" aria-controls="accesos" aria-selected="false">
-										Accesos a Distritos
+										Distritos
 									</a>
 								</li>
 								<li class="nav-item" role="presentation">
 									<a class="nav-link" id="accesos-modulos-tab" data-toggle="tab" href="#accesos-modulos" role="tab" aria-controls="accesos-modulos" aria-selected="false">
-										Acceso a Módulos
+										Módulos
+									</a>
+								</li>
+								<li class="nav-item" role="presentation">
+									<a class="nav-link" id="accesos-impresion-tab" data-toggle="tab" href="#accesos-impresion" role="tab" aria-controls="accesos-impresion" aria-selected="false">
+										Impresión
 									</a>
 								</li>
 							</ul>
@@ -149,6 +159,31 @@
 										</div>
 									</div>
 								</div>
+
+								<div class="tab-pane fade" id="accesos-impresion" role="tabpanel" aria-labelledby="accesos-impresion-tab">
+									<div class="row">
+										<div class="col-12">
+											<table id="tbl-impresion-formatos" class="table table-bordered table-striped table-sm order-column" style="width:100%">
+												<thead>
+													<tr>
+														<th>Módulos</th>
+														<th></th>
+													</tr>
+												</thead>
+												<tbody>
+												@foreach($impresion_formatos as $row)
+													<tr>
+														<td>{{ $row->descripcion }}</td>
+														<td>
+														<input type="checkbox" value="{{$row->id}}">
+														</td>
+													</tr>
+												@endforeach
+												</tbody>
+											</table>
+										</div>
+									</div>
+								</div>
 							</div>
 
 							
@@ -157,17 +192,17 @@
 				</div>
 			</div>
 
-			<div class="modal-footer">
+			<!-- <div class="modal-footer">
 				<button class="btn btn-secondary btn-sm" data-dismiss="modal">
 					<i class="fas fa-times"></i> Cerrar
 				</button>
 				<button id="btn-eliminar" class="btn btn-danger btn-sm">
 					<i class="fas fa-trash-alt"></i> Eliminar
 				</button>
-				<button id="btn-grabar" class="btn btn-sm btn-primary">
+				<button id="btn-guardar" class="btn btn-sm btn-primary">
 					<i class="fas fa-save"></i> Grabar cambios
 				</button>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </div> 

@@ -6,7 +6,20 @@
 	<div class="col-md-12">
 		<div class="card">
 			<div class="card-header">
-				<form id="form">
+				@php
+				
+				$acc_impresion = "";
+
+				foreach($accesos_impresion as $row) {
+
+					if($acc_impresion) $acc_impresion.= ";";
+
+					$acc_impresion.= $row->id_formato;
+				}
+
+				@endphp
+
+				<form id="form" acc_impresion="{{$acc_impresion}}">
 
 					@csrf
 

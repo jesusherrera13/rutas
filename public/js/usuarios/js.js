@@ -64,7 +64,7 @@ $(document).ready(function() {
         getData();
     });
 
-    $('#btn-grabar').click(function() {
+    $('#btn-guardar').click(function() {
 
         var msj = '';
 
@@ -85,7 +85,8 @@ $(document).ready(function() {
             var param = {
                 distritos_federales: '',
                 distritos_locales: '',
-                modulos: ''
+                modulos: '',
+                impresion_formatos: ''
             };
 
             $('#tbl-distritos-federales :checkbox:checked').each(function(i, o) {
@@ -109,6 +110,13 @@ $(document).ready(function() {
                 param.modulos += 'id,' + ($(o).attr('iddb') || '') + '|id_modulo,' + $(o).val();
             });
 
+            $('#tbl-impresion-formatos :checkbox:checked').each(function(i, o) {
+
+                if(param.impresion_formatos) param.impresion_formatos += ';';
+
+                param.impresion_formatos += 'id,' + ($(o).attr('iddb') || '') + '|id_formato,' + $(o).val();
+            });
+
             // console.log(param);
             
             modal_confirm({
@@ -120,7 +128,6 @@ $(document).ready(function() {
         }
     });
 });
-
 
 function getData(param) {
 
@@ -140,6 +147,8 @@ function getData(param) {
         success :  function(data) {
 
             if(param.id) {
+
+                $('input[type="checkbox"]').prop('checked', 0);
 
                 Object.keys(data[0]).forEach(function(k) {
 
@@ -169,6 +178,14 @@ function getData(param) {
                     for(var i in data[0].modulos) {
 
                         $('#tbl-modulos [value="' + data[0].modulos[i].id_modulo +'"]').prop('checked', 1);
+                    }
+                }
+
+                if(data[0].impresion_formatos) {
+                    
+                    for(var i in data[0].impresion_formatos) {
+
+                        $('#tbl-impresion-formatos [value="' + data[0].impresion_formatos[i].id_formato +'"]').prop('checked', 1);
                     }
                 }
 

@@ -169,4 +169,8 @@ Route::post('representante/store', 'RepresentanteTipoController@store');
 Route::post('representante/update', 'RepresentanteTipoController@update');
 // REPRESENTANTE_TIPO
 
+// ACCESO-IMPRESION
+Route::post('acceso-impresion', 'AccesoImpresionController@getData');
+// ACCESO-IMPRESION
+
 Route::get('generate-pdf', 'PDFController@generatePDF');

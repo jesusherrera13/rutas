@@ -12,6 +12,7 @@ use App\Models\DistritoLocal;
 use App\Models\AccesoFederal;
 use App\Models\AccesoLocal;
 use App\Models\AccesoModulo;
+use App\Models\AccesoImpresion;
 use App\Models\Modulo;
 
 use Illuminate\Support\Facades\Hash;
@@ -46,14 +47,16 @@ class UserController extends Controller
                 
                 if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
                 else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+
+                $impresion_formatos = app(ImpresionFormatoController::class)->getData($rick);
     
-                // dd($distritos_federales);
+                // dd($impresion_formatos);
     
                 return view('usuarios.inicio', compact(
                         'page_title',
                         'content_header',
                         'data','distritos_federales','distritos_locales',
-                        'modulos','accesos_modulos'
+                        'modulos','accesos_modulos','impresion_formatos'
                     )
                 );
             }
@@ -118,6 +121,7 @@ class UserController extends Controller
             'distritos_federales' => $request['distritos_federales'],
             'distritos_locales' => $request['distritos_locales'],
             'modulos' => $request['modulos'],
+            'impresion_formatos' => $request['impresion_formatos'],
         ]);
 
         $this->accesos($rick);
@@ -156,6 +160,7 @@ class UserController extends Controller
             'distritos_federales' => $request['distritos_federales'],
             'distritos_locales' => $request['distritos_locales'],
             'modulos' => $request['modulos'],
+            'impresion_formatos' => $request['impresion_formatos'],
         ]);
 
         $this->accesos($rick);
@@ -194,6 +199,10 @@ class UserController extends Controller
             $data[0]->modulos = AccesoModulo::where("id_usuario", $request['id'])
                     ->select("id_modulo","status")        
                     ->where("status", 1)->get();
+
+            $data[0]->impresion_formatos = AccesoImpresion::where("id_usuario", $request['id'])
+                    ->select("id_formato","status")        
+                    ->where("status", 1)->get();
         }
 
     	if($request['dataType'] == "json") return response()->json($data);
@@ -211,6 +220,8 @@ class UserController extends Controller
         AccesoModulo::where('id_usuario', $request['id_usuario'])
                 ->update(['status' => 0]);
 
+        AccesoImpresion::where('id_usuario', $request['id_usuario'])
+                ->update(['status' => 0]);
         // dd(9);
 
         if($request['distritos_federales']) {
@@ -331,6 +342,46 @@ class UserController extends Controller
 
                 if($param['id']) app(AccesoModuloController::class)->update($rick);
                 else app(AccesoModuloController::class)->store($rick);
+            }
+        }
+
+        if($request['impresion_formatos']) {
+
+            $tmp = explode(';', $request['impresion_formatos']);
+
+            foreach ($tmp as $k => $v) {
+
+                $tmp_ = explode('|', $v);
+
+                $rick = new Request();
+
+                $param = [
+                    'id_usuario' => $request['id_usuario']
+                ];
+
+                foreach ($tmp_ as $k_ => $v_) {
+
+                    list($field, $value) = explode(',', $v_);
+
+                    $param[$field] = $value;
+                }
+
+                // print_r($param);
+                
+                $ron = AccesoImpresion::where('id_usuario', $request['id_usuario'])
+                            ->where('id_formato', $param['id_formato'])
+                            ->get();
+
+                if(sizeof($ron)) {
+
+                    $param['id'] = $ron[0]->id;
+                    $param['status'] = 1;
+                }
+
+                $rick->replace($param);
+
+                if($param['id']) app(AccesoImpresionController::class)->update($rick);
+                else app(AccesoImpresionController::class)->store($rick);
             }
         }
     }

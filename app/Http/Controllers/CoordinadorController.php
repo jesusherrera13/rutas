@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Coordinador;
 use App\Models\AccesoModulo;
 use App\Models\Modulo;
+use App\Models\ImpresionFormato;
 
 class CoordinadorController extends Controller
 {
@@ -40,9 +41,17 @@ class CoordinadorController extends Controller
                     'id_usuario' => Auth::user()->id
                 ]);
 
-                if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
-                else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
-    
+                if(Auth::user()->id == 1) {
+
+                    $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
+                }
+                else {
+
+                    $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+                }
+
+                $accesos_impresion = AccesoImpresion::where("id_usuario", Auth::user()->id)->where("status", 1)->get();
+
                 return view('coordinadores.inicio', compact(
                         'page_title',
                         'content_header',
@@ -51,7 +60,8 @@ class CoordinadorController extends Controller
                         'distritos_locales',
                         'municipios',
                         'asentamientos',
-                        'accesos_modulos'
+                        'accesos_modulos',
+                        'accesos_impresion'
                     )
                 );
             }
