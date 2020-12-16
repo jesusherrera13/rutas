@@ -390,8 +390,6 @@ function contactos(param) {
 
     for(var i in param.data) {
 
-        console.log(param.data[i].id_contacto)
-        
         if(param.seleccionados) param.seleccionados += ';';
         
         param.seleccionados += param.data[i].id_contacto;
