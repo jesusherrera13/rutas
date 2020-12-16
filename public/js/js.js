@@ -282,7 +282,7 @@ function rowUpdate(param) {
                 */
             }
             else {
-                console.log(param)
+                
                 data[0].DT_RowIndex = param.DT_RowIndex;
 
                 $('#' + param.id_table).dataTable().fnUpdate(data[0],param.row_id,undefined,false);
@@ -290,6 +290,18 @@ function rowUpdate(param) {
                 if(param.DT_RowIndex) {
 
                     $('#' + param.id_table + '_wrapper .DTFC_LeftBodyWrapper .datatable > tbody > :nth-child(' + param.DT_RowIndex + ') > :nth-child(1)').text(data[0].contacto);
+                
+                    setTimeout(function() {
+
+                    
+                        var w = parseInt($('#tbl-data_wrapper .DTFC_LeftBodyLiner').css('width'));
+    
+                        w += 10;
+    
+                        console.log(w);
+    
+                        $('#' + param.id_table + '_wrapper .DTFC_LeftBodyLiner').css('width', w + 'px');
+                    }, 1000);
                 }
             }
 

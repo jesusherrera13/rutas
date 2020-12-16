@@ -916,7 +916,7 @@ function getData(param) {
                     console.log(w);
 
                     $('#tbl-data_wrapper .DTFC_LeftBodyLiner').css('width', w + 'px');
-                 }, 1000);
+                }, 1000);
             }
         })
         .on('init', function () {
