@@ -15,14 +15,14 @@ var asentamientos = new Bloodhound({
 
 $(document).ready(function() {
 
-    $('#btn-nuevo').click(function() {
+    /* $('#btn-nuevo').click(function() {
 
         formReset($('#form-registro'));
 
-        $('#modal-registro').modal('toggle');
+        $('#modal-registro').modal('show');
 
         coordinadores();
-    });
+    }); */
 
     $('#modal-registro').on('shown.bs.modal', function (e) {
       
@@ -31,7 +31,19 @@ $(document).ready(function() {
     $('#modal-registro').on('hidden.bs.modal', function (e) {
         
         getData();
+
         $('#modal-registro  .modal-title').html('Casilla');
+    });
+
+    $('#btn-nuevo').click(function() {
+
+        // $('#modal-filtro').modal('show');
+        getData({open: true});
+    });
+
+    $('#modal-filtro').on('shown.bs.modal', function (e) {
+
+        // contactos();
     });
 
     $('#tbl-data').DataTable({
@@ -51,9 +63,10 @@ $(document).ready(function() {
 
                     var html = '';
 
-                    html += '<button class="btn btn-success btn-sm btn-editar">';
-                    html += '   <i class="fas fa-edit"></i>';
-                    html += '</button>';
+                    /* html += '<button class="btn btn-success btn-sm btn-editar">';
+                    html += '   <i class="fas fa-edit btn-editar"></i>';
+                    html += '</button>'; */
+                    html += '   <i class="fas fa-trash-alt pin" accion="delete"></i>';
 
                     $(nTd).html(html);
                 }
@@ -93,9 +106,9 @@ $(document).ready(function() {
                     // html += '   <i class="fas fa-trash-alt"></i>';
                     // html += '</button>';
 
-                    html += '<button class="btn btn-danger btn-sm pin" accion="delete">'
-                    html += '   <i class="fas fa-trash-alt"></i>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-danger btn-sm pin" accion="delete">'
+                    html += '   <i class="fas fa-trash-alt pin" accion="delete"></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
@@ -133,9 +146,9 @@ $(document).ready(function() {
 
                     var html = '';
 
-                    html += '<button class="btn btn-primary btn-sm pin" accion="add">';
-                    html += '   <i class="fas fa-plus-circle"></i>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-primary btn-sm pin" accion="add">';
+                    html += '   <i class="fas fa-plus-circle pin" accion="add""></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
@@ -171,7 +184,7 @@ $(document).ready(function() {
 
         if(accion == 'add') {
 
-            tr.remove();
+            /* tr.remove();
 
             var dt_ = $('#tbl-coordinadores').DataTable();
 
@@ -182,7 +195,25 @@ $(document).ready(function() {
             row.id = null;
 
             dt_.row.add(row);
-            dt_.draw();
+            dt_.draw(); */
+
+            console.log(row)
+
+            var tbl = $(this).parents().eq(3);
+
+            var items = 'id,|id_contacto,' + row.id + '|status,1';
+
+            modal_confirm({
+                message: '¿Desea agregar al coordinador?<br><h3>' + row.contacto + '</h3>',
+                route: 'coordinador',
+                metodo: 'guardar',
+                callback: ['getData()','$("#modal-filtro").modal("hide")'],
+                param: {
+                    accion: accion,
+                    items: items
+                },
+                form: 'form'
+            });
         }
         else if(accion == 'delete') {
 
@@ -201,12 +232,12 @@ $(document).ready(function() {
                 message: '¿Desea quitar al coordinador?<br><h3>' + row.contacto + '</h3>',
                 route: 'coordinador',
                 metodo: 'guardar',
-                callback: 'coordinadores',
+                callback: ['getData()'],
                 param: {
                     accion: accion,
                     items: items
                 },
-                form: 'form-registro'
+                form: 'form'
             });
         }
     });
@@ -293,35 +324,9 @@ function getData(param) {
         data: param,
         success :  function(data) {
 
-            if(param.id) {
+            dataTableSetData([{id: 'tbl-data', data: data}]);
 
-                Object.keys(data[0]).forEach(function(k) {
-
-                    $('#' + k).val(data[0][k]);
-                });
-
-                $('#modal-registro  .modal-title').html('Casilla: ' + data[0]['casilla']);
-
-                dataTableSetData([{id: 'tbl-coordinadores', data: data[0].representantes}]);
-
-                var items = '';
-
-                for(var i in data[0].representantes) {
-
-                    if(items) items += ';';
-
-                    items += data[0].representantes[i].id_contacto;
-                }
-
-                coordinadores({
-                    seleccionados: items,
-                    mod_op: 'representantes_seleccionados',
-                    id_modulo: 'casillas'
-                });
-
-                $('#modal-registro').modal('show');
-            }
-            else dataTableSetData([{id: 'tbl-data', data: data}]);
+            if(param.open) contactos({data: data});
 
             spinner({close: true});
         },
@@ -348,14 +353,20 @@ function coordinadores(param) {
         type: 'POST',
         method: 'post',
         dataType: 'json',
-        url: window.location.origin + '/coordinadores-contactos',
+        url: window.location.origin + '/coordinadores',
         cache: false,
         data: param,
         success :  function(data) {
 
+            /* 
             dataTableSetData([
                 {id: 'tbl-coordinadores', data: data.coordinadores},
                 {id: 'tbl-contactos', data: data.contactos}
+            ]); 
+            */
+
+            dataTableSetData([
+                {id: 'tbl-coordinadores', data: data}
             ]);
 
             spinner({close: true});
@@ -365,6 +376,60 @@ function coordinadores(param) {
             spinner({close: true});
         }
     });
+}
+
+function contactos(param) {
+
+    spinner();
+
+    param = param || {};
+
+    param.dataType = 'json';
+
+    param.seleccionados = '';
+
+    for(var i in param.data) {
+
+        console.log(param.data[i].id_contacto)
+        
+        if(param.seleccionados) param.seleccionados += ';';
+        
+        param.seleccionados += param.data[i].id_contacto;
+    }
+
+    delete param.data;
+
+    param = paramMaker({json: param, form: $('#form')});
+
+    $.ajax({
+        type: 'POST',
+        method: 'post',
+        dataType: 'json',
+        url: window.location.origin + '/contactos',
+        cache: false,
+        data: param,
+        success :  function(data) {
+
+            /* 
+            dataTableSetData([
+                {id: 'tbl-coordinadores', data: data.coordinadores},
+                {id: 'tbl-contactos', data: data.contactos}
+            ]); 
+            */
+
+            dataTableSetData([
+                {id: 'tbl-contactos', data: data}
+            ]);
+
+            spinner({close: true});
+        },
+        error: function(jqXHR, textStatus, erroThrown) {
+            
+            spinner({close: true});
+        }
+    });
+
+    $('#modal-filtro').modal('show');
 }
 
 function seleccionados() {
@@ -378,6 +443,8 @@ function seleccionados() {
         dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
 
             var row = this.data();
+
+            console.log(row)
 
             data.push(row)
         });

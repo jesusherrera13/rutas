@@ -28,17 +28,20 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="modal-confirm-label">Modal title</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+		<div>
+			<button type="button" id="btn-guardar-confirm" class="btn btn-sm btn-primary">Guardar cambios</button>
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
       </div>
       <div class="modal-body">
         ...
       </div>
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Cerrar</button>
         <button type="button" id="btn-guardar-confirm" class="btn btn-sm btn-primary">Guardar cambios</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

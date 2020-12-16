@@ -16,10 +16,10 @@
 					<div class="row">
 						<div class="col-md-12">
 							<div class="d-flex justify-content-end">
-								<button id="btn-nuevo" class="btn btn-primary btn-sm mr-1">
+								<button id="btn-nuevo" class="btn btn-primary btn-sm mr-1 btn-formulario">
 									<i class="far fa-file"></i> Nuevo
 								</button>
-								<button id="btn-buscar" class="btn btn-primary btn-sm">
+								<button id="btn-buscar" class="btn btn-primary btn-sm btn-formulario">
 									<i class="fas fa-search"></i> Buscar
 								</button>
 							</div>
@@ -44,6 +44,7 @@
 </div>
 
 @include('coordinadores.modals.modal')
+@include('coordinadores.modals.filtro')
 @include('modals.spinner')
 @include('modals.modals')
 

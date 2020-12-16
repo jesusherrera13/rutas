@@ -3,7 +3,7 @@ body {
 	/*font-size: 14px;*/
 }
 
-.btn-pin {
+.btn-pin, .pin {
 
 	cursor: pointer;
 }
