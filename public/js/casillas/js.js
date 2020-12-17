@@ -221,7 +221,76 @@ $(document).ready(function() {
 
 function init() {
 
-    console.log('init')
+    // console.log('init')
+
+    var botones = ['colvis'];
+
+    if($('#form').attr('acc_impresion')) {
+
+        var tmp = ($('#form').attr('acc_impresion')).split(';');
+    
+        for(var i in tmp) {
+
+            if(tmp[i] == 1) {
+
+                botones.push({
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                });
+            }
+            else if(tmp[i] == 2) {
+
+                botones.push({
+                    extend: 'pdfHtml5',
+                    filename: 'someName',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    exportOptions: {
+                        // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
+                        page: 'all',
+                        columns: [':visible' ],
+                        // stripNewlines: true,
+                        // stripHtml: true,
+                    },
+                    download: 'open',
+                    title: function () {
+            
+                        // var str = '<h1>Reporte Contactos</h1>';
+                        var str = 'Reporte Contactos';
+            
+                        return str;
+                    },
+                    messageTop: function () {
+            
+                        var table = $('#tbl-data').DataTable();
+                        var info = table.page.info();
+            
+                        // var str = titulador();
+                        var str = '';
+            
+                        if(str) str += '\n\n';
+            
+                        str += 'Registros totales: ' + info.recordsDisplay;
+            
+                        return str;
+                    },
+                    messageBottom: function() {
+            
+                        var table = $('#tbl-data').DataTable();
+                        var info = table.page.info();
+            
+                        return '\nRegistros totales: ' + info.recordsDisplay
+                    }
+                });
+            }
+        }
+    }
+
+    
+
+    // botones.push('colvis');
 
     $('#tbl-data').DataTable({
         responsive: true,
@@ -263,6 +332,60 @@ function init() {
                 orderable: false,
                 targets: -1,
             }
+        ],
+        dom: 'Blfrtip',
+        buttons: [
+            botones
+            /* 
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: ':visible'
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                filename: 'someName',
+                orientation: 'landscape',
+                pageSize: 'LEGAL',
+                exportOptions: {
+                    // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
+                    page: 'all',
+                    columns: [':visible' ],
+                    // stripNewlines: true,
+                    // stripHtml: true,
+                },
+                download: 'open',
+                title: function () {
+
+                    // var str = '<h1>Reporte Contactos</h1>';
+                    var str = 'Reporte Contactos';
+
+                    return str;
+                },
+                messageTop: function () {
+
+                    var table = $('#tbl-data').DataTable();
+                    var info = table.page.info();
+
+                    // var str = titulador();
+                    var str = '';
+
+                    if(str) str += '\n\n';
+
+                    str += 'Registros totales: ' + info.recordsDisplay;
+
+                    return str;
+                },
+                messageBottom: function() {
+
+                    var table = $('#tbl-data').DataTable();
+                    var info = table.page.info();
+
+                    return '\nRegistros totales: ' + info.recordsDisplay
+                }
+            },
+            'colvis' */
         ],
         createdRow: function(row, data, dataIndex) {
             

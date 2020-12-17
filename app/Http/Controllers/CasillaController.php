@@ -12,6 +12,7 @@ use App\Models\Casilla;
 use App\Models\CasillaRepresentante;
 use App\Models\AccesoModulo;
 use App\Models\Modulo;
+use App\Models\AccesoImpresion;
 
 class CasillaController extends Controller
 {
@@ -40,8 +41,10 @@ class CasillaController extends Controller
 
                 if(Auth::user()->id == 1) $accesos_modulos = Modulo::where("status", 1)->orderBy("descripcion")->get();
                 else $accesos_modulos = app(AccesoModuloController::class)->getData($rick);
+
+                $accesos_impresion = AccesoImpresion::where("id_usuario", Auth::user()->id)->where("status", 1)->get();
     
-                return view('casillas.inicio', compact('page_title','content_header','data','accesos_modulos'));
+                return view('casillas.inicio', compact('page_title','content_header','data','accesos_modulos','accesos_impresion'));
             }
         }
         else return redirect('/');

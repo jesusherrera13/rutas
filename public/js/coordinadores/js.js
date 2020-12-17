@@ -494,7 +494,7 @@ function impresionFormatos() {
                     exportOptions: {
                         columns: ':visible'
                     }
-                })
+                });
             }
             else if(tmp[i] == 2) {
 
