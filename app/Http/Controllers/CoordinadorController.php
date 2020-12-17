@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Coordinador;
 use App\Models\AccesoModulo;
 use App\Models\Modulo;
-use App\Models\ImpresionFormato;
+use App\Models\AccesoImpresion;
 
 class CoordinadorController extends Controller
 {
