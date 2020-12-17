@@ -541,68 +541,68 @@ function impresionFormatos() {
                     }
                 })
             }
-
-            botones.push('colvis');
-            
-            new $.fn.dataTable.Buttons( table, {
-                buttons: botones
-                /* buttons: [
-                    {
-                        extend: 'excelHtml5',
-                        exportOptions: {
-                            columns: ':visible'
-                        }
-                    },
-                    {
-                        extend: 'pdfHtml5',
-                        filename: 'someName',
-                        orientation: 'landscape',
-                        pageSize: 'LEGAL',
-                        exportOptions: {
-                            // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
-                            page: 'all',
-                            columns: [':visible' ],
-                            // stripNewlines: true,
-                            // stripHtml: true,
-                        },
-                        download: 'open',
-                        title: function () {
-        
-                            // var str = '<h1>Reporte Contactos</h1>';
-                            var str = 'Reporte Contactos';
-        
-                            return str;
-                        },
-                        messageTop: function () {
-        
-                            var table = $('#tbl-data').DataTable();
-                            var info = table.page.info();
-        
-                            // var str = titulador();
-                            var str = '';
-        
-                            if(str) str += '\n\n';
-        
-                            str += 'Registros totales: ' + info.recordsDisplay;
-        
-                            return str;
-                        },
-                        messageBottom: function() {
-        
-                            var table = $('#tbl-data').DataTable();
-                            var info = table.page.info();
-        
-                            return '\nRegistros totales: ' + info.recordsDisplay
-                        }
-                    },
-                    'colvis'
-                ], */ 
-            } );
-        
-            table.buttons( 0, null ).container().prependTo(
-                table.table().container()
-            );
         }
+
+        botones.push('colvis');
+        
+        new $.fn.dataTable.Buttons( table, {
+            buttons: botones
+            /* buttons: [
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    filename: 'someName',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    exportOptions: {
+                        // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
+                        page: 'all',
+                        columns: [':visible' ],
+                        // stripNewlines: true,
+                        // stripHtml: true,
+                    },
+                    download: 'open',
+                    title: function () {
+    
+                        // var str = '<h1>Reporte Contactos</h1>';
+                        var str = 'Reporte Contactos';
+    
+                        return str;
+                    },
+                    messageTop: function () {
+    
+                        var table = $('#tbl-data').DataTable();
+                        var info = table.page.info();
+    
+                        // var str = titulador();
+                        var str = '';
+    
+                        if(str) str += '\n\n';
+    
+                        str += 'Registros totales: ' + info.recordsDisplay;
+    
+                        return str;
+                    },
+                    messageBottom: function() {
+    
+                        var table = $('#tbl-data').DataTable();
+                        var info = table.page.info();
+    
+                        return '\nRegistros totales: ' + info.recordsDisplay
+                    }
+                },
+                'colvis'
+            ], */ 
+        } );
+    
+        table.buttons( 0, null ).container().prependTo(
+            table.table().container()
+        );
 
     }
 }
