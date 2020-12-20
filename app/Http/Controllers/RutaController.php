@@ -87,6 +87,11 @@ class RutaController extends Controller
 
         $data->save();
 
+        $request['id_ruta'] = $data->id;
+        $request['store'] = true;
+
+        $this->setCasillas($request);
+
         if($request->ajax()) {
             
             return response()->json([
@@ -291,6 +296,8 @@ class RutaController extends Controller
 
                     $param[$field] = $value || $value == 0 ? $value : null;
                 }
+
+                if($request['store']) $param['id_ruta'] = $request['id_ruta'];
 
                 // print_r($param);
 

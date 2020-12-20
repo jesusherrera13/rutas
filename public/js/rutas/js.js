@@ -45,6 +45,43 @@ $(document).ready(function() {
         getData();
     });
 
+    $('#btn-casillas').click(function() {
+
+        $('#modal-filtro').modal('show');
+    });
+
+    $('#modal-filtro').on('shown.bs.modal', function (e) {
+
+        var dt = $('#tbl-ruta_casillas').DataTable();
+
+        var items = '';
+
+        if(dt.data().count()) {
+
+            dt.rows().every( function ( rowIdx, tableLoop, rowLoop ) {
+    
+                var row = this.data();
+    
+                console.log(row);
+                if(items) items += ';';
+
+                items += row.id_casilla;
+            });
+        }
+        
+        /* casillas({
+            seleccionados: items,
+            mod_op: 'casillas_seleccion',
+            id_modulo: 'casillas'
+        });  */
+
+        casillas({
+            seleccionados: items,
+            mod_op: 'items_seleccionados',
+            id_modulo: 'rutas'
+        });
+    });
+
     $('#id_distrito_federal').change(function() {
 
         distritosLocales({ id_distrito_federal: $(this).val() });
@@ -102,13 +139,13 @@ $(document).ready(function() {
 
                     var html = '';
 
-                    html += '<button class="btn btn-success btn-sm btn-editar">';
-                    html += '   <i class="fas fa-edit"></i>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-success btn-sm btn-editar">';
+                    html += '   <i class="fas fa-edit btn-editar pin"></i>';
+                    // html += '</button>';
 
-                    html += '<button class="btn btn-warning btn-sm btn-imprimir ml-1">';
-                    html += '   <i class="fas fa-print"></i>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-warning btn-sm btn-imprimir ml-1">';
+                    html += '   <i class="fas fa-print btn-imprimir pin ml-1"></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
@@ -133,7 +170,7 @@ $(document).ready(function() {
     $('#tbl-ruta_casillas').DataTable({
         responsive: true,
         colReorder: true,
-        // paging: false,
+        paging: false,
         // lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "Todo"]],
         pageLength : 6,
         columns: [
@@ -147,9 +184,9 @@ $(document).ready(function() {
                     // html += '   <i class="fas fa-trash-alt"></i>';
                     // html += '</button>';
 
-                    html += '<button class="btn btn-danger btn-sm pin" href="javascript:void(0)" accion="delete">'
-                    html += '   <i class="fas fa-trash-alt"></i>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-danger btn-sm pin" href="javascript:void(0)" accion="delete">'
+                    html += '   <i class="fas fa-trash-alt pin" accion="delete"></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
@@ -368,11 +405,11 @@ function getData(param) {
                     items += data[0].ruta_casillas[i].id_casilla;
                 }
 
-                casillas({
+                /* casillas({
                     seleccionados: items,
                     mod_op: 'items_seleccionados',
                     id_modulo: 'rutas'
-                });
+                }); */
 
                 distritosLocales({
                     id_distrito_federal: data[0].id_distrito_federal,
