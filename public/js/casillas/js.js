@@ -319,9 +319,9 @@ function init() {
 
                     var html = '';
 
-                    html += '<button class="btn btn-success btn-sm btn-editar">';
-                    html += '   <i class="fas fa-edit"></i>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-success btn-sm btn-editar">';
+                    html += '   <i class="fas fa-edit btn-editar btn-pin"></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
