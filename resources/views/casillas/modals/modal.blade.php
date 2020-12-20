@@ -7,6 +7,9 @@
 				<h5 class="modal-title" id="exampleModalLabel">Casillas</h5>
 				
 				<div>
+					<button id="btn-contactos" class="btn btn-primary btn-sm mr-1">
+					<i class="fas fa-users"></i> Contactos
+					</button>
 					<button id="btn-guardar" class="btn btn-sm btn-primary">
 						<i class="fas fa-save"></i> Guardar
 					</button>
@@ -40,10 +43,6 @@
 								<option value="1">Activo</option>
 								<option value="0">Inactivo</option>
 							</select>
-						</div>
-						<div class="form-group col-md-2">
-							<label for="btn-contactos">&nbsp;</label><br>
-							<button id="btn-contactos" class="btn btn-primary btn-sm">Contactos</button>
 						</div>
 					</div>
 					
