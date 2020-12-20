@@ -39,6 +39,10 @@ $(document).ready(function() {
 
     $('#btn-nuevo').click(function() {
 
+        var dt = $('#tbl-contactos').DataTable();
+
+        dt.clear();
+
         // $('#modal-filtro').modal('show');
         getData({open: true});
     });

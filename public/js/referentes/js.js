@@ -2,21 +2,23 @@ $(document).ready(function() {
 
     $('#btn-nuevo').click(function() {
 
-        formReset($('#form-registro'));
-
-        $('#modal-registro').modal('toggle');
-
-        referentes();
+        // $('#modal-filtro').modal('show');
+        getData({open: true});
     });
 
     $('#modal-registro').on('shown.bs.modal', function (e) {
       
     });
 
-    $('#modal-registro').on('hidden.bs.modal', function (e) {
+    /* $('#modal-registro').on('hidden.bs.modal', function (e) {
         
         getData();
         $('#modal-registro  .modal-title').html('Referente');
+    }); */
+
+    $('#btn-contactos').click(function() {
+
+        $('#modal-filtro').modal('show');
     });
 
     $('#tbl-data').DataTable({
@@ -79,9 +81,9 @@ $(document).ready(function() {
                     // html += '   <i class="fas fa-trash-alt"></i>';
                     // html += '</button>';
 
-                    html += '<button class="btn btn-danger btn-sm pin" accion="delete">'
-                    html += '   <i class="fas fa-trash-alt"></i></a>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-danger btn-sm pin" accion="delete">'
+                    html += '   <i class="fas fa-trash-alt pin" accion="delete"></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
@@ -119,9 +121,9 @@ $(document).ready(function() {
 
                     var html = '';
 
-                    html += '<button class="btn btn-primary btn-sm pin" accion="add">';
-                    html += '   <i class="fas fa-plus-circle"></i>';
-                    html += '</button>';
+                    // html += '<button class="btn btn-primary btn-sm pin" accion="add">';
+                    html += '   <i class="fas fa-plus-circle pin" accion="add"></i>';
+                    // html += '</button>';
 
                     $(nTd).html(html);
                 }
@@ -157,9 +159,9 @@ $(document).ready(function() {
 
         if(accion == 'add') {
 
-            tr.remove();
+            /* tr.remove();
 
-            var dt_ = $('#tbl-referentes').DataTable();
+            var dt_ = $('#tbl-coordinadores').DataTable();
 
             row.id_contacto = row.id;
 
@@ -168,7 +170,25 @@ $(document).ready(function() {
             row.id = null;
 
             dt_.row.add(row);
-            dt_.draw();
+            dt_.draw(); */
+
+            console.log(row)
+
+            var tbl = $(this).parents().eq(3);
+
+            var items = 'id,|id_contacto,' + row.id + '|status,1';
+
+            modal_confirm({
+                message: '¿Desea agregar al referente?<br><h3>' + row.contacto + '</h3>',
+                route: 'referente',
+                metodo: 'guardar',
+                callback: ['getData()','$("#modal-registro").modal("hide")'],
+                param: {
+                    accion: accion,
+                    items: items
+                },
+                form: 'form'
+            });
         }
         else if(accion == 'delete') {
 
@@ -184,15 +204,15 @@ $(document).ready(function() {
             var items = 'id,' + id + '|id_contacto,' + row.id_contacto + '|status,0';
 
             modal_confirm({
-                message: '¿Desea quitar al coordinador?<br><h3>' + row.contacto + '</h3>',
-                route: 'coordinador',
+                message: '¿Desea quitar al referente?<br><h3>' + row.contacto + '</h3>',
+                route: 'referente',
                 metodo: 'guardar',
-                callback: 'referentes',
+                callback: ['getData()'],
                 param: {
                     accion: accion,
                     items: items
                 },
-                form: 'form-registro'
+                form: 'form'
             });
         }
     });
@@ -243,33 +263,9 @@ function getData(param) {
         data: param,
         success :  function(data) {
 
-            if(param.id) {
+            dataTableSetData([{id: 'tbl-data', data: data}]);
 
-                Object.keys(data[0]).forEach(function(k) {
-
-                    $('#' + k).val(data[0][k]);
-                });
-
-                dataTableSetData([{id: 'tbl-referentes', data: data[0].representantes}]);
-
-                var items = '';
-
-                for(var i in data[0].representantes) {
-
-                    if(items) items += ';';
-
-                    items += data[0].representantes[i].id_contacto;
-                }
-
-                referentes({
-                    seleccionados: items,
-                    mod_op: 'representantes_seleccionados',
-                    id_modulo: 'casillas'
-                });
-
-                $('#modal-registro').modal('show');
-            }
-            else dataTableSetData([{id: 'tbl-data', data: data}]);
+            if(param.open) contactos({data: data});
 
             spinner({close: true});
         },
@@ -280,7 +276,7 @@ function getData(param) {
     });
 }
 
-function referentes(param) {
+/* function referentes(param) {
 
     spinner();
 
@@ -313,6 +309,52 @@ function referentes(param) {
             spinner({close: true});
         }
     });
+} */
+
+function contactos(param) {
+
+    spinner();
+
+    param = param || {};
+
+    param.dataType = 'json';
+
+    param.seleccionados = '';
+
+    for(var i in param.data) {
+
+        if(param.seleccionados) param.seleccionados += ';';
+        
+        param.seleccionados += param.data[i].id_contacto;
+    }
+
+    delete param.data;
+
+    param = paramMaker({json: param, form: $('#form')});
+
+    $.ajax({
+        type: 'POST',
+        method: 'post',
+        dataType: 'json',
+        url: window.location.origin + '/contactos',
+        cache: false,
+        data: param,
+        success :  function(data) {
+
+            console.log(data)
+
+            dataTableSetData([
+                {id: 'tbl-contactos', data: data}
+            ]);
+
+            spinner({close: true});
+        },
+        error: function(jqXHR, textStatus, erroThrown) {
+            
+            spinner({close: true});
+        }
+    });
+    $('#modal-registro').modal('show');
 }
 
 function seleccionados() {
