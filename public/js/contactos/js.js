@@ -1069,8 +1069,9 @@ function impresionFormatos() {
                     {
                         extend: 'pdfHtml5',
                         filename: 'someName',
-                        orientation: 'landscape', //portrait
+                        orientation: 'landscape', //portrait, landscape
                         pageSize: 'A4',
+                        customize : function(doc) {doc.pageMargins = [130, 10, 10,10 ]; },
                         exportOptions: {
                             // columns: [ 0, 1, 2, 4, 5, 6, 7, 8, 9 ]
                             page: 'all',
