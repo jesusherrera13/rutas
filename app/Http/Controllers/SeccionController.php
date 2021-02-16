@@ -267,7 +267,7 @@ class SeccionController extends Controller
                     $casilla->save();
                 }
             } 
-            */
+           
 
             $id_tipo_casilla = 'E';
 
@@ -282,7 +282,7 @@ class SeccionController extends Controller
                 ]);
 
                 $casilla->save();
-            }
+            } */
 
             // dd('row');
         }
