@@ -246,7 +246,7 @@ class SeccionController extends Controller
                 $casilla->save();
             }
 
-            for($i = 1; $i <= 10; $i++) {
+            /* for($i = 1; $i <= 10; $i++) {
 
                 $id_tipo_casilla = 'C';
 
@@ -265,7 +265,7 @@ class SeccionController extends Controller
 
                     $casilla->save();
                 }
-            }
+            } */
 
             $id_tipo_casilla = 'E';
 
