@@ -253,7 +253,6 @@ class ContactoController extends Controller
                         DB::raw("concat(SUBSTRING_INDEX(coordinador.nombre, ' ', 1),ifnull(concat(' ',coordinador.apellido1),'')) as coordinador_corto"),
                     );
 
-
         if($request['mod_op'] == 'existe_registro') {
 
             $query->where("contacto.nombre", $request['nombre']);
@@ -273,6 +272,9 @@ class ContactoController extends Controller
             // <i class=fas fa-edit btn-editar btn-pin iddb=></i>
             $query->where("contacto.id", $request['id']);
         }
+
+        // Temporal porque cambié e ssp
+        $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
 
         if($request['id_distrito_federal']) $query->where("seccion.id_distrito_federal", $request['id_distrito_federal']);
         if($request['id_distrito_local']) $query->where("seccion.id_distrito_local", $request['id_distrito_local']);

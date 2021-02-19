@@ -470,7 +470,7 @@ $(document).ready(function() {
 
         // tbl_data.fnUpdate(temp, index, undefined, false);
 
-        getData({ id: $(this).attr('iddb') });
+        getData_({ id: $(this).attr('iddb') });
     })
     .on('click', '.btn-delete', function() {
 
@@ -490,10 +490,9 @@ $(document).ready(function() {
         dt.row(tr).remove().draw();
     });
 
-
     $('#btn-buscar').click(function() {
 
-        getData();
+        getData_();
     });
 
     $('.btn-agregar').click(function() {
@@ -710,6 +709,70 @@ $(document).ready(function() {
         }
     });
 });
+
+
+
+function getData_(param) {
+
+    spinner();
+
+    param = param || {};
+
+    param.dataType = 'json';
+
+    param = paramMaker({json: param, form: $('#form')});
+
+    $.ajax({
+        type: 'POST',
+        method: 'post',
+        dataType: 'json',
+        url: window.location.origin + '/contactos',
+        cache: false,
+        data: param,
+        success :  function(data) {
+
+            if(param.id) {
+
+                Object.keys(data[0]).forEach(function(k) {
+
+                    $('#' + k).val(data[0][k]);
+                });
+
+                casillas({
+                    id_seccion: data[0].id_seccion,
+                    id_casilla: data[0].id_casilla
+                });
+
+                if(data[0].telefonos) {
+
+                    dataTableSetData([{
+                        id: 'tbl-telefonos', data: data[0].telefonos,
+                    }]);
+                }
+
+                if(data[0].emails) {
+
+                    dataTableSetData([{
+                        id: 'tbl-emails', data: data[0].emails
+                    }]);
+                }
+                $('#d-no_seccion .typeahead').typeahead('val', data[0].no_seccion);
+                // $('#d-no_seccion .typeahead').eq(0).val(data[0].no_seccion).trigger("input");
+                $('#d-no_seccion .typeahead').attr('seleccionado', 1);
+
+                $('#modal-registro').modal('show');
+            }
+            else dataTableSetData([{id: 'tbl-data', data: data}]);
+
+            spinner({close: true});
+        },
+        error: function(jqXHR, textStatus, erroThrown) {
+            
+            spinner({close: true});
+        }
+    });
+}
+
 
 function getData(param) {
 
