@@ -228,6 +228,20 @@ $(document).ready(function() {
         ], */
         createdRow: function(row, data, dataIndex) {
             
+        },
+        "drawCallback": function( settings ) {
+
+            setTimeout(function() {
+
+                
+                var w = parseInt($('#tbl-data_wrapper .DTFC_LeftBodyLiner').css('width'));
+
+                w += 10;
+
+                console.log(w);
+
+                $('#tbl-data_wrapper .DTFC_LeftBodyLiner').css('width', w + 'px');
+            }, 1000);
         }
     });
 
