@@ -231,6 +231,8 @@ $(document).ready(function() {
         }
     });
 
+    impresionFormatos();
+
     $('#tbl-importar').DataTable({
         responsive: true,
         ordering: false,
