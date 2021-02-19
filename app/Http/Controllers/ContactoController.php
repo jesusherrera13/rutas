@@ -268,7 +268,7 @@ class ContactoController extends Controller
 
         if($request['id']) {
 
-            $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
+            // $query->addSelect(DB::raw("concat('<i class=\"fas fa-edit btn-editar btn-pin\" iddb=\"',contacto.id,'\"></i>') as action"));
             // <i class=fas fa-edit btn-editar btn-pin iddb=></i>
             $query->where("contacto.id", $request['id']);
         }
