@@ -1189,7 +1189,8 @@ function impresionFormatos() {
                             var info = table.page.info();
     
                             return '\nRegistros totales: ' + info.recordsDisplay
-                        }
+                        },
+                        footer: function(currentPage, pageCount) { return currentPage.toString() + ' of ' + pageCount; },
                     },
                 )
             }
